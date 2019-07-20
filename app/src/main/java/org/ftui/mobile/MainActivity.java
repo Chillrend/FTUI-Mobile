@@ -1,6 +1,8 @@
 package org.ftui.mobile;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
@@ -33,8 +35,11 @@ public class MainActivity extends AppCompatActivity
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        toolbar.setNavigationIcon(R.drawable.ic_drawer_toggle);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
