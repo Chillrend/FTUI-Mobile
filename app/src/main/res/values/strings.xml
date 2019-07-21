@@ -8,4 +8,14 @@
     <string name="nav_header_subtitle">Mahasiswa</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <!--menu-->
+    <string name="home">Beranda</string>
+    <string name="e_complaint">eKomplain</string>
+    <string name="academic_guide_book">Buku Panduan Akademik</string>
+    <string name="university_map">Peta Kampus</string>
+    <string name="academic_regulation">Regulasi Akademik</string>
+    <string name="settings">Pengaturan</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
 </resources>
