@@ -1,12 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:weightSum="1"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/colorPrimary"
         tools:showIn="@layout/app_bar_main"
         tools:context=".MainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome"
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="28sp"/>
+    <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:background="@drawable/white_rounded_square"
+            android:gravity="center_vertical">
+        <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                app:srcCompat="@mipmap/ic_launcher_round"
+                android:layout_gravity="center_vertical"/>
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-medium+"
+                    android:text="@string/nav_header_title"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/nav_header_subtitle"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
