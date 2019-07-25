@@ -5,4 +5,24 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="heading_extra">48sp</dimen>
+    <dimen name="heading_1">32sp</dimen>
+    <dimen name="heading_2">28sp</dimen>
+    <dimen name="heading_3">24sp</dimen>
+    <dimen name="heading_4">18sp</dimen>
+    <dimen name="medium_text">14sp</dimen>
+    <dimen name="writings">12sp</dimen>
+
+    <dimen name="large_padding">15dp</dimen>
+    <dimen name="medium_padding">10dp</dimen>
+    <dimen name="small_padding">5dp</dimen>
+
+    <dimen name="super_large_margin">25dp</dimen>
+    <dimen name="large_margin">15dp</dimen>
+    <dimen name="medium_margin">10dp</dimen>
+    <dimen name="small_margin">5dp</dimen>
+
+    <!--main_content.xml-->
+
 </resources>
