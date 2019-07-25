@@ -6,6 +6,7 @@
 
     <!--drawablecolor-->
     <color name="drawer_blue">#1592E6</color>
+    <color name="password_toggler">#ABC1BA</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
