@@ -1,8 +1,11 @@
 package org.ftui.mobile;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
@@ -14,9 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import org.ftui.mobile.fragment.EKeluhan;
+import org.ftui.mobile.fragment.Home;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Home.OnFragmentInteractionListener,
+        EKeluhan.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,26 +31,37 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setElevation(0);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
-        toolbar.setNavigationIcon(R.drawable.ic_drawer_toggle);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Fragment fragment = new Home();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.main_frame, fragment, Home.HOME_FRAGMENT_TAG)
+                .commit();
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        FragmentManager fm = getSupportFragmentManager();
+        Home home = (Home) getSupportFragmentManager().findFragmentByTag(Home.HOME_FRAGMENT_TAG);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        }else if(home != null && home.isVisible()){
+            super.onBackPressed();
+        }else if (fm.getBackStackEntryCount() > 1) {
+            fm.popBackStackImmediate();
         } else {
             super.onBackPressed();
         }
@@ -72,28 +89,43 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fr = new Fragment();
+        String fr_tag = "";
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+        if(id == R.id.nav_home){
+            fr = new Home();
+            fr_tag = Home.HOME_FRAGMENT_TAG;
+        }else if(id == R.id.nav_complaint){
+            fr = new EKeluhan();
+            fr_tag = EKeluhan.EKELUHAN_FRAGMENT_TAG;
+        }
+
+        replaceFragment(fr, fr_tag);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void replaceFragment(Fragment fragment, String tag){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_frame, fragment, tag)
+                .addToBackStack(null)
+                .commit();
+    }
+
+
+    //FrickOff
+    @Override
+    public void onFragmentInteraction(Uri uri){
+
     }
 }
