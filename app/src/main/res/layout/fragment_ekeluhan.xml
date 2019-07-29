@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:paddingTop="@dimen/small_padding"
+             android:paddingLeft="@dimen/large_padding"
+             android:paddingRight="@dimen/large_padding"
+             android:paddingBottom="@dimen/small_padding"
+              android:orientation="vertical"
              tools:context=".fragment.EKeluhan">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:theme="@style/HeaderTheme">
+        <TextView
+                android:id="@+id/eKeluhanTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical"
+                android:text="@string/complaint"/>
 
-</FrameLayout>
+        <ImageButton
+                android:id="@+id/filter_btn"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/submit_complaint"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_filter_list_white_24dp"/>
+        <ImageButton
+                android:id="@+id/add_keluhan_btn"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_toLeftOf="@id/filter_btn"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/filter"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_add_white_24dp"
+                />
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/keluhan_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

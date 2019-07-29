@@ -19,7 +19,7 @@
     <string name="logout">Logout</string>
     <string name="login">Login</string>
 
-    <!--main menu-->
+    <!--Login screen-->
     <string name="welcome">Selamat Datang</string>
     <string name="sign_in_to_continue">Sign in untuk melanjutkan</string>
     <string name="forgot_password">Lupa Password?</string>
@@ -28,4 +28,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="complaint">Keluhan</string>
+    <string name="submit_complaint">Masukkan Keluhan</string>
+    <string name="filter">Filter</string>
 </resources>
