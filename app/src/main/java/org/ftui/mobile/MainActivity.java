@@ -1,5 +1,6 @@
 package org.ftui.mobile;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -102,12 +103,15 @@ public class MainActivity extends AppCompatActivity
         if(id == R.id.nav_home){
             fr = new Home();
             fr_tag = Home.HOME_FRAGMENT_TAG;
+            replaceFragment(fr, fr_tag);
         }else if(id == R.id.nav_complaint){
             fr = new EKeluhan();
             fr_tag = EKeluhan.EKELUHAN_FRAGMENT_TAG;
+            replaceFragment(fr, fr_tag);
+        }else if(id == R.id.nav_logout){
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
         }
-
-        replaceFragment(fr, fr_tag);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
