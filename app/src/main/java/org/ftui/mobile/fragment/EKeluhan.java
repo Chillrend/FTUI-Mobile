@@ -8,7 +8,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import org.ftui.mobile.R;
+import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
+import org.ftui.mobile.model.BasicComplaint;
+
+import java.util.List;
 
 
 /**
@@ -73,7 +79,12 @@ public class EKeluhan extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        List<BasicComplaint> complaintList = BasicComplaint.mockComplainData();
 
+        RecyclerView rv = view.findViewById(R.id.keluhan_recyclerview);
+        BasicComplaintCardViewAdapter adapter = new BasicComplaintCardViewAdapter(complaintList, getContext());
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -31,4 +31,21 @@
     <string name="complaint">Keluhan</string>
     <string name="submit_complaint">Masukkan Keluhan</string>
     <string name="filter">Filter</string>
+
+    <!--Complaint Status-->
+    <string name="AWAITING_FOLLOWUP">Menunggu tindak lanjut</string>
+    <string name="IS_BEING_FOLLOWED_UP">Sedang ditindak lanjuti</string>
+    <string name="FINISHED">Telah ditindak lanjuti</string>
+
+
+    <!--Complaint Type-->
+    <string name="FACILITIES_AND_INFRASTRUCTURE">Sarana dan Prasarana</string>
+    <string name="BUILDINGS">Gedung</string>
+    <string name="HUMAN_RESOURCE">Tenaga Kependidikan</string>
+    <string name="CLEANING_AND_GARDENING">Kebersihan</string>
+    <string name="INCIDENT_AND_RULE_VIOLATION">Insiden</string>
+    <string name="OTHERS">Lainnya</string>
+
+
+    <string name="COMBINED_STATUS_AND_TYPE">%1$s | %2$s</string>
 </resources>

@@ -10,4 +10,9 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
+    <!--state color-->
+    <color name="AWAITING_FOLLOWUP">#E52250</color>
+    <color name="IS_BEING_FOLLOWED_UP">#515FDB</color>
+    <color name="FINISHED">#22E59C</color>
 </resources>

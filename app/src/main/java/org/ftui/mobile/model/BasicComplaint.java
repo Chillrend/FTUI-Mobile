@@ -116,11 +116,11 @@ public class BasicComplaint {
 
     //Emulates API Data
     //Remove this after acquiring real API Data
-    public List<BasicComplaint> mockComplainData(){
+    public static List<BasicComplaint> mockComplainData(){
         List<BasicComplaint> al = new ArrayList<>();
         al.add(new BasicComplaint("https://picsum.photos/25", "Muhammad Fadil Ardiansyah", Long.parseLong("1563580800"), "AA-304", "Monitor Rusak", "Monitor milik PC-34 di Ruangan AA-304 Tidak bisa dinyalakan", "https://picsum.photos/300/200", "FACILITIES_AND_INFRASTRUCTURE", "AWAITING_FOLLOWUP", 4));
-        al.add(new BasicComplaint("https://picsum.photos/25", "Tjokorda Raka Wisnu", Long.parseLong("1563580800"), "Hall Engineering Center", "CCTV Tidak Berfungsi", "CCTV di pintu masuk utama Engineering Center tidak berfungsi", "https://picsum.photos/300/200", "FACILITIES_AND_INFRASTRUCTURE", "IS_BEING_FOLLOWEDUP", 0));
-        al.add(new BasicComplaint("https://picsum.photos/25", "Andre Juliansyah", Long.parseLong("1563580800"), "Kantin Teknik", "Pelanggaran Aturan", "Mahasiswa merokok di sekitaran kantek, bukan di smoking area", "https://picsum.photos/300/200", "INCIDENT_AND_RULE_VIOLATION", "IS_BEING_FOLLOWEDUP", 5));
+        al.add(new BasicComplaint("https://picsum.photos/25", "Tjokorda Raka Wisnu", Long.parseLong("1563580800"), "Hall Engineering Center", "CCTV Tidak Berfungsi", "CCTV di pintu masuk utama Engineering Center tidak berfungsi", "https://picsum.photos/300/200", "FACILITIES_AND_INFRASTRUCTURE", "IS_BEING_FOLLOWED_UP", 0));
+        al.add(new BasicComplaint("https://picsum.photos/25", "Andre Juliansyah", Long.parseLong("1563580800"), "Kantin Teknik", "Pelanggaran Aturan", "Mahasiswa merokok di sekitaran kantek, bukan di smoking area", "https://picsum.photos/300/200", "INCIDENT_AND_RULE_VIOLATION", "IS_BEING_FOLLOWED_UP", 5));
         return al;
     }
 }
