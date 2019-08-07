@@ -15,4 +15,6 @@
     <color name="AWAITING_FOLLOWUP">#E52250</color>
     <color name="IS_BEING_FOLLOWED_UP">#515FDB</color>
     <color name="FINISHED">#22E59C</color>
+
+    <color name="shimmer_background">#DDDDDD</color>
 </resources>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
 import org.ftui.mobile.model.BasicComplaint;
@@ -81,10 +82,15 @@ public class EKeluhan extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         List<BasicComplaint> complaintList = BasicComplaint.mockComplainData();
 
+        ShimmerFrameLayout loadingLayout = view.findViewById(R.id.shimmer_container);
+        loadingLayout.startShimmer();
+
         RecyclerView rv = view.findViewById(R.id.keluhan_recyclerview);
         BasicComplaintCardViewAdapter adapter = new BasicComplaintCardViewAdapter(complaintList, getContext());
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        loadingLayout.stopShimmer();
+        loadingLayout.setVisibility(View.GONE);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

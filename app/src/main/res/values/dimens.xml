@@ -13,6 +13,7 @@
     <dimen name="heading_4">18sp</dimen>
     <dimen name="medium_text">14sp</dimen>
     <dimen name="writings">12sp</dimen>
+    <dimen name="placeholderTextHeight">8dp</dimen>
 
     <dimen name="large_padding">15dp</dimen>
     <dimen name="medium_padding">10dp</dimen>

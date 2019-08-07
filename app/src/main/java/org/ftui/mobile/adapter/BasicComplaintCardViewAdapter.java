@@ -6,12 +6,12 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +43,7 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
         TextView combinedComplaintTypeandStatus;
         TextView commentCount;
         RelativeLayout combinedComplaintTypeandStatusParentView;
+        ImageButton contextMenuBtn;
 
         CardViewViewHolder(View itemView){
             super(itemView);
@@ -58,6 +59,7 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
             combinedComplaintTypeandStatusParentView = itemView.findViewById(R.id.keluhan_type_and_status_parent_view);
             combinedComplaintTypeandStatus = itemView.findViewById(R.id.keluhan_type_and_status);
             commentCount = itemView.findViewById(R.id.comment_count);
+            contextMenuBtn = itemView.findViewById(R.id.context_menu_button);
 
         }
     }
@@ -82,15 +84,14 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
 
         return new CardViewViewHolder(v);
     }
-
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(CardViewViewHolder cardViewViewHolder, int i){
-        Picasso.get().load(itemList.get(i).getUserProfilePictureUrl()).into(cardViewViewHolder.userProfilePicture);
+    public void onBindViewHolder(final CardViewViewHolder cardViewViewHolder, int i){
+        Transformation profilePicTransformation = new RoundedTransformationBuilder().oval(true).build();
+        Picasso.get().load(itemList.get(i).getUserProfilePictureUrl()).transform(profilePicTransformation).into(cardViewViewHolder.userProfilePicture);
 
         cardViewViewHolder.userFullName.setText(itemList.get(i).getUserFullname());
 
-        String date = TimeUtils.convertEpochToLocalizedString(itemList.get(i).getTimestamp(), 3, INDONESIAN_LOCALE);
+        String date = TimeUtils.convertEpochToLocalizedString(itemList.get(i).getTimestamp(), 3, Locale.getDefault());
         cardViewViewHolder.dateSubmitted.setText(date);
         cardViewViewHolder.objectLocation.setText(itemList.get(i).getObjectLocation());
         cardViewViewHolder.complaintDescription.setText(itemList.get(i).getComplaintDescription());
@@ -114,6 +115,31 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
         cardViewViewHolder.combinedComplaintTypeandStatus.setText(combinedText);
 
         cardViewViewHolder.commentCount.setText(String.format(Locale.getDefault(), "%d", itemList.get(i).getCommentCount()));
+
+        cardViewViewHolder.contextMenuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(appContext, cardViewViewHolder.contextMenuBtn);
+                popupMenu.inflate(R.menu.recycler_view_context_menu_privileged);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.delete_item:
+                                Toast.makeText(appContext, "Clicked Delete", Toast.LENGTH_SHORT).show();
+                                return true;
+                            case R.id.edit_item:
+                                Toast.makeText(appContext, "Clicked Edit", Toast.LENGTH_SHORT).show();
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
     }
 
     @Override

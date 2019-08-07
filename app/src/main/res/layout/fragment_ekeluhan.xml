@@ -44,6 +44,19 @@
                 app:srcCompat="@drawable/ic_add_white_24dp"
                 />
     </RelativeLayout>
+    <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:shimmer_auto_start="false">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <include layout="@layout/recycler_view_shimmer_layout" />
+            <include layout="@layout/recycler_view_shimmer_layout" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/keluhan_recyclerview"
             android:layout_width="wrap_content"

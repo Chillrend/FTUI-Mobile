@@ -48,4 +48,6 @@
 
 
     <string name="COMBINED_STATUS_AND_TYPE">%1$s | %2$s</string>
+    <string name="delete_complaint">Hapus Keluhan</string>
+    <string name="edit_complaint">Edit Keluhan</string>
 </resources>

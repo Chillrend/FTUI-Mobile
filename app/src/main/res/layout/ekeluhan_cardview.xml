@@ -59,7 +59,7 @@
                 android:ellipsize="end"
                 android:text="Hall Engineering Center" />
         <ImageButton
-                android:id="@+id/contex_menu_button"
+                android:id="@+id/context_menu_button"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"
