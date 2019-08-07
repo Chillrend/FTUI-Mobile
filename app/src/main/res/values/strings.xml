@@ -50,4 +50,11 @@
     <string name="COMBINED_STATUS_AND_TYPE">%1$s | %2$s</string>
     <string name="delete_complaint">Hapus Keluhan</string>
     <string name="edit_complaint">Edit Keluhan</string>
+
+    <!--FINE LOCATION PERMISSION DIALOG-->
+    <string name="fine_location_permission_title">Izinkan akses lokasi</string>
+    <string name="fine_location_permission_description">Aplikasi ini membutuhkan akses lokasi untuk menemukan posisi anda di lingkungan FTUI. Tidak ada data lokasi yang akan dikirim dan disimpan</string>
+
+    <!--TOAST TEXT-->
+    <string name="cant_access_location">Tidak dapat mengakses lokasi</string>
 </resources>
