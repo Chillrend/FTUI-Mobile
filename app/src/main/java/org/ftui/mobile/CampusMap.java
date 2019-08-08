@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import es.dmoral.toasty.Toasty;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -35,6 +37,9 @@ public class CampusMap extends AppCompatActivity {
 
         setContentView(R.layout.activity_campus_map);
 
+        getSupportActionBar().setTitle(R.string.university_map);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         checkForLocationPermission();
 
         mapView = findViewById(R.id.mapView);
@@ -49,21 +54,6 @@ public class CampusMap extends AppCompatActivity {
         checkForLocationPermissionAndDrawUserLocation();
     }
 
-    public void checkForLocationPermissionAndDrawUserLocation(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            this.marker = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mapView);
-            this.marker.enableMyLocation();
-            mapView.getOverlays().add(this.marker);
-        }else{
-            Toast.makeText(this, R.string.cant_access_location, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void deleteUserLocationMarker(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            mapView.getOverlays().remove(this.marker);
-        }
-    }
 
     @Override
     protected void onResume(){
@@ -81,6 +71,11 @@ public class CampusMap extends AppCompatActivity {
         mapView.onPause();
     }
 
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
+    }
+
     public boolean checkForLocationPermission(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -94,7 +89,6 @@ public class CampusMap extends AppCompatActivity {
                         ActivityCompat.requestPermissions(CampusMap.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
                     }
                 });
-
                 AlertDialog permissionDialog = permissionBuilder.create();
                 permissionDialog.show();
             } else {
@@ -103,6 +97,22 @@ public class CampusMap extends AppCompatActivity {
             return false;
         }else{
             return true;
+        }
+    }
+
+    public void checkForLocationPermissionAndDrawUserLocation(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            this.marker = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mapView);
+            this.marker.enableMyLocation();
+            mapView.getOverlays().add(this.marker);
+        }else{
+            Toasty.error(this, R.string.cant_access_location).show();
+        }
+    }
+
+    public void deleteUserLocationMarker(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            mapView.getOverlays().remove(this.marker);
         }
     }
 }

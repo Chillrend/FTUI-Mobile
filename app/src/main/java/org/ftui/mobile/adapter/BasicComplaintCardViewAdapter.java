@@ -15,10 +15,12 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.snackbar.Snackbar;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.R;
 import org.ftui.mobile.model.BasicComplaint;
 import org.ftui.mobile.utils.TimeUtils;
@@ -126,7 +128,35 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
                     public boolean onMenuItemClick(MenuItem item) {
                         switch(item.getItemId()){
                             case R.id.delete_item:
-                                Toast.makeText(appContext, "Clicked Delete", Toast.LENGTH_SHORT).show();
+                                Snackbar sb = Snackbar.make(cardViewViewHolder.cv,"Keluhan Akan Dihapus", Snackbar.LENGTH_LONG);
+
+                                View sbView = sb.getView();
+                                sbView.setBackgroundColor(ContextCompat.getColor(appContext, R.color.colorPrimaryDark));
+
+                                TextView sbTextView = sbView.findViewById(com.google.android.material.R.id.snackbar_text);
+                                sbTextView.setTextColor(ContextCompat.getColor(appContext, R.color.white));
+
+                                sb.setActionTextColor(ContextCompat.getColor(appContext, R.color.white));
+                                sb.setAction(appContext.getString(R.string.undo), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Toasty.info(appContext, "Task Failed Successfully", Toasty.LENGTH_LONG).show();
+                                    }
+                                });
+                                sb.addCallback(new Snackbar.Callback(){
+                                   @Override
+                                   public void onDismissed(Snackbar snackbar, int event){
+                                        if(event == Snackbar.Callback.DISMISS_EVENT_SWIPE || event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE || event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT){
+                                            Toasty.info(appContext, "Keluhan Deleted Successfully", Toasty.LENGTH_LONG).show();
+                                        }
+                                   }
+
+                                   @Override
+                                    public void onShown(Snackbar snackbar){
+
+                                   }
+                                });
+                                sb.show();
                                 return true;
                             case R.id.edit_item:
                                 Toast.makeText(appContext, "Clicked Edit", Toast.LENGTH_SHORT).show();
