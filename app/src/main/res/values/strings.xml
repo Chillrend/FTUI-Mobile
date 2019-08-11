@@ -28,7 +28,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="complaint">Keluhan</string>
+    <string name="komplaint">Keluhan</string>
     <string name="submit_complaint">Masukkan Keluhan</string>
     <string name="filter">Filter</string>
 
@@ -58,4 +58,8 @@
     <!--TOAST TEXT-->
     <string name="cant_access_location">Tidak dapat mengakses lokasi</string>
     <string name="undo">UNDO</string>
+    <string name="complaint_description">DESKRIPSI KELUHAN</string>
+    <string name="comments">KOMENTAR</string>
+    <string name="complaint_status">Status Keluhan</string>
+    <string name="complaint_daycount_since_submitted">%1d hari sejak keluhan diajukan</string>
 </resources>

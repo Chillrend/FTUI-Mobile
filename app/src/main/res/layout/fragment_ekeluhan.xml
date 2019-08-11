@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:gravity="center_vertical"
-                android:text="@string/complaint"/>
+                android:text="@string/komplaint"/>
 
         <ImageButton
                 android:id="@+id/filter_btn"
