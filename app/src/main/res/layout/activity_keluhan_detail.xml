@@ -10,14 +10,18 @@
         android:orientation="vertical"
         android:background="@color/colorPrimary"
         tools:context=".KeluhanDetail">
-    <FrameLayout
-            android:id="@+id/complaint_detail_main_fragment"
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.89"
-            >
+            android:layout_weight="0.89" >
+        <FrameLayout
+        android:id="@+id/complaint_detail_main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    </FrameLayout>
+        </FrameLayout>
+    </ScrollView>
+
     <LinearLayout
             android:id="@+id/parentSwitcher"
             android:layout_width="match_parent"
@@ -43,6 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/complaint_description"
+                    android:textAllCaps="true"
                     android:textSize="@dimen/writings"
                     android:textColor="@color/white"/>
         </LinearLayout>
@@ -58,6 +63,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textAllCaps="true"
                     android:text="@string/comments"
                     android:textColor="@color/white"/>
         </LinearLayout>

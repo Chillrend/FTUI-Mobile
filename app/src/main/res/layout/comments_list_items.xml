@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:theme="@style/BasicComplaintTheme"
+                android:background="@color/colorPrimary">
+    <TextView
+            android:id="@+id/comments_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_account_circle_black_16dp"
+            android:drawablePadding="@dimen/small_padding"
+            android:fontFamily="sans-serif-light"
+            android:text="Geraldi Muhammad Yushar"/>
+    <TextView
+            android:id="@+id/comment_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/medium_padding"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="@drawable/comment_text_background"
+            android:fontFamily="sans-serif-light"
+            android:text="Mohon segera ditindaklanjuti"/>
+    <TextView
+            android:id="@+id/comment_date_submitted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Senin, 25 Juli 2019"/>
+
+</LinearLayout>

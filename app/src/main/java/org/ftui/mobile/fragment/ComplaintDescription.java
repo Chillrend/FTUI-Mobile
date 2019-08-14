@@ -1,12 +1,24 @@
-package org.ftui.mobile;
+package org.ftui.mobile.fragment;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
+import org.ftui.mobile.R;
 
 
 /**
@@ -26,6 +38,13 @@ public class ComplaintDescription extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public static String COMPLAINT_DESCRIPTION_FRAGMENT_TAG = "COMPLAINT_DESCRIPTION_FRAGMENT";
+
+    CarouselView objectImagesSlider;
+    TextView complaintStatus;
+    TextView surveyorResponses;
+    ImageView surveyorSubmitedPhotos;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,12 +86,61 @@ public class ComplaintDescription extends Fragment {
         return inflater.inflate(R.layout.fragment_complaint_description, container, false);
     }
 
+    int[] picsumImageRes = {R.drawable.picsum_1, R.drawable.picsum_2, R.drawable.picsum_3, R.drawable.picsum_4};
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+
+        objectImagesSlider = view.findViewById(R.id.carouselView);
+
+
+        objectImagesSlider.setPageCount(picsumImageRes.length);
+
+        objectImagesSlider.setImageListener(this::setImageForPosition);
+
+        complaintStatus = view.findViewById(R.id.complaint_status);
+
+        Drawable background = complaintStatus.getBackground();
+
+        if (background instanceof ShapeDrawable) {
+            // cast to 'ShapeDrawable'
+            ShapeDrawable shapeDrawable = (ShapeDrawable) background;
+            shapeDrawable.getPaint().setColor(ContextCompat.getColor(getActivity(), R.color.AWAITING_FOLLOWUP));
+        } else if (background instanceof GradientDrawable) {
+            // cast to 'GradientDrawable'
+            GradientDrawable gradientDrawable = (GradientDrawable) background;
+            gradientDrawable.setColor(ContextCompat.getColor(getActivity(), R.color.AWAITING_FOLLOWUP));
+        } else if (background instanceof ColorDrawable) {
+            // alpha value may need to be set again after this call
+            ColorDrawable colorDrawable = (ColorDrawable) background;
+            colorDrawable.setColor(ContextCompat.getColor(getActivity(), R.color.AWAITING_FOLLOWUP));
+        }
+
+        surveyorResponses = view.findViewById(R.id.complaint_surveyor_message);
+        surveyorSubmitedPhotos = view.findViewById(R.id.complaint_surveyor_submitted_image);
+
+        surveyorResponses.setVisibility(View.GONE);
+        surveyorSubmitedPhotos.setVisibility(View.GONE);
+
+
+    }
+
+    public void setImageForPosition(int position, ImageView imageView) {
+        imageView.setImageResource(picsumImageRes[position]);
+    }
+
+    public void onFragmentResume(){
+        objectImagesSlider.setImageListener(this::setImageForPosition);
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
+
 
     @Override
     public void onAttach(Context context) {

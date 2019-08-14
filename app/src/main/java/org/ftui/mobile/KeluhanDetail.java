@@ -1,25 +1,38 @@
 package org.ftui.mobile;
 
 import android.graphics.drawable.TransitionDrawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.fragment.app.FragmentManager;
+import org.ftui.mobile.fragment.ComplaintComments;
+import org.ftui.mobile.fragment.ComplaintDescription;
 
-public class KeluhanDetail extends AppCompatActivity {
+public class KeluhanDetail extends AppCompatActivity implements
+        ComplaintDescription.OnFragmentInteractionListener,
+        ComplaintComments.OnFragmentInteractionListener {
 
 
     private LinearLayout parentSwitcher;
     private LinearLayout complaintDetailSwitcher;
     private LinearLayout commentSwitcher;
     Boolean switcherStateAtComplaintDetail = true;
+    TransitionDrawable complaintDetailTransDrawable;
+    TransitionDrawable commentTransDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keluhan_detail);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.complaint_detail_main_fragment, new ComplaintDescription(), ComplaintDescription.COMPLAINT_DESCRIPTION_FRAGMENT_TAG)
+                .commit();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.komplaint);
@@ -27,8 +40,8 @@ public class KeluhanDetail extends AppCompatActivity {
         complaintDetailSwitcher = findViewById(R.id.complaint_desc_switcher);
         commentSwitcher = findViewById(R.id.comments_switcher);
 
-        TransitionDrawable complaintDetailTransDrawable = (TransitionDrawable) complaintDetailSwitcher.getBackground();
-        TransitionDrawable commentTransDrawable = (TransitionDrawable) commentSwitcher.getBackground();
+        complaintDetailTransDrawable = (TransitionDrawable) complaintDetailSwitcher.getBackground();
+        commentTransDrawable = (TransitionDrawable) commentSwitcher.getBackground();
 
         complaintDetailTransDrawable.startTransition(300);
 
@@ -43,6 +56,8 @@ public class KeluhanDetail extends AppCompatActivity {
                             commentTransDrawable.reverseTransition(300);
                             complaintDetailTransDrawable.startTransition(300);
                             switcherStateAtComplaintDetail = true;
+
+                            getSupportFragmentManager().popBackStack();
                         }
                         break;
                     case R.id.comments_switcher :
@@ -51,6 +66,12 @@ public class KeluhanDetail extends AppCompatActivity {
                             complaintDetailTransDrawable.reverseTransition(300);
                             commentTransDrawable.startTransition(300);
                             switcherStateAtComplaintDetail = false;
+
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .add(R.id.complaint_detail_main_fragment, new ComplaintComments(), ComplaintComments.COMPLAINT_COMMENTS_FRAGMENT_TAG)
+                                    .addToBackStack(null)
+                                    .commit();
                         }
                         break;
                 }
@@ -64,5 +85,50 @@ public class KeluhanDetail extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         finish();
         return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0){
+            finish();
+        }else if(!switcherStateAtComplaintDetail){
+            commentTransDrawable.startTransition(0);
+            commentTransDrawable.reverseTransition(300);
+            complaintDetailTransDrawable.startTransition(300);
+            switcherStateAtComplaintDetail = true;
+
+            getSupportFragmentManager().popBackStack();
+
+        }else if(switcherStateAtComplaintDetail){
+            complaintDetailTransDrawable.startTransition(0);
+            complaintDetailTransDrawable.reverseTransition(300);
+            commentTransDrawable.startTransition(300);
+            switcherStateAtComplaintDetail = false;
+
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    private FragmentManager.OnBackStackChangedListener getListener(){
+        FragmentManager.OnBackStackChangedListener result = new FragmentManager.OnBackStackChangedListener(){
+            public void onBackStackChanged(){
+                FragmentManager manager = getSupportFragmentManager();
+
+                if (manager != null){
+                    ComplaintDescription currFrag = (ComplaintDescription) manager.findFragmentById(R.id.complaint_detail_main_fragment);
+
+                    currFrag.onFragmentResume();
+                }
+            }
+        };
+
+        return result;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri){
+
     }
 }
