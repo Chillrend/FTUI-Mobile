@@ -9,9 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import org.ftui.mobile.R;
 import org.ftui.mobile.model.Comments;
+import org.ftui.mobile.utils.TimeUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CommentsAdapter extends ArrayAdapter<Comments> {
     private List<Comments> items;
@@ -55,7 +57,7 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
 
         viewHolder.userFullname.setText(item.getUserFullname());
         viewHolder.comments.setText(item.getComments());
-        viewHolder.dateSubmitted.setText(new Date(item.getDateSubmitted()).toString());
+        viewHolder.dateSubmitted.setText(TimeUtils.convertEpochToLocalizedString(item.getDateSubmitted()));
 
         return result;
     }

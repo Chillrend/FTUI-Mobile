@@ -93,7 +93,7 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
 
         cardViewViewHolder.userFullName.setText(itemList.get(i).getUserFullname());
 
-        String date = TimeUtils.convertEpochToLocalizedString(itemList.get(i).getTimestamp(), 3, Locale.getDefault());
+        String date = TimeUtils.convertEpochToLocalizedString(itemList.get(i).getTimestamp());
         cardViewViewHolder.dateSubmitted.setText(date);
         cardViewViewHolder.objectLocation.setText(itemList.get(i).getObjectLocation());
         cardViewViewHolder.complaintDescription.setText(itemList.get(i).getComplaintDescription());

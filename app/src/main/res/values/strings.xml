@@ -55,8 +55,14 @@
     <string name="fine_location_permission_title">Izinkan akses lokasi</string>
     <string name="fine_location_permission_description">Aplikasi ini membutuhkan akses lokasi untuk menemukan posisi anda di lingkungan FTUI. Tidak ada data lokasi yang akan dikirim dan disimpan</string>
 
+    <!--CAMERA LOCATION PERMISSION DIALOG-->
+    <string name="camera_permission_title">Izinkan akses kamera</string>
+    <string name="camera_permission_description">Aplikasi ini membutuhkan akses kamera untuk mengambil gambar tentang objek yang Anda laporkan. Gambar yang Anda ambil akan dikirim dan disimpan guna memverifikasi laporan dan menemukan objek yang dilaporkan</string>
+
     <!--TOAST TEXT-->
     <string name="cant_access_location">Tidak dapat mengakses lokasi</string>
+
+
     <string name="undo">UNDO</string>
     <string name="complaint_description">Deskripsi Keluhan</string>
     <string name="comments">Komentar</string>
