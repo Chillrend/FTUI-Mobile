@@ -68,4 +68,7 @@
     <string name="comments">Komentar</string>
     <string name="complaint_status">Status Keluhan</string>
     <string name="complaint_daycount_since_submitted">%1d hari sejak keluhan diajukan</string>
+    <string name="object_take_picture_info">Ambil gambar yang menjelaskan tentang keluhan</string>
+    <string name="next">Selanjutnya</string>
+    <string name="maximum_picture_reached_notification">Anda telah mencapai jumlah gambar maksimum, silahkan hapus gambar untuk mengganti gambar tersebut</string>
 </resources>
