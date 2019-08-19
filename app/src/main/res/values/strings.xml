@@ -43,7 +43,7 @@
     <string name="BUILDINGS">Gedung</string>
     <string name="HUMAN_RESOURCE">Tenaga Kependidikan</string>
     <string name="CLEANING_AND_GARDENING">Kebersihan</string>
-    <string name="INCIDENT_AND_RULE_VIOLATION">Insiden</string>
+    <string name="INCIDENT_AND_RULE_VIOLATION">Pelanggaran Tata Tertib</string>
     <string name="OTHERS">Lainnya</string>
 
 
@@ -71,4 +71,9 @@
     <string name="object_take_picture_info">Ambil gambar yang menjelaskan tentang keluhan</string>
     <string name="next">Selanjutnya</string>
     <string name="maximum_picture_reached_notification">Anda telah mencapai jumlah gambar maksimum, silahkan hapus gambar untuk mengganti gambar tersebut</string>
+    <string name="complaint_title">Judul Keluhan</string>
+    <string name="report_complaint">Laporkan Keluhan</string>
+    <string name="complaint_type">Tipe Keluhan</string>
+    <string name="fill_complaint_detail">Isi detail keluhan</string>
+    <string name="object_location">Lokasi Objek</string>
 </resources>

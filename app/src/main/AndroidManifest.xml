@@ -17,12 +17,15 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".AddComplaintCamera">
+        <activity android:name=".SubmitComplaintForm">
             <intent-filter android:label="@string/app_name_uppercase">
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".AddComplaintCamera">
+
         </activity>
         <activity android:name=".KeluhanDetail">
         </activity>
