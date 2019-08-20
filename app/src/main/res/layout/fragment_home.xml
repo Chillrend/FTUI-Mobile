@@ -69,21 +69,26 @@
                 android:orientation="horizontal">
             <!--single button-->
             <LinearLayout
+                    android:id="@+id/guideBookLinearButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
                     android:layout_marginRight="@dimen/small_margin"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:background="@drawable/white_rounded_square"
                     android:orientation="vertical"
                     android:gravity="center">
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
                         app:srcCompat="@drawable/ic_agenda"
                         android:layout_gravity="center_vertical|center_horizontal"/>
                 <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
                         android:layout_marginTop="@dimen/medium_margin"
                         android:gravity="center"
                         android:fontFamily="sans-serif-medium"
@@ -92,16 +97,20 @@
 
             <!--single button-->
             <LinearLayout
+                    android:id="@+id/eComplaintLinearButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
                     android:layout_marginLeft="@dimen/small_margin"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:background="@drawable/white_rounded_square"
                     android:orientation="vertical"
                     android:gravity="center">
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
                         app:srcCompat="@drawable/ic_survey"
                         android:layout_gravity="center_vertical|center_horizontal"/>
                 <TextView
@@ -109,6 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/medium_margin"
                         android:gravity="center"
+                        android:duplicateParentState="true"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/e_complaint"/>
 
@@ -127,22 +137,27 @@
                 android:orientation="horizontal">
             <!--single button-->
             <LinearLayout
+                    android:id="@+id/campusMapLinearButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
                     android:layout_marginRight="@dimen/small_margin"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:background="@drawable/white_rounded_square"
                     android:orientation="vertical"
                     android:gravity="center">
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
                         app:srcCompat="@drawable/ic_map"
                         android:layout_gravity="center_vertical|center_horizontal"/>
                 <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/medium_margin"
+                        android:duplicateParentState="true"
                         android:gravity="center"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/university_map"/>
@@ -150,16 +165,20 @@
 
             <!--single button-->
             <LinearLayout
+                    android:id="@+id/academicRegulationLinearButton"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
                     android:layout_marginLeft="@dimen/small_margin"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:background="@drawable/white_rounded_square"
                     android:orientation="vertical"
                     android:gravity="center">
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
                         app:srcCompat="@drawable/ic_mortarboard"
                         android:layout_gravity="center_vertical|center_horizontal"/>
                 <TextView
@@ -167,6 +186,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/medium_margin"
                         android:gravity="center"
+                        android:duplicateParentState="true"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/academic_regulation"/>
             </LinearLayout>

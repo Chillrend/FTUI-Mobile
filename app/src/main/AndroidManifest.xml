@@ -17,15 +17,13 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SubmitComplaintForm">
-            <intent-filter android:label="@string/app_name_uppercase">
-                <action android:name="android.intent.action.MAIN"/>
+        <activity android:name=".VerifyStudentForRegister"
+                android:theme="@style/AppTheme.NoActionBar">
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        </activity>
+        <activity android:name=".SubmitComplaintForm">
         </activity>
         <activity android:name=".AddComplaintCamera">
-
         </activity>
         <activity android:name=".KeluhanDetail">
         </activity>
@@ -39,6 +37,11 @@
                 android:name=".MainActivity"
                 android:label="@string/title_activity_main"
                 android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter android:label="@string/app_name_uppercase">
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 
