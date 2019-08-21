@@ -1,8 +1,10 @@
 package org.ftui.mobile.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import org.ftui.mobile.AddComplaintCamera;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
 import org.ftui.mobile.model.BasicComplaint;
@@ -32,6 +35,7 @@ public class EKeluhan extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static final String EKELUHAN_FRAGMENT_TAG = "EKELUHAN_FRAGMENT";
+    private ImageButton addKeluhanBtn;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -85,8 +89,18 @@ public class EKeluhan extends Fragment {
         ShimmerFrameLayout loadingLayout = view.findViewById(R.id.shimmer_container);
         loadingLayout.startShimmer();
 
+        addKeluhanBtn = view.findViewById(R.id.add_keluhan_btn);
+
+        addKeluhanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), AddComplaintCamera.class);
+                startActivity(i);
+            }
+        });
+
         RecyclerView rv = view.findViewById(R.id.keluhan_recyclerview);
-        BasicComplaintCardViewAdapter adapter = new BasicComplaintCardViewAdapter(complaintList, getContext());
+        BasicComplaintCardViewAdapter adapter = new BasicComplaintCardViewAdapter(complaintList, getActivity());
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         loadingLayout.stopShimmer();

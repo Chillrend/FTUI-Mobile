@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/see_detailed_complaint"
+          android:icon="@drawable/ic_delete_forever_black_24dp"
+          android:title="@string/see_detail_complaint"/>
     <item android:id="@+id/delete_item"
           android:icon="@drawable/ic_delete_forever_black_24dp"
           android:title="@string/delete_complaint"/>

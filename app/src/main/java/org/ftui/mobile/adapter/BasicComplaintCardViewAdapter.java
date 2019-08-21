@@ -2,6 +2,7 @@ package org.ftui.mobile.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import es.dmoral.toasty.Toasty;
+import org.ftui.mobile.KeluhanDetail;
 import org.ftui.mobile.R;
 import org.ftui.mobile.model.BasicComplaint;
 import org.ftui.mobile.utils.TimeUtils;
@@ -161,6 +163,9 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
                             case R.id.edit_item:
                                 Toast.makeText(appContext, "Clicked Edit", Toast.LENGTH_SHORT).show();
                                 return true;
+                            case R.id.see_detailed_complaint:
+                                Intent i = new Intent(appContext, KeluhanDetail.class);
+                                appContext.startActivity(i);
                             default:
                                 return false;
                         }

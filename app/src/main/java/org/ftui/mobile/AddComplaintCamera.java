@@ -2,9 +2,11 @@ package org.ftui.mobile;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -41,6 +43,7 @@ public class AddComplaintCamera extends AppCompatActivity {
     RecyclerView rv;
     private static List<Photos> photosArray;
     private PhotosAdapter photosAdapter;
+    private Button nextButton;
 
     public static void setPhotosArray(List<Photos> newPhotosArray){
         photosArray = newPhotosArray;
@@ -62,6 +65,15 @@ public class AddComplaintCamera extends AppCompatActivity {
         rv.addItemDecoration(new ItemDecorator(this));
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(photosAdapter);
+
+        nextButton = findViewById(R.id.next_button);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AddComplaintCamera.this, SubmitComplaintForm.class);
+                startActivity(i);
+            }
+        });
 
 
 //        takenPicturePreview1 = findViewById(R.id.taken_picture_1);

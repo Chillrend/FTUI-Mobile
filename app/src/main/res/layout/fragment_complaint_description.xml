@@ -103,6 +103,7 @@
             android:paddingBottom="@dimen/small_padding"
             android:paddingStart="@dimen/large_padding"
             android:paddingEnd="@dimen/large_padding"
+            android:layout_marginBottom="@dimen/small_margin"
             android:fontFamily="sans-serif-light"
             android:text="@string/AWAITING_FOLLOWUP"
             android:background="@drawable/complaint_status_background"/>
