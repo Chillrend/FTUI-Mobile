@@ -74,22 +74,7 @@ public class AddComplaintCamera extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
-//        takenPicturePreview1 = findViewById(R.id.taken_picture_1);
-//        takenPicturePreview2 = findViewById(R.id.taken_picture_2);
-//        takenPicturePreview3 = findViewById(R.id.taken_picture_3);
-//        takenPicturePreview4 = findViewById(R.id.taken_picture_4);
-//
-//        deleteImageBtn1 = findViewById(R.id.taken_picture_del_button_1);
-//        deleteImageBtn2 = findViewById(R.id.taken_picture_del_button_2);
-//        deleteImageBtn3 = findViewById(R.id.taken_picture_del_button_3);
-//        deleteImageBtn4 = findViewById(R.id.taken_picture_del_button_4);
-//
-//        previewContainer1 = findViewById(R.id.picture_container_1);
-//        previewContainer2 = findViewById(R.id.picture_container_2);
-//        previewContainer3 = findViewById(R.id.picture_container_3);
-//        previewContainer4 = findViewById(R.id.picture_container_4);
+        
         if(!cameraPermissionGranted()){
             checkAndAskForCameraPermission();
         }else{

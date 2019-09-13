@@ -79,4 +79,7 @@
     <string name="info_user_eligibility">Guna memverifikasi eligibilitas Anda untuk menggunakan aplikasi ini, Kami harus memastikan Anda adalah bagian dari civitas Fakultas Teknik Universitas Indonesia. Anda dapat memverifikasikan diri Anda dengan Login menggunakan Akun SSO-UI yang Anda miliki</string>
     <string name="register_here">Registrasi Akun</string>
     <string name="see_detail_complaint">Lihat Detail Keluhan</string>
+    <string name="register">Register</string>
+    <string name="hello_text">Halo, %1$s. Anda telah sukses memverifikasikan diri Anda lewat akun SSO-UI, satu langkah lagi dan Anda dapat menggunakan FTUI-Mobile secara penuh!</string>
+    <string name="password_confirm">Konfirmasi Password</string>
 </resources>
