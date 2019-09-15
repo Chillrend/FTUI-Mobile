@@ -36,44 +36,119 @@
             android:fontFamily="sans-serif-light"
             android:textSize="@dimen/heading_4"
             android:text="Mahasiswa" />
-    <RelativeLayout
+    <TextView
+            android:id="@+id/text_personal_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/user_role"
+            android:layout_marginTop="@dimen/super_large_margin"
+            android:textColor="@color/white"
+            android:text="@string/personal_information"
+            />
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/super_large_margin"
-            android:layout_below="@id/user_role"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_below="@id/text_personal_information"
             android:padding="@dimen/medium_padding"
-            android:background="@drawable/white_rounded_square">
-        <!--start profile view-->
-        <ImageView
-                android:id="@+id/icon_identity"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentLeft="true"
-                app:srcCompat="@drawable/ic_assignment_ind_black_24dp"/>
-        <TextView
-                android:id="@+id/default_text_identity"
-                android:layout_width="wrap_content"
+            android:background="@drawable/white_rounded_square"
+            android:orientation="vertical">
+        <!--start one field-->
+        <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/icon_identity"
-                android:layout_marginLeft="@dimen/small_margin"
-                android:textSize="@dimen/heading_4"
-                android:text="Nomor Identitas"/>
-        <TextView
-                android:id="@+id/user_identity_number"
-                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/medium_margin"
+                    app:srcCompat="@drawable/ic_assignment_ind_black_24dp"/>
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_margin"
+                        android:textSize="@dimen/heading_4"
+                        android:text="@string/identity_number"/>
+                <TextView
+                        android:id="@+id/user_identity_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_margin"
+                        android:fontFamily="sans-serif-light"
+                        android:text="4817040316"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View style="@style/Divider" />
+        <!--eof one field-->
+        <!--start one field-->
+        <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/small_margin"
-                android:layout_below="@id/default_text_identity"
-                android:layout_toRightOf="@id/icon_identity"
-                android:fontFamily="sans-serif-light"
-                android:text="4817040316"/>
-        <View style="@style/Divider"
-              android:layout_marginTop="@dimen/medium_margin"
-              android:layout_marginBottom="@dimen/medium_margin"
-              android:layout_below="@id/user_identity_number"/>
-        <!--eof profile view-->
-    </RelativeLayout>
-
-
+                android:orientation="horizontal">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/medium_margin"
+                    app:srcCompat="@drawable/ic_school_black_24dp"/>
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_margin"
+                        android:textSize="@dimen/heading_4"
+                        android:text="@string/department"/>
+                <TextView
+                        android:id="@+id/user_department"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_margin"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Metalurgi dan Geofisika"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View style="@style/Divider" />
+        <!--eof one field-->
+        <!--start one field-->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/medium_margin"
+                    app:srcCompat="@drawable/ic_email_black_24dp"/>
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_margin"
+                        android:textSize="@dimen/heading_4"
+                        android:text="@string/email"/>
+                <TextView
+                        android:id="@+id/user_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/small_margin"
+                        android:fontFamily="sans-serif-light"
+                        android:text="tjokorda.coding@gmail.com"/>
+            </LinearLayout>
+        </LinearLayout>
+        <!--eof one field-->
+    </LinearLayout>
 
 </RelativeLayout>

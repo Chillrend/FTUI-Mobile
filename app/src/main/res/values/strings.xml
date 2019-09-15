@@ -82,4 +82,8 @@
     <string name="register">Register</string>
     <string name="hello_text">Halo, %1$s. Anda telah sukses memverifikasikan diri Anda lewat akun SSO-UI, satu langkah lagi dan Anda dapat menggunakan FTUI-Mobile secara penuh!</string>
     <string name="password_confirm">Konfirmasi Password</string>
+    <string name="personal_information">Informasi Personal</string>
+    <string name="identity_number">Nomor Identitas</string>
+    <string name="department">Jurusan</string>
+    <string name="email">Email</string>
 </resources>
