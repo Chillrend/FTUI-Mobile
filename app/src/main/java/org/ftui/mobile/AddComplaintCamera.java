@@ -36,9 +36,6 @@ public class AddComplaintCamera extends AppCompatActivity {
 
     public static int PERMISSION_REQUEST_CAMERA = 99;
     CameraView camera;
-//    ImageView takenPicturePreview1, takenPicturePreview2, takenPicturePreview3, takenPicturePreview4;
-//    ImageButton deleteImageBtn1, deleteImageBtn2, deleteImageBtn3, deleteImageBtn4;
-//    RelativeLayout previewContainer1, previewContainer2, previewContainer3, previewContainer4;
     ImageButton takePictureButton;
     RecyclerView rv;
     private static List<Photos> photosArray;

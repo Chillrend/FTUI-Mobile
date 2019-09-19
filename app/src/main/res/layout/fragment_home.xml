@@ -38,6 +38,7 @@
                     app:srcCompat="@mipmap/ic_launcher_round"
                     android:layout_gravity="center_vertical"/>
             <LinearLayout
+                    android:id="@+id/greeting_card_wrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/small_padding"
@@ -45,17 +46,19 @@
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical">
                 <TextView
+                        android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/heading_4"
                         android:fontFamily="sans-serif-medium"
-                        android:text="@string/nav_header_title"/>
+                        android:text="@string/user"/>
                 <TextView
+                        android:id="@+id/user_role"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/medium_text"
                         android:fontFamily="sans-serif-light"
-                        android:text="@string/nav_header_subtitle"/>
+                        android:text="@string/tap_to_login"/>
             </LinearLayout>
         </LinearLayout>
 

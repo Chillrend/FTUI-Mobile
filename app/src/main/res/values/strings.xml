@@ -19,12 +19,17 @@
     <string name="logout">Logout</string>
     <string name="login">Login</string>
 
+    <!--Home Greeting Card-->
+    <string name="user">Pengguna</string>
+    <string name="tap_to_login">Tap untuk login</string>
+
     <!--Login screen-->
     <string name="welcome">Selamat Datang</string>
     <string name="sign_in_to_continue">Sign in untuk melanjutkan</string>
     <string name="forgot_password">Lupa Password?</string>
-    <string name="user_identifier">NIM/NIP/NIK/EMAIL</string>
+    <string name="user_identifier">E-Mail</string>
     <string name="password">Password</string>
+    <string name="password_register">Password (min. 8 karakter)</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -36,6 +41,7 @@
     <string name="AWAITING_FOLLOWUP">Menunggu tindak lanjut</string>
     <string name="IS_BEING_FOLLOWED_UP">Sedang ditindak lanjuti</string>
     <string name="FINISHED">Telah ditindak lanjuti</string>
+    <string name="REOPENED">Dibuka kembali</string>
 
 
     <!--Complaint Type-->
@@ -62,6 +68,13 @@
     <!--TOAST TEXT-->
     <string name="cant_access_location">Tidak dapat mengakses lokasi</string>
 
+    <!--SIGN UP DIALOG BOX-->
+    <string name="dialog_title_not_strong_password">Password tidak kuat</string>
+    <string name="dialog_message_not_strong_password">Untuk keamanan akun Anda, silahkan masukkan password lebih dari 8 karakter</string>
+    <string name="dialog_title_not_matching_password">Konfirmasi password tidak sama</string>
+    <string name="dialog_message_not_matching_password">Silahkan ketik ulang password anda di kolom konfirmasi password</string>
+
+    <string name="image_has_been_added_click_again_to_preview">Gambar telah ditambahkan, tap lagi untuk melihat preview</string>
 
     <string name="undo">UNDO</string>
     <string name="complaint_description">Deskripsi Keluhan</string>
@@ -86,4 +99,8 @@
     <string name="identity_number">Nomor Identitas</string>
     <string name="department">Jurusan</string>
     <string name="email">Email</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="filter_based_on_complaint_type">Filter berdasarkan Tipe keluhan</string>
+    <string name="filter_based_on_complaint_status">Filter berdasarkan status keluhan</string>
+    <string name="type_comment">Ketik komentar...</string>
 </resources>

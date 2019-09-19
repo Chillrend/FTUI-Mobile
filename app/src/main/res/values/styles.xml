@@ -70,6 +70,29 @@
         <item name="android:background">@color/black</item>
     </style>
 
+    <style name="ErrorText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/error</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="RadioBtn" parent="Theme.AppCompat.Light">
+        <item name="android:textColorPrimaryDisableOnly">#000</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated,
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight, and colorSwitchThumbNormal. -->
+    </style>
+
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/white</item>
     </style>

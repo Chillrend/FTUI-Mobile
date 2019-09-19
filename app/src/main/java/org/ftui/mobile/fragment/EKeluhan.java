@@ -1,10 +1,15 @@
 package org.ftui.mobile.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +18,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.AddComplaintCamera;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
@@ -35,7 +41,13 @@ public class EKeluhan extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static final String EKELUHAN_FRAGMENT_TAG = "EKELUHAN_FRAGMENT";
-    private ImageButton addKeluhanBtn;
+    private ImageButton addKeluhanBtn, filterBtn;
+
+    private RadioGroup keluhanTypeFilterFirstGroup, statusFilterFirstGroup;
+
+    private String typeFilter, statusFilter;
+
+    private int typeCheckedId = R.id.facilities_and_infrastructure_filter_radio_button, statusCheckedId = R.id.awaiting_follow_up_filter_radio_button;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -82,6 +94,10 @@ public class EKeluhan extends Fragment {
         return inflater.inflate(R.layout.fragment_ekeluhan, container, false);
     }
 
+    public void logMe(int checkedId){
+        Log.d("onLogMe", getResources().getResourceEntryName(checkedId));
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         List<BasicComplaint> complaintList = BasicComplaint.mockComplainData();
@@ -89,7 +105,58 @@ public class EKeluhan extends Fragment {
         ShimmerFrameLayout loadingLayout = view.findViewById(R.id.shimmer_container);
         loadingLayout.startShimmer();
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Filter");
+
         addKeluhanBtn = view.findViewById(R.id.add_keluhan_btn);
+        filterBtn = view.findViewById(R.id.filter_btn);
+
+        filterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_filter_dialog, (ViewGroup) getView(), false);
+
+                keluhanTypeFilterFirstGroup = dialogView.findViewById(R.id.keluhan_type_radio_button_group_1);
+
+                statusFilterFirstGroup = dialogView.findViewById(R.id.keluhan_status_radio_button_group_1);
+
+                RadioButton typeChecked = dialogView.findViewById(typeCheckedId);
+                typeChecked.setChecked(true);
+
+                RadioButton statusChecked = dialogView.findViewById(statusCheckedId);
+                statusChecked.setChecked(true);
+
+                keluhanTypeFilterFirstGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        typeCheckedId = checkedId;
+                        logMe(typeCheckedId);
+                    }
+                });
+
+
+                statusFilterFirstGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        statusCheckedId = checkedId;
+                        logMe(checkedId);
+                    }
+                });
+
+
+                builder.setView(dialogView);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setFilterType(dialogView);
+                    }
+                });
+
+                builder.setNegativeButton(android.R.string.cancel, null);
+
+                builder.show();
+            }
+        });
 
         addKeluhanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +172,11 @@ public class EKeluhan extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         loadingLayout.stopShimmer();
         loadingLayout.setVisibility(View.GONE);
+    }
+
+    public void setFilterType(View view){
+        Toasty.info(getActivity(), "Clicked " + getResources().getResourceEntryName(typeCheckedId) + " Also clicked " + getResources().getResourceEntryName(statusCheckedId), Toasty.LENGTH_LONG).show();
+        Log.d("onSetFilterType", "Clicked " + getResources().getResourceEntryName(typeCheckedId) + " Also clicked " + getResources().getResourceEntryName(statusCheckedId));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

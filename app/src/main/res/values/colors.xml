@@ -12,6 +12,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="error">#cc0000</color>
 
     <!--state color-->
     <color name="AWAITING_FOLLOWUP">#E52250</color>

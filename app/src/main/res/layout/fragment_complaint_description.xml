@@ -1,124 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              tools:context=".fragment.ComplaintDescription"
-                android:background="@color/colorPrimary"
-            android:theme="@style/BasicComplaintTheme">
-    <com.synnapps.carouselview.CarouselView
-            android:id="@+id/carouselView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:fillColor="#FFFFFFFF"
-            app:pageColor="#00000000"
-            app:radius="6dp"
-            app:slideInterval="3000"
-            app:strokeColor="#FF777777"
-            app:strokeWidth="1dp"/>
-    <TextView
-        android:id="@+id/keluhan_detail_title"
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/heading_1"
-        android:textStyle="bold"
-        android:text="Monitor Rusak"/>
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        tools:context=".fragment.ComplaintDescription"
+        android:background="@color/colorPrimary"
+        android:theme="@style/BasicComplaintTheme">
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <com.synnapps.carouselview.CarouselView
+                android:id="@+id/carouselView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:fillColor="#FFFFFFFF"
+                app:pageColor="#00000000"
+                app:radius="6dp"
+                app:slideInterval="3000"
+                app:strokeColor="#FF777777"
+                app:strokeWidth="1dp"/>
         <TextView
-                android:id="@+id/complaint_submitted_date"
+                android:id="@+id/keluhan_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/heading_1"
+                android:textStyle="bold"
+                android:text="Monitor Rusak"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <TextView
+                    android:id="@+id/complaint_submitted_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Senin, 24 Juni 2012" />
+            <TextView
+                    android:id="@+id/complaint_object_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:drawableLeft="@drawable/ic_location_on_white_16dp"
+                    android:drawablePadding="@dimen/small_padding"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Lobby Engineering Center" />
+        </LinearLayout>
+        <TextView
+                android:id="@+id/complaint_user_fullname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:text="Senin, 24 Juni 2012" />
-        <TextView
-                android:id="@+id/complaint_object_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/small_margin"
-                android:drawableLeft="@drawable/ic_location_on_white_16dp"
+                android:drawableLeft="@drawable/ic_account_circle_black_16dp"
                 android:drawablePadding="@dimen/small_padding"
+                android:text="Tjokorda Raka Wisnu"
                 android:fontFamily="sans-serif-light"
-                android:text="Lobby Engineering Center" />
+                />
+        <!--Deskripsi Keluhan -->
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="@dimen/heading_2"
+                android:text="Deskripsi Keluhan"/>
+        <TextView
+                android:id="@+id/complaint_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:fontFamily="sans-serif-light"
+                android:textSize="@dimen/heading_4"
+                android:drawableLeft="@drawable/ic_event_seat_white_24dp"
+                android:drawablePadding="@dimen/small_padding"
+                android:text="@string/FACILITIES_AND_INFRASTRUCTURE"/>
+        <TextView
+                android:id="@+id/complaint_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:fontFamily="sans-serif-light"
+                android:text="Monitor milik PC Nomor 25 tidak bisa dinyalakan mohon segera ditindak lanjuti, terima kasih"/>
+        <!-- Status Keluhan -->
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:textSize="@dimen/heading_2"
+                android:textStyle="bold"
+                android:text="@string/complaint_status" />
+        <TextView
+                android:id="@+id/complaint_daycount_since_submitted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/complaint_daycount_since_submitted"/>
+        <TextView
+                android:id="@+id/complaint_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:paddingTop="@dimen/small_padding"
+                android:paddingBottom="@dimen/small_padding"
+                android:paddingStart="@dimen/large_padding"
+                android:paddingEnd="@dimen/large_padding"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/AWAITING_FOLLOWUP"
+                android:background="@drawable/complaint_status_background"/>
+        <TextView
+                android:id="@+id/complaint_surveyor_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:fontFamily="sans-serif-light"
+                android:text="TEST"/>
+        <ImageView
+                android:id="@+id/complaint_surveyor_submitted_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+
+
     </LinearLayout>
-    <TextView
-            android:id="@+id/complaint_user_fullname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_account_circle_black_16dp"
-            android:drawablePadding="@dimen/small_padding"
-            android:text="Tjokorda Raka Wisnu"
-            android:fontFamily="sans-serif-light"
-            />
-    <!--Deskripsi Keluhan -->
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/medium_margin"
-            android:fontFamily="sans-serif-medium"
-            android:textSize="@dimen/heading_2"
-            android:text="Deskripsi Keluhan"/>
-    <TextView
-            android:id="@+id/complaint_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            android:fontFamily="sans-serif-light"
-            android:textSize="@dimen/heading_4"
-            android:drawableLeft="@drawable/ic_event_seat_white_24dp"
-            android:drawablePadding="@dimen/small_padding"
-            android:text="@string/FACILITIES_AND_INFRASTRUCTURE"/>
-    <TextView
-            android:id="@+id/complaint_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            android:fontFamily="sans-serif-light"
-            android:text="Monitor milik PC Nomor 25 tidak bisa dinyalakan mohon segera ditindak lanjuti, terima kasih"/>
-    <!-- Status Keluhan -->
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/medium_margin"
-            android:textSize="@dimen/heading_2"
-            android:textStyle="bold"
-            android:text="@string/complaint_status" />
-    <TextView
-            android:id="@+id/complaint_daycount_since_submitted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/complaint_daycount_since_submitted"/>
-    <TextView
-            android:id="@+id/complaint_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            android:paddingTop="@dimen/small_padding"
-            android:paddingBottom="@dimen/small_padding"
-            android:paddingStart="@dimen/large_padding"
-            android:paddingEnd="@dimen/large_padding"
-            android:layout_marginBottom="@dimen/small_margin"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/AWAITING_FOLLOWUP"
-            android:background="@drawable/complaint_status_background"/>
-    <TextView
-            android:id="@+id/complaint_surveyor_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            android:fontFamily="sans-serif-light"
-            android:text="TEST"/>
-    <ImageView
-            android:id="@+id/complaint_surveyor_submitted_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"/>
-
-
-
-</LinearLayout>
+</ScrollView>

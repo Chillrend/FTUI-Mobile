@@ -1,18 +1,32 @@
 package org.ftui.mobile.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.features.ReturnMode;
+import com.esafirm.imagepicker.model.Image;
+import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.CommentsAdapter;
 import org.ftui.mobile.model.Comments;
+import org.ftui.mobile.utils.PicassoImageLoader;
 
 import java.util.List;
 
@@ -38,6 +52,9 @@ public class ComplaintComments extends Fragment {
     public static String COMPLAINT_COMMENTS_FRAGMENT_TAG = "COMPLAINT_COMMENTS";
 
     private OnFragmentInteractionListener mListener;
+    private ImageButton sendCommentBtn, addImageBtn;
+    private Image capturedImage;
+    private Drawable imageBtnBg;
 
     ListView commentListView;
 
@@ -81,11 +98,44 @@ public class ComplaintComments extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
+        addImageBtn = view.findViewById(R.id.add_image_comment_button);
         commentListView = view.findViewById(R.id.comment_list_view);
+
+        imageBtnBg = addImageBtn.getBackground();
+
         List<Comments> mockApiCommentList = Comments.mockCommentsData();
 
         CommentsAdapter adapter = new CommentsAdapter(mockApiCommentList, getActivity());
         commentListView.setAdapter(adapter);
+        ImagePicker imagePicker = ImagePicker
+                .create(this)
+                .enableLog(true)
+                .single()
+                .returnMode(ReturnMode.ALL)
+                .imageLoader(new PicassoImageLoader());
+
+        addImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imagePicker.start();
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, final int resultCode, Intent data){
+        Log.d("AWE", "onActivityResult: igetin");
+        if(ImagePicker.shouldHandle(requestCode, resultCode, data)){
+            capturedImage = ImagePicker.getFirstImageOrNull(data);
+            GradientDrawable dw = (GradientDrawable) imageBtnBg;
+            dw.setColor(ContextCompat.getColor(getContext(), R.color.drawer_blue));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                addImageBtn.setTooltipText(getString(R.string.image_has_been_added_click_again_to_preview));
+            } else {
+                Toasty.info(getContext(), R.string.image_has_been_added_click_again_to_preview).show();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

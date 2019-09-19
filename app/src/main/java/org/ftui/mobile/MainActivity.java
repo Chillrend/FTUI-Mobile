@@ -1,6 +1,7 @@
 package org.ftui.mobile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,15 +28,17 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Home.OnFragmentInteractionListener,
         EKeluhan.OnFragmentInteractionListener{
 
-
+    private boolean userPrefExist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        userPrefExist = LoginActivity.userPrefExist(getApplicationContext());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -46,6 +49,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Menu menu = navigationView.getMenu();
+        MenuItem loginout_menu = menu.findItem(R.id.nav_logout);
+        if(!userPrefExist) loginout_menu.setTitle(R.string.login);
 
         Fragment fragment = new Home();
 
@@ -111,8 +118,13 @@ public class MainActivity extends AppCompatActivity
             fr_tag = EKeluhan.EKELUHAN_FRAGMENT_TAG;
             replaceFragment(fr, fr_tag);
         }else if(id == R.id.nav_logout){
-            Intent i = new Intent(this, LoginActivity.class);
-            startActivity(i);
+            if(userPrefExist){
+                SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).edit();
+                editor.clear().apply();
+            }else{
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+            }
         }else if(id == R.id.nav_map){
             Intent i = new Intent(this, CampusMap.class);
             startActivity(i);

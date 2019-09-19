@@ -36,7 +36,8 @@
         </activity>
         <activity android:name=".AddComplaintCamera">
         </activity>
-        <activity android:name=".KeluhanDetail">
+        <activity android:name=".KeluhanDetail"
+                android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".CampusMap">
         </activity>
