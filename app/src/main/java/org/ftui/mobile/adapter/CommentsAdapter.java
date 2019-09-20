@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import com.squareup.picasso.Picasso;
 import org.ftui.mobile.R;
 import org.ftui.mobile.model.Comments;
 import org.ftui.mobile.utils.TimeUtils;
@@ -23,6 +25,7 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
         TextView userFullname;
         TextView comments;
         TextView dateSubmitted;
+        ImageView complaintImage;
     }
 
     public CommentsAdapter(List<Comments> items, Context ctx){
@@ -46,6 +49,7 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
 
             viewHolder.userFullname = convertView.findViewById(R.id.comments_username);
             viewHolder.comments = convertView.findViewById(R.id.comment_box);
+            viewHolder.complaintImage = convertView.findViewById(R.id.comments_image);
             viewHolder.dateSubmitted = convertView.findViewById(R.id.comment_date_submitted);
 
             result = convertView;
@@ -58,6 +62,12 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
         viewHolder.userFullname.setText(item.getUserFullname());
         viewHolder.comments.setText(item.getComments());
         viewHolder.dateSubmitted.setText(TimeUtils.convertEpochToLocalizedString(item.getDateSubmitted()));
+
+        if(item.getCommentImgUrl() != null && item.getCommentImgUrl().trim().length() > 0){
+            Picasso.get().load(item.getCommentImgUrl()).into(viewHolder.complaintImage);
+        }else{
+            viewHolder.complaintImage.setVisibility(View.GONE);
+        }
 
         return result;
     }

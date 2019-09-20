@@ -3,11 +3,13 @@ package org.ftui.mobile;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import org.ftui.mobile.fragment.ComplaintComments;
 import org.ftui.mobile.fragment.ComplaintDescription;
@@ -36,6 +38,7 @@ public class KeluhanDetail extends AppCompatActivity implements
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.komplaint);
+
 
         complaintDetailSwitcher = findViewById(R.id.complaint_desc_switcher);
         commentSwitcher = findViewById(R.id.comments_switcher);
@@ -80,6 +83,13 @@ public class KeluhanDetail extends AppCompatActivity implements
 
         complaintDetailSwitcher.setOnClickListener(mHandler);
         commentSwitcher.setOnClickListener(mHandler);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu, menu);
+        return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

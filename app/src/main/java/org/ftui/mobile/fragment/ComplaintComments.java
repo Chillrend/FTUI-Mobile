@@ -1,7 +1,10 @@
 package org.ftui.mobile.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -10,10 +13,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -56,7 +61,7 @@ public class ComplaintComments extends Fragment {
     private Image capturedImage;
     private Drawable imageBtnBg;
 
-    ListView commentListView;
+    private ListView commentListView;
 
     public ComplaintComments() {
         // Required empty public constructor
@@ -101,6 +106,8 @@ public class ComplaintComments extends Fragment {
         addImageBtn = view.findViewById(R.id.add_image_comment_button);
         commentListView = view.findViewById(R.id.comment_list_view);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
         imageBtnBg = addImageBtn.getBackground();
 
         List<Comments> mockApiCommentList = Comments.mockCommentsData();
@@ -117,7 +124,39 @@ public class ComplaintComments extends Fragment {
         addImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imagePicker.start();
+                if(capturedImage == null){
+                    imagePicker.start();
+                }else{
+                    builder.setTitle(R.string.dialog_title_image_chosen);
+                    ImageView imageInsideDialog = new ImageView(getContext());
+
+                    imageInsideDialog.setImageBitmap(BitmapFactory.decodeFile(capturedImage.getPath()));
+
+                    builder.setView(imageInsideDialog);
+                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.dialog_negative_button_remove_image, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            capturedImage = null;
+                            GradientDrawable dw = (GradientDrawable) imageBtnBg;
+                            dw.setColor(ContextCompat.getColor(getContext(), R.color.white));
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNeutralButton(R.string.dialog_neutral_button_change_image, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            imagePicker.start();
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
+                }
             }
         });
     }
@@ -133,6 +172,8 @@ public class ComplaintComments extends Fragment {
                 addImageBtn.setTooltipText(getString(R.string.image_has_been_added_click_again_to_preview));
             } else {
                 Toasty.info(getContext(), R.string.image_has_been_added_click_again_to_preview).show();
+
+                TooltipCompat.setTooltipText(addImageBtn, getString(R.string.image_has_been_added_click_again_to_preview));
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

@@ -18,6 +18,7 @@
     <string name="settings">Pengaturan</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>
+    <string name="elevate_complaint_status">Naikkan status keluhan</string>
 
     <!--Home Greeting Card-->
     <string name="user">Pengguna</string>
@@ -73,6 +74,11 @@
     <string name="dialog_message_not_strong_password">Untuk keamanan akun Anda, silahkan masukkan password lebih dari 8 karakter</string>
     <string name="dialog_title_not_matching_password">Konfirmasi password tidak sama</string>
     <string name="dialog_message_not_matching_password">Silahkan ketik ulang password anda di kolom konfirmasi password</string>
+
+    <!--IMAGE DIALOG-->
+    <string name="dialog_title_image_chosen">Gambar yang telah dipilih</string>
+    <string name="dialog_negative_button_remove_image">Hapus</string>
+    <string name="dialog_neutral_button_change_image">Ganti</string>
 
     <string name="image_has_been_added_click_again_to_preview">Gambar telah ditambahkan, tap lagi untuk melihat preview</string>
 
