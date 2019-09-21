@@ -1,11 +1,10 @@
 package org.ftui.mobile.utils;
 
 import com.google.gson.JsonObject;
+import org.ftui.mobile.model.keluhan.Keluhan;
+import org.ftui.mobile.model.keluhan.Ticket;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Header;
-import retrofit2.http.POST;
+import retrofit2.http.*;
 
 public interface ApiService {
 
@@ -20,4 +19,7 @@ public interface ApiService {
 
     @POST("/api/amialive")
     Call<JsonObject> amialive(@Header("Accept") String accept, @Header("Authorization") String bearer);
+
+    @GET
+    Call<Keluhan> getAllKeluhan(@Url String url, @Header("Accept") String accept, @Header("Authorization") String bearer);
 }

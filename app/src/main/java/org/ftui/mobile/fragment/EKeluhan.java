@@ -18,13 +18,28 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.gson.Gson;
 import es.dmoral.toasty.Toasty;
+import okhttp3.HttpUrl;
 import org.ftui.mobile.AddComplaintCamera;
+import org.ftui.mobile.LoginActivity;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
 import org.ftui.mobile.model.BasicComplaint;
+import org.ftui.mobile.model.User;
+import org.ftui.mobile.model.keluhan.Keluhan;
+import org.ftui.mobile.model.keluhan.Metum;
+import org.ftui.mobile.model.keluhan.Results;
+import org.ftui.mobile.model.keluhan.Ticket;
+import org.ftui.mobile.utils.ApiCall;
+import org.ftui.mobile.utils.ApiService;
+import org.ftui.mobile.utils.EndlessRecyclerViewScrollListener;
+import org.ftui.mobile.utils.GetKeluhanIntoRecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -46,6 +61,17 @@ public class EKeluhan extends Fragment {
     private RadioGroup keluhanTypeFilterFirstGroup, statusFilterFirstGroup;
 
     private String typeFilter, statusFilter;
+    private String baseImgurl;
+    private RecyclerView rv;
+    private ShimmerFrameLayout loadingLayout;
+
+    private EndlessRecyclerViewScrollListener rvScrollListener;
+
+    private ApiService service;
+    private Metum responseMeta;
+    private List<Ticket> keluhan_data = new ArrayList<>();
+
+    private String userToken;
 
     private int typeCheckedId = R.id.facilities_and_infrastructure_filter_radio_button, statusCheckedId = R.id.awaiting_follow_up_filter_radio_button;
 
@@ -81,10 +107,33 @@ public class EKeluhan extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String jsonData = LoginActivity.userPrefExist(getActivity()) ? getActivity().getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString("user", null) : null;
+
+        Gson jsonUtil = new Gson();
+
+        User user = jsonUtil.fromJson(jsonData, User.class);
+        userToken = user.getToken();
+
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    public static String buildGetKeluhanUrl(List<String> includeParam, HashMap<String, String> parameter){
+        Iterator iterator = parameter.entrySet().iterator();
+        StringBuilder urlBuilder = new StringBuilder("http://pengaduan.ccit-solution.com/api/keluhan/filter?");
+
+        for (int i = 0; i < includeParam.size(); i++) {
+            urlBuilder.append("includes[]=").append(includeParam.get(i)).append("&");
+        }
+
+        while (iterator.hasNext()){
+            Map.Entry mapElement = (Map.Entry)iterator.next();
+            urlBuilder.append(mapElement.getKey()).append("=").append(mapElement.getValue()).append("&");
+        }
+        return urlBuilder.toString();
     }
 
     @Override
@@ -96,13 +145,64 @@ public class EKeluhan extends Fragment {
 
     public void logMe(int checkedId){
         Log.d("onLogMe", getResources().getResourceEntryName(checkedId));
+
+    }
+
+
+    private void getKeluhanListFromApi(){
+        service = ApiCall.getClient().create(ApiService.class);
+
+        List<String> includeParam = new ArrayList<>();
+        includeParam.add("status");
+        includeParam.add("category");
+        includeParam.add("user");
+        includeParam.add("comments");
+        includeParam.add("gambar");
+
+        HashMap<String, String> otherParam = new HashMap<String, String>();
+
+        otherParam.put("limit", "5");
+
+        String url = buildGetKeluhanUrl(includeParam, otherParam);
+
+        HttpUrl uri = HttpUrl.parse(url);
+        Log.d("TAG", "getKeluhanListFromApi: " + uri);
+
+        Call<Keluhan> call = service.getAllKeluhan(uri.toString(), "application/json", "Bearer " + userToken);
+
+        call.enqueue(new Callback<Keluhan>() {
+            @Override
+            public void onResponse(Call<Keluhan> call, Response<Keluhan> response) {
+                if(response.errorBody() != null){
+                    Toasty.error(getContext(), "Tidak dapat mengambil keluhan, silahkan coba lagi").show();
+                    Log.d("ERROR", "onResponse: " + response.errorBody().toString());
+                    return;
+                }
+                Keluhan parent_of_parent = response.body();
+                responseMeta = parent_of_parent.getMeta().get(0);
+                Results what_the_fick_is_even_this_for = parent_of_parent.getResults();
+                baseImgurl = parent_of_parent.getUrlimg();
+                keluhan_data = what_the_fick_is_even_this_for.getTicket();
+
+                BasicComplaintCardViewAdapter adapter = new BasicComplaintCardViewAdapter(keluhan_data, getActivity(), baseImgurl);
+                rv.setAdapter(adapter);
+                rv.setLayoutManager(new LinearLayoutManager(getContext()));
+                loadingLayout.stopShimmer();
+                loadingLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<Keluhan> call, Throwable t) {
+                Toasty.error(getContext(), "Tidak dapat mengambil data keluhan, silahkan coba lagi").show();
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
-        List<BasicComplaint> complaintList = BasicComplaint.mockComplainData();
 
-        ShimmerFrameLayout loadingLayout = view.findViewById(R.id.shimmer_container);
+        loadingLayout = view.findViewById(R.id.shimmer_container);
         loadingLayout.startShimmer();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -110,6 +210,7 @@ public class EKeluhan extends Fragment {
 
         addKeluhanBtn = view.findViewById(R.id.add_keluhan_btn);
         filterBtn = view.findViewById(R.id.filter_btn);
+        rv = view.findViewById(R.id.keluhan_recyclerview);
 
         filterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,12 +267,27 @@ public class EKeluhan extends Fragment {
             }
         });
 
-        RecyclerView rv = view.findViewById(R.id.keluhan_recyclerview);
-        BasicComplaintCardViewAdapter adapter = new BasicComplaintCardViewAdapter(complaintList, getActivity());
-        rv.setAdapter(adapter);
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        loadingLayout.stopShimmer();
-        loadingLayout.setVisibility(View.GONE);
+        List<String> includeParam = new ArrayList<>();
+        includeParam.add("status");
+        includeParam.add("category");
+        includeParam.add("user");
+        includeParam.add("comments");
+        includeParam.add("gambar");
+
+        HashMap<String, String> otherParam = new HashMap<String, String>();
+
+        otherParam.put("limit", "5");
+
+        String url = buildGetKeluhanUrl(includeParam, otherParam);
+
+        GetKeluhanIntoRecyclerView gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
+
+        Map<String, Object> returnedData = gk.getKeluhanToRv(url,true);
+        responseMeta = (Metum) returnedData.get("meta");
+        keluhan_data = (List<Ticket>) returnedData.get("data");
+        baseImgurl = (String) returnedData.get("baseImgUrl");
+
+//        getKeluhanListFromApi();
     }
 
     public void setFilterType(View view){

@@ -25,6 +25,7 @@ import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.KeluhanDetail;
 import org.ftui.mobile.R;
 import org.ftui.mobile.model.BasicComplaint;
+import org.ftui.mobile.model.keluhan.*;
 import org.ftui.mobile.utils.TimeUtils;
 
 import java.util.List;
@@ -68,12 +69,14 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
         }
     }
 
-    private List<BasicComplaint> itemList;
+    private List<Ticket> itemList;
     private Context appContext;
+    private String imageBaseUrl;
 
-    public BasicComplaintCardViewAdapter(List<BasicComplaint> itemList, Context appContext){
+    public BasicComplaintCardViewAdapter(List<Ticket> itemList, Context appContext, String imageBaseUrl){
         this.itemList = itemList;
         this.appContext = appContext;
+        this.imageBaseUrl = imageBaseUrl;
     }
 
     @Override
@@ -91,14 +94,22 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
     @Override
     public void onBindViewHolder(final CardViewViewHolder cardViewViewHolder, int i){
         Transformation profilePicTransformation = new RoundedTransformationBuilder().oval(true).build();
-        Picasso.get().load(itemList.get(i).getUserProfilePictureUrl()).transform(profilePicTransformation).into(cardViewViewHolder.userProfilePicture);
 
-        cardViewViewHolder.userFullName.setText(itemList.get(i).getUserFullname());
+        //TODO: Replace with Image URL after Profile Picture Uploading Implemented
+        //using placeholder image until profpic uploading implemented
+        cardViewViewHolder.userProfilePicture.setImageResource(R.drawable.ic_user);
 
-        String date = TimeUtils.convertEpochToLocalizedString(itemList.get(i).getTimestamp());
+        User user = itemList.get(i).getUser();
+        cardViewViewHolder.userFullName.setText(user.getName());
+
+        //TODO: Wait for the api to change timestamp format to UNIX time
+        //String date = TimeUtils.convertEpochToLocalizedString(itemList.get(i).getTimestamp());
+        String date = itemList.get(i).getCreatedAt();
         cardViewViewHolder.dateSubmitted.setText(date);
-        cardViewViewHolder.objectLocation.setText(itemList.get(i).getObjectLocation());
-        cardViewViewHolder.complaintDescription.setText(itemList.get(i).getComplaintDescription());
+
+        //TODO: He Forget the keluhan location ayylmao
+        cardViewViewHolder.objectLocation.setText("ONCOMING");
+        cardViewViewHolder.complaintDescription.setText(itemList.get(i).getContent());
 
         Transformation coverImageTransformation = new RoundedTransformationBuilder()
                 .borderColor(Color.LTGRAY)
@@ -106,19 +117,29 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
                 .cornerRadius(10)
                 .oval(false)
                 .build();
+        List<Gambar> gambar = itemList.get(i).getGambar();
+        if(gambar.size() > 1){
+            Picasso.get().load(imageBaseUrl + gambar.get(0).getImage()).transform(coverImageTransformation).fit().into(cardViewViewHolder.coverImage);
+        }else{
+            Picasso.get().load(R.drawable.placeholder_no_image_wide).transform(coverImageTransformation).fit().into(cardViewViewHolder.coverImage);
 
-        Picasso.get().load(itemList.get(i).getCoverImageUrl()).transform(coverImageTransformation).fit().into(cardViewViewHolder.coverImage);
+        }
 
-        cardViewViewHolder.combinedComplaintTypeandStatusParentView.setBackgroundColor(ContextCompat.getColor(appContext, evalComplaintStatusReturnColor(itemList.get(i).getComplaintStatus())));
-        cardViewViewHolder.complaintTypeIcon.setImageResource(evalComplaintTypeReturnDrawable(itemList.get(i).getComplaintType()));
-        Log.d("AT ITERATION " + i, "can't find string resource" + itemList.get(i).getComplaintType());
+        Status status = itemList.get(i).getStatus();
+        cardViewViewHolder.combinedComplaintTypeandStatusParentView.setBackgroundColor(ContextCompat.getColor(appContext, evalComplaintStatusReturnColor(status.getName())));
 
-        String complaintType = appContext.getString(convertComplaintTypeToStringResId(itemList.get(i).getComplaintType()));
-        String complaintStatus = appContext.getString(convertComplaintStatusToStringResId(itemList.get(i).getComplaintStatus()));
+        //TODO: Change this to string according to switch case later after changing API
+        cardViewViewHolder.complaintTypeIcon.setImageResource(evalComplaintTypeReturnDrawable("FACILITIES_AND_INFRASTRUCTURE"));
+
+
+        Category category = itemList.get(i).getCategory();
+        String complaintType = category.getName();
+        String complaintStatus = appContext.getString(convertComplaintStatusToStringResId(status.getName()));
         String combinedText = appContext.getString(R.string.COMBINED_STATUS_AND_TYPE, complaintType, complaintStatus);
         cardViewViewHolder.combinedComplaintTypeandStatus.setText(combinedText);
 
-        cardViewViewHolder.commentCount.setText(String.format(Locale.getDefault(), "%d", itemList.get(i).getCommentCount()));
+        List<Comment> comment = itemList.get(i).getComments();
+        cardViewViewHolder.commentCount.setText(String.format(Locale.getDefault(), "%d", comment.size()));
 
         cardViewViewHolder.contextMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override

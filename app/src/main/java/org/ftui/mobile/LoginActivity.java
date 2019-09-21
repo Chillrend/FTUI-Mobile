@@ -14,13 +14,12 @@ import android.os.Bundle;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import es.dmoral.toasty.Toasty;
+import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
-import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,6 +70,14 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences spref = ctx.getSharedPreferences(USER_SHARED_PREFERENCE, MODE_PRIVATE);
 
         return spref.contains("user");
+    }
+
+    public static String getUserToken(Context ctx){
+        if(ctx.getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).contains("complete_user")){
+            return ctx.getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null);
+        }else{
+            return null;
+        }
     }
 
     public void onClick(View v){
