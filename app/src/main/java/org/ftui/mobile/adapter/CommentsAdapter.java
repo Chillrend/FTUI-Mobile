@@ -11,14 +11,15 @@ import androidx.annotation.NonNull;
 import com.squareup.picasso.Picasso;
 import org.ftui.mobile.R;
 import org.ftui.mobile.model.Comments;
+import org.ftui.mobile.model.keluhan.Comment;
 import org.ftui.mobile.utils.TimeUtils;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CommentsAdapter extends ArrayAdapter<Comments> {
-    private List<Comments> items;
+public class CommentsAdapter extends ArrayAdapter<Comment> {
+    private List<Comment> items;
     Context ctx;
 
     private static class ViewHolder {
@@ -28,7 +29,7 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
         ImageView complaintImage;
     }
 
-    public CommentsAdapter(List<Comments> items, Context ctx){
+    public CommentsAdapter(List<Comment> items, Context ctx){
         super(ctx, R.layout.comments_list_items, items);
         this.ctx = ctx;
         this.items = items;
@@ -36,7 +37,7 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
 
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent){
-        Comments item = getItem(position);
+        Comment item = getItem(position);
 
         ViewHolder viewHolder;
 
@@ -59,15 +60,20 @@ public class CommentsAdapter extends ArrayAdapter<Comments> {
             result = convertView;
         }
 
-        viewHolder.userFullname.setText(item.getUserFullname());
-        viewHolder.comments.setText(item.getComments());
-        viewHolder.dateSubmitted.setText(TimeUtils.convertEpochToLocalizedString(item.getDateSubmitted()));
+        //TODO: Change user ID to User Name
+        viewHolder.userFullname.setText(item.getUserId().toString());
+        viewHolder.comments.setText(item.getContent());
+        //TODO: Uncomment and delete next statement after UNIX time implemented
+//        viewHolder.dateSubmitted.setText(TimeUtils.convertEpochToLocalizedString(item.getDateSubmitted()));
+        viewHolder.dateSubmitted.setText(item.getCreatedAt());
 
-        if(item.getCommentImgUrl() != null && item.getCommentImgUrl().trim().length() > 0){
-            Picasso.get().load(item.getCommentImgUrl()).into(viewHolder.complaintImage);
-        }else{
-            viewHolder.complaintImage.setVisibility(View.GONE);
-        }
+        //TODO: Uncomment and change IF Statement after comment image uploading implemented
+//        if(item.getCommentImgUrl() != null && item.getCommentImgUrl().trim().length() > 0){
+//            Picasso.get().load(item.getCommentImgUrl()).into(viewHolder.complaintImage);
+//        }else{
+//            viewHolder.complaintImage.setVisibility(View.GONE);
+//        }
+        viewHolder.complaintImage.setVisibility(View.GONE);
 
         return result;
     }

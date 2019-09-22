@@ -16,9 +16,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import org.ftui.mobile.R;
+import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
+import org.ftui.mobile.model.keluhan.*;
+
+import java.util.List;
 
 
 /**
@@ -30,21 +35,41 @@ import org.ftui.mobile.R;
  * create an instance of this fragment.
  */
 public class ComplaintDescription extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public static String DESCRIBABLE_TAG = "DESCRIBABLE_TAG";
+    public static String BASE_IMG_URL_TAG = "baseImgUrl";
+
 
     public static String COMPLAINT_DESCRIPTION_FRAGMENT_TAG = "COMPLAINT_DESCRIPTION_FRAGMENT";
 
-    CarouselView objectImagesSlider;
-    TextView complaintStatus;
-    TextView surveyorResponses;
-    ImageView surveyorSubmitedPhotos;
+    private String baseimgUrl;
+
+    private Ticket keluhan_data;
+    private List<Gambar> gambarList;
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param describeable Keluhan Detail Object.
+     * @param baseImgUrl base URL for retrieving images.
+     * @return A new instance of fragment ComplaintDescription.
+     */
+
+    public static ComplaintDescription newInstance(Ticket describeable, String baseImgUrl){
+       ComplaintDescription cd = new ComplaintDescription();
+       Bundle bundle = new Bundle();
+       bundle.putSerializable(DESCRIBABLE_TAG, describeable);
+       bundle.putString("baseImgUrl", baseImgUrl);
+       cd.setArguments(bundle);
+       return cd;
+    }
+
+    private CarouselView objectImagesSlider;
+    private TextView complaintStatus, complaintTitle, complaintDate, complaintLocation,
+    complaintUserSubmitted, complaintDescription, complaintType, complaintDaySinceSubmmit;
+    private TextView surveyorResponses;
+    private ImageView surveyorSubmitedPhotos;
 
     private OnFragmentInteractionListener mListener;
 
@@ -52,31 +77,16 @@ public class ComplaintDescription extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ComplaintDescription.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ComplaintDescription newInstance(String param1, String param2) {
-        ComplaintDescription fragment = new ComplaintDescription();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            keluhan_data = (Ticket) getArguments().getSerializable(DESCRIBABLE_TAG);
+            baseimgUrl = getArguments().getString("baseImgUrl");
+
+            gambarList = keluhan_data.getGambar();
         }
+
     }
 
     @Override
@@ -86,48 +96,74 @@ public class ComplaintDescription extends Fragment {
         return inflater.inflate(R.layout.fragment_complaint_description, container, false);
     }
 
-    int[] picsumImageRes = {R.drawable.picsum_1, R.drawable.picsum_2, R.drawable.picsum_3, R.drawable.picsum_4};
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
         objectImagesSlider = view.findViewById(R.id.carouselView);
 
-
-        objectImagesSlider.setPageCount(picsumImageRes.length);
+        if(gambarList.size() > 1){
+            objectImagesSlider.setPageCount(gambarList.size());
+        }else{
+            objectImagesSlider.setPageCount(1);
+        }
 
         objectImagesSlider.setImageListener(this::setImageForPosition);
 
+        complaintTitle = view.findViewById(R.id.keluhan_detail_title);
+        complaintDate = view.findViewById(R.id.complaint_submitted_date);
+        complaintLocation = view.findViewById(R.id.complaint_object_location);
+        complaintUserSubmitted = view.findViewById(R.id.complaint_user_fullname);
+        complaintType = view.findViewById(R.id.complaint_type);
+        complaintDescription = view.findViewById(R.id.complaint_description);
+        complaintDaySinceSubmmit = view.findViewById(R.id.complaint_daycount_since_submitted);
         complaintStatus = view.findViewById(R.id.complaint_status);
 
+        complaintTitle.setText(keluhan_data.getSubject());
+
+        //TODO: Parse UNIX time once API Changes
+        complaintDate.setText(keluhan_data.getCreatedAt());
+        //TODO: Get location from data Once Implemented
+        complaintLocation.setText("ONCOMING");
+
+        User user = keluhan_data.getUser();
+        complaintUserSubmitted.setText(user.getName());
+
+        Category cat = keluhan_data.getCategory();
+        complaintType.setText(BasicComplaintCardViewAdapter.convertComplaintTypeToStringResId(cat.getName()));
+        Drawable typeDrawable = getActivity().getResources().getDrawable(BasicComplaintCardViewAdapter.evalComplaintTypeReturnDrawable(cat.getName()));
+        complaintType.setCompoundDrawablesWithIntrinsicBounds(typeDrawable, null, null, null);
+
+        complaintDescription.setText(keluhan_data.getContent());
+
+        //TODO: Count day passed since created_at after converting into UNIX Time
+        String daySinceSubmit = getActivity().getString(R.string.complaint_daycount_since_submitted, 3);
+
+        Status status = keluhan_data.getStatus();
+        complaintStatus.setText(BasicComplaintCardViewAdapter.convertComplaintStatusToStringResId(status.getName()));
         Drawable background = complaintStatus.getBackground();
 
         if (background instanceof ShapeDrawable) {
             // cast to 'ShapeDrawable'
             ShapeDrawable shapeDrawable = (ShapeDrawable) background;
-            shapeDrawable.getPaint().setColor(ContextCompat.getColor(getActivity(), R.color.AWAITING_FOLLOWUP));
+            shapeDrawable.getPaint().setColor(ContextCompat.getColor(getActivity(), BasicComplaintCardViewAdapter.evalComplaintStatusReturnColor(status.getName())));
         } else if (background instanceof GradientDrawable) {
             // cast to 'GradientDrawable'
             GradientDrawable gradientDrawable = (GradientDrawable) background;
-            gradientDrawable.setColor(ContextCompat.getColor(getActivity(), R.color.AWAITING_FOLLOWUP));
+            gradientDrawable.setColor(ContextCompat.getColor(getActivity(), BasicComplaintCardViewAdapter.evalComplaintStatusReturnColor(status.getName())));
         } else if (background instanceof ColorDrawable) {
             // alpha value may need to be set again after this call
             ColorDrawable colorDrawable = (ColorDrawable) background;
-            colorDrawable.setColor(ContextCompat.getColor(getActivity(), R.color.AWAITING_FOLLOWUP));
+            colorDrawable.setColor(ContextCompat.getColor(getActivity(), BasicComplaintCardViewAdapter.evalComplaintStatusReturnColor(status.getName())));
         }
-
-        surveyorResponses = view.findViewById(R.id.complaint_surveyor_message);
-        surveyorSubmitedPhotos = view.findViewById(R.id.complaint_surveyor_submitted_image);
-
-        surveyorResponses.setVisibility(View.GONE);
-        surveyorSubmitedPhotos.setVisibility(View.GONE);
-
-
     }
 
     public void setImageForPosition(int position, ImageView imageView) {
-        imageView.setImageResource(picsumImageRes[position]);
+        if(gambarList.size() > 0){
+            Picasso.get().load(baseimgUrl + gambarList.get(position).getImage()).into(imageView);
+        }else{
+            imageView.setImageResource(R.drawable.placeholder_no_image_wide);
+        }
     }
 
     public void onFragmentResume(){

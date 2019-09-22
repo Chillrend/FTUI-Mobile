@@ -112,19 +112,6 @@
                 android:fontFamily="sans-serif-light"
                 android:text="@string/AWAITING_FOLLOWUP"
                 android:background="@drawable/complaint_status_background"/>
-        <TextView
-                android:id="@+id/complaint_surveyor_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_margin"
-                android:fontFamily="sans-serif-light"
-                android:text="TEST"/>
-        <ImageView
-                android:id="@+id/complaint_surveyor_submitted_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"/>
-
-
 
     </LinearLayout>
 </ScrollView>

@@ -35,7 +35,7 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
 
     public static final Locale INDONESIAN_LOCALE = new Locale("id");
 
-    public static class CardViewViewHolder extends RecyclerView.ViewHolder {
+    public static class CardViewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CardView cv;
         ImageView userProfilePicture;
         TextView userFullName;
@@ -49,8 +49,9 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
         TextView commentCount;
         RelativeLayout combinedComplaintTypeandStatusParentView;
         ImageButton contextMenuBtn;
+        OnKeluhanClicklistener onKeluhanClicklistener;
 
-        CardViewViewHolder(View itemView){
+        public CardViewViewHolder(View itemView, OnKeluhanClicklistener onKeluhanClicklistener){
             super(itemView);
 
             cv = itemView.findViewById(R.id.keluhan_card_view);
@@ -65,18 +66,28 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
             combinedComplaintTypeandStatus = itemView.findViewById(R.id.keluhan_type_and_status);
             commentCount = itemView.findViewById(R.id.comment_count);
             contextMenuBtn = itemView.findViewById(R.id.context_menu_button);
+            this.onKeluhanClicklistener = onKeluhanClicklistener;
 
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            onKeluhanClicklistener.onKeluhanClick(getAdapterPosition());
         }
     }
 
     private List<Ticket> itemList;
     private Context appContext;
     private String imageBaseUrl;
+    private OnKeluhanClicklistener onKeluhanClicklistener;
 
-    public BasicComplaintCardViewAdapter(List<Ticket> itemList, Context appContext, String imageBaseUrl){
+    public BasicComplaintCardViewAdapter(List<Ticket> itemList, Context appContext, String imageBaseUrl, OnKeluhanClicklistener onKeluhanClicklistener){
         this.itemList = itemList;
         this.appContext = appContext;
         this.imageBaseUrl = imageBaseUrl;
+        this.onKeluhanClicklistener = onKeluhanClicklistener;
     }
 
     @Override
@@ -89,7 +100,7 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
     public CardViewViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.ekeluhan_cardview, viewGroup, false);
 
-        return new CardViewViewHolder(v);
+        return new CardViewViewHolder(v, onKeluhanClicklistener);
     }
     @Override
     public void onBindViewHolder(final CardViewViewHolder cardViewViewHolder, int i){
@@ -128,12 +139,10 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
         Status status = itemList.get(i).getStatus();
         cardViewViewHolder.combinedComplaintTypeandStatusParentView.setBackgroundColor(ContextCompat.getColor(appContext, evalComplaintStatusReturnColor(status.getName())));
 
-        //TODO: Change this to string according to switch case later after changing API
-        cardViewViewHolder.complaintTypeIcon.setImageResource(evalComplaintTypeReturnDrawable("FACILITIES_AND_INFRASTRUCTURE"));
-
-
         Category category = itemList.get(i).getCategory();
-        String complaintType = category.getName();
+        cardViewViewHolder.complaintTypeIcon.setImageResource(evalComplaintTypeReturnDrawable(category.getName()));
+
+        String complaintType = appContext.getString(convertComplaintTypeToStringResId(category.getName()));
         String complaintStatus = appContext.getString(convertComplaintStatusToStringResId(status.getName()));
         String combinedText = appContext.getString(R.string.COMBINED_STATUS_AND_TYPE, complaintType, complaintStatus);
         cardViewViewHolder.combinedComplaintTypeandStatus.setText(combinedText);
@@ -300,5 +309,9 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
         }
 
         return humanReadableStringResId;
+    }
+
+    public interface OnKeluhanClicklistener{
+        void onKeluhanClick(int pos);
     }
 }

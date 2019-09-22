@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import es.dmoral.toasty.Toasty;
 import okhttp3.HttpUrl;
 import org.ftui.mobile.AddComplaintCamera;
+import org.ftui.mobile.KeluhanDetail;
 import org.ftui.mobile.LoginActivity;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
@@ -50,7 +51,7 @@ import java.util.*;
  * Use the {@link EKeluhan#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EKeluhan extends Fragment {
+public class EKeluhan extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -71,6 +72,9 @@ public class EKeluhan extends Fragment {
     private Metum responseMeta;
     private List<Ticket> keluhan_data = new ArrayList<>();
 
+    private Integer typeId = 1;
+    private Integer statusId = 1;
+
     private String userToken;
 
     private int typeCheckedId = R.id.facilities_and_infrastructure_filter_radio_button, statusCheckedId = R.id.awaiting_follow_up_filter_radio_button;
@@ -78,6 +82,9 @@ public class EKeluhan extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private GetKeluhanIntoRecyclerView gk;
+    private List<String> includeParam = new ArrayList<>();
+    HashMap<String, String> otherParam = new HashMap<String, String>();
 
 
     private OnFragmentInteractionListener mListener;
@@ -114,6 +121,14 @@ public class EKeluhan extends Fragment {
         User user = jsonUtil.fromJson(jsonData, User.class);
         userToken = user.getToken();
 
+        includeParam.add("status");
+        includeParam.add("category");
+        includeParam.add("user");
+        includeParam.add("comments");
+        includeParam.add("gambar");
+
+        otherParam.put("limit", "5");
+
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -121,14 +136,25 @@ public class EKeluhan extends Fragment {
         }
     }
 
-    public static String buildGetKeluhanUrl(List<String> includeParam, HashMap<String, String> parameter){
-        Iterator iterator = parameter.entrySet().iterator();
+    public static String buildGetKeluhanUrl(HashMap<String, Integer>filterParam, List<String> includeParam, HashMap<String, String> parameter){
         StringBuilder urlBuilder = new StringBuilder("http://pengaduan.ccit-solution.com/api/keluhan/filter?");
-
-        for (int i = 0; i < includeParam.size(); i++) {
-            urlBuilder.append("includes[]=").append(includeParam.get(i)).append("&");
+        if(filterParam != null){
+            Iterator filterIterator = filterParam.entrySet().iterator();
+            int i = 0;
+            while (filterIterator.hasNext()){
+                Map.Entry mapElement = (Map.Entry)filterIterator.next();
+                urlBuilder.append("filter_groups[0][filters][").append(i).append("][key]=").append(mapElement.getKey()).append("&")
+                        .append("filter_groups[0][filters][").append(i).append("][value]=").append(mapElement.getValue()).append("&")
+                        .append("filter_groups[0][filters][").append(i).append("][operator]=eq").append("&");
+                i++;
+            }
         }
 
+        for (String s : includeParam) {
+            urlBuilder.append("includes[]=").append(s).append("&");
+        }
+
+        Iterator iterator = parameter.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry mapElement = (Map.Entry)iterator.next();
             urlBuilder.append(mapElement.getKey()).append("=").append(mapElement.getValue()).append("&");
@@ -148,55 +174,10 @@ public class EKeluhan extends Fragment {
 
     }
 
-
-    private void getKeluhanListFromApi(){
-        service = ApiCall.getClient().create(ApiService.class);
-
-        List<String> includeParam = new ArrayList<>();
-        includeParam.add("status");
-        includeParam.add("category");
-        includeParam.add("user");
-        includeParam.add("comments");
-        includeParam.add("gambar");
-
-        HashMap<String, String> otherParam = new HashMap<String, String>();
-
-        otherParam.put("limit", "5");
-
-        String url = buildGetKeluhanUrl(includeParam, otherParam);
-
-        HttpUrl uri = HttpUrl.parse(url);
-        Log.d("TAG", "getKeluhanListFromApi: " + uri);
-
-        Call<Keluhan> call = service.getAllKeluhan(uri.toString(), "application/json", "Bearer " + userToken);
-
-        call.enqueue(new Callback<Keluhan>() {
-            @Override
-            public void onResponse(Call<Keluhan> call, Response<Keluhan> response) {
-                if(response.errorBody() != null){
-                    Toasty.error(getContext(), "Tidak dapat mengambil keluhan, silahkan coba lagi").show();
-                    Log.d("ERROR", "onResponse: " + response.errorBody().toString());
-                    return;
-                }
-                Keluhan parent_of_parent = response.body();
-                responseMeta = parent_of_parent.getMeta().get(0);
-                Results what_the_fick_is_even_this_for = parent_of_parent.getResults();
-                baseImgurl = parent_of_parent.getUrlimg();
-                keluhan_data = what_the_fick_is_even_this_for.getTicket();
-
-                BasicComplaintCardViewAdapter adapter = new BasicComplaintCardViewAdapter(keluhan_data, getActivity(), baseImgurl);
-                rv.setAdapter(adapter);
-                rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                loadingLayout.stopShimmer();
-                loadingLayout.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<Keluhan> call, Throwable t) {
-                Toasty.error(getContext(), "Tidak dapat mengambil data keluhan, silahkan coba lagi").show();
-                t.printStackTrace();
-            }
-        });
+    private void setMultipleParam(Map<String,Object> returnedData){
+        responseMeta = (Metum) returnedData.get("meta");
+        keluhan_data = (List<Ticket>) returnedData.get("data");
+        baseImgurl = (String) returnedData.get("baseImgUrl");
     }
 
     @Override
@@ -230,6 +211,27 @@ public class EKeluhan extends Fragment {
                 keluhanTypeFilterFirstGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        typeId = 1;
+                        switch (checkedId){
+                            case R.id.facilities_and_infrastructure_filter_radio_button:
+                                typeId = 1;
+                                break;
+                            case R.id.buildings_filter_radio_button:
+                                typeId = 2;
+                                break;
+                            case R.id.human_resource_filter_radio_button:
+                                typeId = 3;
+                                break;
+                            case R.id.cleaning_and_gardening_filter_radio_button:
+                                typeId = 4;
+                                break;
+                            case R.id.incidents_filter_radio_button:
+                                typeId = 5;
+                                break;
+                            case R.id.other_filter_radio_button:
+                                typeId = 6;
+                                break;
+                        }
                         typeCheckedId = checkedId;
                         logMe(typeCheckedId);
                     }
@@ -239,6 +241,21 @@ public class EKeluhan extends Fragment {
                 statusFilterFirstGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        statusId = 1;
+                        switch (checkedId){
+                            case R.id.awaiting_follow_up_filter_radio_button:
+                                statusId=1;
+                                break;
+                            case R.id.is_being_followed_up_filter_radio_button:
+                                statusId=2;
+                                break;
+                            case R.id.done_filter_radio_button:
+                                statusId=3;
+                                break;
+                            case R.id.reopened_filter_radio_button:
+                                statusId=4;
+                                break;
+                        }
                         statusCheckedId = checkedId;
                         logMe(checkedId);
                     }
@@ -249,7 +266,35 @@ public class EKeluhan extends Fragment {
                 builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        setFilterType(dialogView);
+                        if(statusId != null && typeId != null){
+                            HashMap<String, Integer> filterParam = new HashMap<>();
+                            filterParam.put("status_id", statusId);
+                            filterParam.put("category_id", typeId);
+
+                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(filterParam, includeParam, otherParam), false, true);
+                            setMultipleParam(returnedData);
+                        }else if(statusId != null){
+                            HashMap<String, Integer> filterParam = new HashMap<>();
+                            filterParam.put("status_id", statusId);
+                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(filterParam, includeParam, otherParam), false, true);
+                            setMultipleParam(returnedData);
+                        }else if(typeId != null){
+                            HashMap<String, Integer> filterParam = new HashMap<>();
+                            filterParam.put("category_id", typeId);
+                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(filterParam, includeParam, otherParam), false, true);
+                            setMultipleParam(returnedData);
+                        }
+                    }
+                });
+                builder.setNeutralButton(R.string.clear, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        typeId = null;
+                        statusId = null;
+
+                        String url = buildGetKeluhanUrl(null, includeParam, otherParam);
+                        Map<String, Object> returnedData = gk.getKeluhanToRv(url,false, true);
+                        setMultipleParam(returnedData);
                     }
                 });
 
@@ -267,33 +312,14 @@ public class EKeluhan extends Fragment {
             }
         });
 
-        List<String> includeParam = new ArrayList<>();
-        includeParam.add("status");
-        includeParam.add("category");
-        includeParam.add("user");
-        includeParam.add("comments");
-        includeParam.add("gambar");
+        String url = buildGetKeluhanUrl(null, includeParam, otherParam);
 
-        HashMap<String, String> otherParam = new HashMap<String, String>();
+        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
 
-        otherParam.put("limit", "5");
-
-        String url = buildGetKeluhanUrl(includeParam, otherParam);
-
-        GetKeluhanIntoRecyclerView gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
-
-        Map<String, Object> returnedData = gk.getKeluhanToRv(url,true);
-        responseMeta = (Metum) returnedData.get("meta");
-        keluhan_data = (List<Ticket>) returnedData.get("data");
-        baseImgurl = (String) returnedData.get("baseImgUrl");
-
-//        getKeluhanListFromApi();
+        Map<String, Object> returnedData = gk.getKeluhanToRv(url,true, null);
+        setMultipleParam(returnedData);
     }
 
-    public void setFilterType(View view){
-        Toasty.info(getActivity(), "Clicked " + getResources().getResourceEntryName(typeCheckedId) + " Also clicked " + getResources().getResourceEntryName(statusCheckedId), Toasty.LENGTH_LONG).show();
-        Log.d("onSetFilterType", "Clicked " + getResources().getResourceEntryName(typeCheckedId) + " Also clicked " + getResources().getResourceEntryName(statusCheckedId));
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -318,6 +344,7 @@ public class EKeluhan extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -1,5 +1,6 @@
 package org.ftui.mobile;
 
+import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.util.Log;
@@ -10,9 +11,15 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import org.ftui.mobile.fragment.ComplaintComments;
 import org.ftui.mobile.fragment.ComplaintDescription;
+import org.ftui.mobile.model.keluhan.Comment;
+import org.ftui.mobile.model.keluhan.Ticket;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KeluhanDetail extends AppCompatActivity implements
         ComplaintDescription.OnFragmentInteractionListener,
@@ -22,6 +29,8 @@ public class KeluhanDetail extends AppCompatActivity implements
     private LinearLayout parentSwitcher;
     private LinearLayout complaintDetailSwitcher;
     private LinearLayout commentSwitcher;
+    private Ticket keluhan_data;
+    private ArrayList<Comment> keluhan_comment;
     Boolean switcherStateAtComplaintDetail = true;
     TransitionDrawable complaintDetailTransDrawable;
     TransitionDrawable commentTransDrawable;
@@ -30,10 +39,19 @@ public class KeluhanDetail extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keluhan_detail);
+        Intent i = getIntent();
+
+        keluhan_data = (Ticket) i.getSerializableExtra("keluhan_data");
+        List<Comment> comment = keluhan_data.getComments();
+        keluhan_comment = new ArrayList<>(comment.size());
+        keluhan_comment.addAll(comment);
+        String baseImgUrl = i.getStringExtra("baseImgUrl");
+
+        Fragment fr = ComplaintDescription.newInstance(keluhan_data, baseImgUrl);
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.complaint_detail_main_fragment, new ComplaintDescription(), ComplaintDescription.COMPLAINT_DESCRIPTION_FRAGMENT_TAG)
+                .add(R.id.complaint_detail_main_fragment, fr, ComplaintDescription.COMPLAINT_DESCRIPTION_FRAGMENT_TAG)
                 .commit();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -70,9 +88,11 @@ public class KeluhanDetail extends AppCompatActivity implements
                             commentTransDrawable.startTransition(300);
                             switcherStateAtComplaintDetail = false;
 
+                            Fragment fr = ComplaintComments.newInstance(keluhan_comment);
+
                             getSupportFragmentManager()
                                     .beginTransaction()
-                                    .add(R.id.complaint_detail_main_fragment, new ComplaintComments(), ComplaintComments.COMPLAINT_COMMENTS_FRAGMENT_TAG)
+                                    .add(R.id.complaint_detail_main_fragment, fr, ComplaintComments.COMPLAINT_COMMENTS_FRAGMENT_TAG)
                                     .addToBackStack(null)
                                     .commit();
                         }

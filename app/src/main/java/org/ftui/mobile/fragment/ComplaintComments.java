@@ -31,8 +31,10 @@ import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.CommentsAdapter;
 import org.ftui.mobile.model.Comments;
+import org.ftui.mobile.model.keluhan.Comment;
 import org.ftui.mobile.utils.PicassoImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -62,6 +64,7 @@ public class ComplaintComments extends Fragment {
     private Drawable imageBtnBg;
 
     private ListView commentListView;
+    private ArrayList<Comment> commentArrayList;
 
     public ComplaintComments() {
         // Required empty public constructor
@@ -71,16 +74,14 @@ public class ComplaintComments extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param comments List of keluhan comments.
      * @return A new instance of fragment ComplaintComments.
      */
     // TODO: Rename and change types and number of parameters
-    public static ComplaintComments newInstance(String param1, String param2) {
+    public static ComplaintComments newInstance(ArrayList<Comment> comments) {
         ComplaintComments fragment = new ComplaintComments();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelableArrayList(ARG_PARAM1, comments);
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,8 +90,7 @@ public class ComplaintComments extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            commentArrayList = getArguments().getParcelableArrayList(ARG_PARAM1);
         }
     }
 
@@ -112,7 +112,7 @@ public class ComplaintComments extends Fragment {
 
         List<Comments> mockApiCommentList = Comments.mockCommentsData();
 
-        CommentsAdapter adapter = new CommentsAdapter(mockApiCommentList, getActivity());
+        CommentsAdapter adapter = new CommentsAdapter(commentArrayList, getActivity());
         commentListView.setAdapter(adapter);
         ImagePicker imagePicker = ImagePicker
                 .create(this)
