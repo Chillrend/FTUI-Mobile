@@ -22,8 +22,11 @@ import com.synnapps.carouselview.ImageListener;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
 import org.ftui.mobile.model.keluhan.*;
+import org.ftui.mobile.utils.TimeUtils;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -121,10 +124,12 @@ public class ComplaintDescription extends Fragment {
 
         complaintTitle.setText(keluhan_data.getSubject());
 
-        //TODO: Parse UNIX time once API Changes
-        complaintDate.setText(keluhan_data.getCreatedAt());
-        //TODO: Get location from data Once Implemented
-        complaintLocation.setText("ONCOMING");
+        complaintDate.setText(TimeUtils.convertEpochToLocalizedString(keluhan_data.getCreatedunix()));
+        if(keluhan_data.getLocation() != null){
+            complaintLocation.setText(keluhan_data.getLocation());
+        }else{
+            complaintStatus.setText(getContext().getString(R.string.no_location));
+        }
 
         User user = keluhan_data.getUser();
         complaintUserSubmitted.setText(user.getName());
@@ -136,10 +141,19 @@ public class ComplaintDescription extends Fragment {
 
         complaintDescription.setText(keluhan_data.getContent());
 
-        //TODO: Count day passed since created_at after converting into UNIX Time
-        String daySinceSubmit = getActivity().getString(R.string.complaint_daycount_since_submitted, 3);
+        Map<Integer, Long> dateDiffs = TimeUtils.getDateDiffFromNow(new Date(keluhan_data.getCreatedunix()*1000));
+        String daySinceSubmit = "";
+        for(Map.Entry<Integer,Long> entry : dateDiffs.entrySet()){
+            String unit = getContext().getString(entry.getKey());
+            daySinceSubmit = getString(R.string.complaint_daycount_since_submitted, entry.getValue(), unit);
+        }
 
         Status status = keluhan_data.getStatus();
+        if(status.getName().equals("FINISHED")){
+            complaintDaySinceSubmmit.setVisibility(View.GONE);
+        }else{
+            complaintDaySinceSubmmit.setText(daySinceSubmit);
+        }
         complaintStatus.setText(BasicComplaintCardViewAdapter.convertComplaintStatusToStringResId(status.getName()));
         Drawable background = complaintStatus.getBackground();
 
@@ -170,7 +184,6 @@ public class ComplaintDescription extends Fragment {
         objectImagesSlider.setImageListener(this::setImageForPosition);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -206,7 +219,6 @@ public class ComplaintDescription extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

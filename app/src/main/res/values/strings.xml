@@ -80,6 +80,12 @@
     <string name="dialog_negative_button_remove_image">Hapus</string>
     <string name="dialog_neutral_button_change_image">Ganti</string>
 
+    <!-- DATE UTIL -->
+    <string name="days">Hari</string>
+    <string name="hours">Jam</string>
+    <string name="minutes">Menit</string>
+    <string name="seconds">Detik</string>
+
     <string name="image_has_been_added_click_again_to_preview">Gambar telah ditambahkan, tap lagi untuk melihat preview</string>
 
     <string name="undo">UNDO</string>
@@ -87,7 +93,7 @@
     <string name="complaint_description">Deskripsi Keluhan</string>
     <string name="comments">Komentar</string>
     <string name="complaint_status">Status Keluhan</string>
-    <string name="complaint_daycount_since_submitted">%1d hari sejak keluhan diajukan</string>
+    <string name="complaint_daycount_since_submitted">%1$d %2$s sejak keluhan diajukan</string>
     <string name="object_take_picture_info">Ambil gambar yang menjelaskan tentang keluhan</string>
     <string name="next">Selanjutnya</string>
     <string name="maximum_picture_reached_notification">Anda telah mencapai jumlah gambar maksimum, silahkan hapus gambar untuk mengganti gambar tersebut</string>
@@ -110,4 +116,5 @@
     <string name="filter_based_on_complaint_type">Filter berdasarkan Tipe keluhan</string>
     <string name="filter_based_on_complaint_status">Filter berdasarkan status keluhan</string>
     <string name="type_comment">Ketik komentar...</string>
+    <string name="no_location">No Location</string>
 </resources>

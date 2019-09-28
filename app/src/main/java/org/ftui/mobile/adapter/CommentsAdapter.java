@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import org.ftui.mobile.R;
 import org.ftui.mobile.model.Comments;
 import org.ftui.mobile.model.keluhan.Comment;
+import org.ftui.mobile.model.keluhan.User;
 import org.ftui.mobile.utils.TimeUtils;
 
 import java.util.Date;
@@ -60,12 +61,11 @@ public class CommentsAdapter extends ArrayAdapter<Comment> {
             result = convertView;
         }
 
-        //TODO: Change user ID to User Name
-        viewHolder.userFullname.setText(item.getUserId().toString());
+        User user = item.getUser();
+        viewHolder.userFullname.setText(user.getName());
         viewHolder.comments.setText(item.getContent());
         //TODO: Uncomment and delete next statement after UNIX time implemented
-//        viewHolder.dateSubmitted.setText(TimeUtils.convertEpochToLocalizedString(item.getDateSubmitted()));
-        viewHolder.dateSubmitted.setText(item.getCreatedAt());
+        viewHolder.dateSubmitted.setText(TimeUtils.convertDateStringToLocalizedString(item.getCreatedAt()));
 
         //TODO: Uncomment and change IF Statement after comment image uploading implemented
 //        if(item.getCommentImgUrl() != null && item.getCommentImgUrl().trim().length() > 0){

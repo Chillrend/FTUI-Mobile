@@ -40,16 +40,17 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="Senin, 24 Juni 2012" />
-            <TextView
-                    android:id="@+id/complaint_object_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/small_margin"
-                    android:drawableLeft="@drawable/ic_location_on_white_16dp"
-                    android:drawablePadding="@dimen/small_padding"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Lobby Engineering Center" />
         </LinearLayout>
+        <TextView
+                android:id="@+id/complaint_object_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:drawableLeft="@drawable/ic_location_on_white_16dp"
+                android:drawablePadding="@dimen/small_padding"
+                android:fontFamily="sans-serif-light"
+                android:text="Lobby Engineering Center" />
         <TextView
                 android:id="@+id/complaint_user_fullname"
                 android:layout_width="wrap_content"

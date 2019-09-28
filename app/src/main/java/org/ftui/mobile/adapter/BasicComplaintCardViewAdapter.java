@@ -113,13 +113,14 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
         User user = itemList.get(i).getUser();
         cardViewViewHolder.userFullName.setText(user.getName());
 
-        //TODO: Wait for the api to change timestamp format to UNIX time
-        //String date = TimeUtils.convertEpochToLocalizedString(itemList.get(i).getTimestamp());
-        String date = itemList.get(i).getCreatedAt();
+        String date = TimeUtils.convertEpochToLocalizedString(itemList.get(i).getCreatedunix());
         cardViewViewHolder.dateSubmitted.setText(date);
 
-        //TODO: He Forget the keluhan location ayylmao
-        cardViewViewHolder.objectLocation.setText("ONCOMING");
+        if(itemList.get(i).getLocation() != null){
+            cardViewViewHolder.objectLocation.setText(itemList.get(i).getLocation());
+        }else{
+            cardViewViewHolder.objectLocation.setText(appContext.getString(R.string.no_location));
+        }
         cardViewViewHolder.complaintDescription.setText(itemList.get(i).getContent());
 
         Transformation coverImageTransformation = new RoundedTransformationBuilder()

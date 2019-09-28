@@ -17,7 +17,7 @@ public interface ApiService {
     @POST("/api/plogin/")
     Call<JsonObject> login(@Field("email") String username, @Field("password") String password);
 
-    @POST("/api/amialive")
+    @GET("/api/myaccount")
     Call<JsonObject> amialive(@Header("Accept") String accept, @Header("Authorization") String bearer);
 
     @GET

@@ -18,6 +18,9 @@ public class Ticket implements Serializable
     @SerializedName("content")
     @Expose
     private String content;
+    @SerializedName("location")
+    @Expose
+    private String location;
     @SerializedName("html")
     @Expose
     private String html;
@@ -45,6 +48,15 @@ public class Ticket implements Serializable
     @SerializedName("completed_at")
     @Expose
     private Object completedAt;
+    @SerializedName("createdunix")
+    @Expose
+    private Long createdunix;
+    @SerializedName("updatedunix")
+    @Expose
+    private Long updatedunix;
+    @SerializedName("completedunix")
+    @Expose
+    private Long completedunix;
     @SerializedName("status")
     @Expose
     private Status status;
@@ -84,6 +96,14 @@ public class Ticket implements Serializable
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getHtml() {
@@ -156,6 +176,30 @@ public class Ticket implements Serializable
 
     public void setCompletedAt(Object completedAt) {
         this.completedAt = completedAt;
+    }
+
+    public Long getCreatedunix() {
+        return createdunix;
+    }
+
+    public void setCreatedunix(Long createdunix) {
+        this.createdunix = createdunix;
+    }
+
+    public Long getUpdatedunix() {
+        return updatedunix;
+    }
+
+    public void setUpdatedunix(Long updatedunix) {
+        this.updatedunix = updatedunix;
+    }
+
+    public Long getCompletedunix() {
+        return completedunix;
+    }
+
+    public void setCompletedunix(Long completedunix) {
+        this.completedunix = completedunix;
     }
 
     public Status getStatus() {

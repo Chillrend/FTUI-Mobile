@@ -137,7 +137,7 @@ public class EKeluhan extends Fragment{
     }
 
     public static String buildGetKeluhanUrl(HashMap<String, Integer>filterParam, List<String> includeParam, HashMap<String, String> parameter){
-        StringBuilder urlBuilder = new StringBuilder("http://pengaduan.ccit-solution.com/api/keluhan/filter?");
+        StringBuilder urlBuilder = new StringBuilder("http://pengaduan.ccit-solution.com/api/keluhan?");
         if(filterParam != null){
             Iterator filterIterator = filterParam.entrySet().iterator();
             int i = 0;
