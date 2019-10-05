@@ -117,4 +117,9 @@
     <string name="filter_based_on_complaint_status">Filter berdasarkan status keluhan</string>
     <string name="type_comment">Ketik komentar...</string>
     <string name="no_location">No Location</string>
+    <string name="add_image">Tambahkan gambar yang menjelaskan keluhan (maks. 4 gambar)</string>
+    <string name="change">Ganti</string>
+    <string name="delete">Hapus</string>
+    <string name="add">Tambahkan</string>
+    <string name="no_privilege_to_access_complaint">Anda tidak memiliki hak untuk mengakses daftar keluhan</string>
 </resources>

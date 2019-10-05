@@ -18,6 +18,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".CreateNewKeluhan">
+        </activity>
         <activity android:name=".UserProfileActivity">
         </activity>
         <activity
@@ -36,7 +38,8 @@
         </activity>
         <activity android:name=".AddComplaintCamera">
         </activity>
-        <activity android:name=".KeluhanDetail"
+        <activity
+                android:name=".KeluhanDetail"
                 android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".CampusMap">

@@ -21,12 +21,10 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
 import es.dmoral.toasty.Toasty;
 import okhttp3.HttpUrl;
-import org.ftui.mobile.AddComplaintCamera;
-import org.ftui.mobile.KeluhanDetail;
-import org.ftui.mobile.LoginActivity;
-import org.ftui.mobile.R;
+import org.ftui.mobile.*;
 import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
 import org.ftui.mobile.model.BasicComplaint;
+import org.ftui.mobile.model.CompleteUser;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.keluhan.Keluhan;
 import org.ftui.mobile.model.keluhan.Metum;
@@ -58,6 +56,9 @@ public class EKeluhan extends Fragment{
     private static final String ARG_PARAM2 = "param2";
     public static final String EKELUHAN_FRAGMENT_TAG = "EKELUHAN_FRAGMENT";
     private ImageButton addKeluhanBtn, filterBtn;
+
+    private CompleteUser user;
+    private User userTokenMdl;
 
     private RadioGroup keluhanTypeFilterFirstGroup, statusFilterFirstGroup;
 
@@ -114,12 +115,23 @@ public class EKeluhan extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String jsonData = LoginActivity.userPrefExist(getActivity()) ? getActivity().getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString("user", null) : null;
+
+        if(!LoginActivity.completeUserPrefExist(getActivity())){
+            getActivity().finish();
+            Toasty.error(getActivity(), R.string.no_privilege_to_access_complaint, Toasty.LENGTH_LONG).show();
+            return;
+        }
+
+        String userTokenJsonData = getActivity().getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString("user", null);
+        String jsonData = getActivity().getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, Context.MODE_PRIVATE).getString("complete_user", null);
 
         Gson jsonUtil = new Gson();
 
-        User user = jsonUtil.fromJson(jsonData, User.class);
-        userToken = user.getToken();
+        user = jsonUtil.fromJson(jsonData, CompleteUser.class);
+        userTokenMdl = jsonUtil.fromJson(userTokenJsonData, User.class);
+
+
+        userToken = userTokenMdl.getToken();
 
         includeParam.add("status");
         includeParam.add("category");
@@ -185,6 +197,7 @@ public class EKeluhan extends Fragment{
 
         loadingLayout = view.findViewById(R.id.shimmer_container);
         loadingLayout.startShimmer();
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Filter");
@@ -304,13 +317,19 @@ public class EKeluhan extends Fragment{
             }
         });
 
-        addKeluhanBtn.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener addKeluhanListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), AddComplaintCamera.class);
+                Intent i = new Intent(getActivity(), CreateNewKeluhan   .class);
                 startActivity(i);
             }
-        });
+        };
+
+        if(user.getTicketit_agent() == 1 || user.getTicketit_admin() == 1){
+            addKeluhanBtn.setVisibility(View.GONE);
+        }else{
+            addKeluhanBtn.setOnClickListener(addKeluhanListener);
+        }
 
         String url = buildGetKeluhanUrl(null, includeParam, otherParam);
 

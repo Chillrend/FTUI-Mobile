@@ -1,6 +1,8 @@
 package org.ftui.mobile.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +11,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+import com.esafirm.imagepicker.model.Image;
 import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.AddComplaintCamera;
+import org.ftui.mobile.CreateNewKeluhan;
 import org.ftui.mobile.R;
 import org.ftui.mobile.model.Photos;
 
 import java.util.List;
 
 public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder> implements View.OnClickListener {
-    private List<Photos> items;
+    private List<Image> items;
     private Context ctx;
 
-    public PhotosAdapter(List<Photos> items, Context ctx) {
+    public PhotosAdapter(List<Image> items, Context ctx) {
         this.items = items;
         this.ctx = ctx;
     }
@@ -38,7 +42,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
-        holder.imagePrevivew.setImageBitmap(items.get(position).getPhoto());
+        Bitmap bm = BitmapFactory.decodeFile(items.get(position).getPath());
+        holder.imagePrevivew.setImageBitmap(bm);
         holder.imagePrevivew.setScaleType(ImageView.ScaleType.FIT_XY);
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +65,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, items.size());
 
-        AddComplaintCamera.setPhotosArray(items);
+        CreateNewKeluhan.setImageList(items);
     }
 
     @Override

@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(userPrefExist(getApplication())) finish();
+        if(userPrefExist(this)) finish();
 
         registerLinkBtn = findViewById(R.id.goRegisterBtn);
         password = findViewById(R.id.pwd_signin);
@@ -70,6 +70,12 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences spref = ctx.getSharedPreferences(USER_SHARED_PREFERENCE, MODE_PRIVATE);
 
         return spref.contains("user");
+    }
+
+    public static boolean completeUserPrefExist(Context ctx){
+        SharedPreferences spref = ctx.getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE);
+
+        return spref.contains("complete_user");
     }
 
     public static String getUserToken(Context ctx){
@@ -108,7 +114,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.errorBody() != null){
                     password_input_layout.setError("Email atau password salah");
-                    Toasty.info(getApplicationContext(), "Failed to login").show();
                     Log.d("OnSuccess :", response.errorBody().toString());
                     return;
                 }
@@ -137,8 +142,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                password_input_layout.setError("Email atau password salah");
-                Toasty.info(getApplicationContext(), "Failed to login").show();
+                Toasty.info(getApplicationContext(), "Something went wrong.. (err : onFailure Reached)").show();
                 t.printStackTrace();
             }
         });

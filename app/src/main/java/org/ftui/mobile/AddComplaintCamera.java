@@ -56,12 +56,6 @@ public class AddComplaintCamera extends AppCompatActivity {
 
         photosArray = new ArrayList<>();
 
-        photosAdapter = new PhotosAdapter(photosArray, this);
-        rv = findViewById(R.id.captured_photos_recyclerview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
-        rv.addItemDecoration(new ItemDecorator(this));
-        rv.setLayoutManager(layoutManager);
-        rv.setAdapter(photosAdapter);
 
         nextButton = findViewById(R.id.next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {

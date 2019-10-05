@@ -121,6 +121,14 @@ public class MainActivity extends AppCompatActivity
             if(userPrefExist){
                 SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).edit();
                 editor.clear().apply();
+
+                SharedPreferences.Editor completeEditor = getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).edit();
+                completeEditor.clear().apply();
+
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
             }else{
                 Intent i = new Intent(this, LoginActivity.class);
                 startActivity(i);
