@@ -79,8 +79,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public static String getUserToken(Context ctx){
-        if(ctx.getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).contains("complete_user")){
-            return ctx.getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null);
+        if(ctx.getSharedPreferences(USER_SHARED_PREFERENCE, MODE_PRIVATE).contains("user")){
+            String json = ctx.getSharedPreferences(USER_SHARED_PREFERENCE, MODE_PRIVATE).getString("user", null);
+            Gson jsonUtil = new Gson();
+            User user = jsonUtil.fromJson(json, User.class);
+
+
+            return user.getToken();
         }else{
             return null;
         }
