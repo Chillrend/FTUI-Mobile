@@ -13,13 +13,16 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import com.google.gson.Gson;
 import org.ftui.mobile.fragment.ComplaintComments;
 import org.ftui.mobile.fragment.ComplaintDescription;
+import org.ftui.mobile.fragment.Home;
+import org.ftui.mobile.model.CompleteUser;
+import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.keluhan.Comment;
 import org.ftui.mobile.model.keluhan.Ticket;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class KeluhanDetail extends AppCompatActivity implements
         ComplaintDescription.OnFragmentInteractionListener,
@@ -34,6 +37,8 @@ public class KeluhanDetail extends AppCompatActivity implements
     Boolean switcherStateAtComplaintDetail = true;
     TransitionDrawable complaintDetailTransDrawable;
     TransitionDrawable commentTransDrawable;
+    CompleteUser user;
+    User tokenUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,11 @@ public class KeluhanDetail extends AppCompatActivity implements
         keluhan_comment = new ArrayList<>(comment.size());
         keluhan_comment.addAll(comment);
         String baseImgUrl = i.getStringExtra("baseImgUrl");
+
+        Gson gson = new Gson();
+        tokenUser = gson.fromJson(getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).getString("user", null), User.class);
+        user = gson.fromJson(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null), CompleteUser.class);
+
 
         Fragment fr = ComplaintDescription.newInstance(keluhan_data, baseImgUrl);
 
@@ -108,13 +118,86 @@ public class KeluhanDetail extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu, menu);
+        if(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).contains("complete_user")){
+            Gson gson = new Gson();
+            CompleteUser user = gson.fromJson(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null), CompleteUser.class);
+            if(user.getTicketit_agent() == 1 || user.getTicketit_admin() == 1){
+                getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu, menu);
+                MenuItem item = menu.getItem(0);
+                item.setTitle(evalStatusToOptionMenuString(keluhan_data.getStatus().getName()));
+            }else if(user.getId() == keluhan_data.getUser().getId()){
+                getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu_user, menu);
+
+            }else if(keluhan_data.getStatus().getName().equals("FINISHED")){
+                getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu, menu);
+                MenuItem item = menu.getItem(0);
+                item.setTitle(R.string.FINISHED_OM);
+            }
+        }
         return true;
     }
 
+    public static int evalStatusToOptionMenuString(String status){
+        int humanReadableStringResId;
+        switch (status){
+            case "AWAITING_FOLLOWUP" :
+                humanReadableStringResId = R.string.AWAITING_FOLLOWUP_OM;
+                break;
+            case "IS_BEING_FOLLOWED_UP" :
+                humanReadableStringResId = R.string.IS_BEING_FOLLOWED_UP_OM;
+                break;
+            case "FINISHED":
+                humanReadableStringResId = R.string.FINISHED_OM;
+                break;
+            case "REOPENED":
+                humanReadableStringResId = R.string.IS_BEING_FOLLOWED_UP_OM;
+                break;
+            default:
+                humanReadableStringResId = R.string.AWAITING_FOLLOWUP_OM;
+        }
+
+        return humanReadableStringResId;
+    }
+
+    public static String evalStatusToAPIMethod(String status){
+        String method;
+        switch (status){
+            case "IS_BEING_FOLLOWED_UP" :
+            case "REOPENED":
+                method = "complete";
+                break;
+            case "FINISHED":
+                method = "reopen";
+                break;
+            default:
+                method = "process";
+        }
+
+        return method;
+    }
+
     public boolean onOptionsItemSelected(MenuItem item){
-        finish();
+        switch (item.getItemId()){
+            case R.id.elevate_complaint_status:
+                HashMap<String,String> headerMap = new HashMap<>();
+                headerMap.put("accept", "application/json");
+                headerMap.put("Authorization", "Bearer " + tokenUser.getToken());
+
+                String url = buildProcessUrl(evalStatusToAPIMethod(keluhan_data.getStatus().getName()), keluhan_data.getId());
+                Log.d("TAG", "buildedURL: " + url);
+
+                break;
+            case R.id.delete_complaint:
+                break;
+            case R.id.delete_complaint_user:
+                break;
+        }
         return true;
+    }
+
+    public static String buildProcessUrl(String method, Integer id){
+
+        return "http://pengaduan.ccit-solution.com/api/keluhan/" + method + "/" + id;
     }
 
     @Override

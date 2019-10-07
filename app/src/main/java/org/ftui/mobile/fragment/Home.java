@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.android.material.internal.NavigationMenu;
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import es.dmoral.toasty.Toasty;
@@ -20,6 +22,7 @@ import org.ftui.mobile.model.CompleteUser;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
+import org.w3c.dom.Text;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -129,6 +132,13 @@ public class Home extends Fragment implements View.OnClickListener {
 
                     user_fullname.setText(completeUser.getName());
                     user_role.setText(completeUser.getIdentitas());
+
+                    NavigationView nv = getActivity().findViewById(R.id.nav_view);
+                    View navHeader = nv.getHeaderView(0);
+                    TextView userName = navHeader.findViewById(R.id.header_user_fullname);
+                    TextView userRole = navHeader.findViewById(R.id.header_user_role);
+                    userName.setText(completeUser.getName());
+                    userRole.setText(completeUser.getIdentitas());
                 }
 
                 @Override

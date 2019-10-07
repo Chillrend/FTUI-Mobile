@@ -25,7 +25,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="@dimen/heading_4"
-            android:text="Tjokorda Raka Wisnu" />
+            android:text="@string/user" />
     <TextView
             android:id="@+id/user_role"
             android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/small_margin"
                         android:fontFamily="sans-serif-light"
-                        android:text="4817040316"/>
+                        android:text="Not supplied"/>
             </LinearLayout>
         </LinearLayout>
         <View style="@style/Divider" />
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/small_margin"
                         android:fontFamily="sans-serif-light"
-                        android:text="Metalurgi dan Geofisika"/>
+                        android:text="Not supplied"/>
             </LinearLayout>
         </LinearLayout>
         <View style="@style/Divider" />
@@ -145,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/small_margin"
                         android:fontFamily="sans-serif-light"
-                        android:text="tjokorda.coding@gmail.com"/>
+                        android:text="user@default.org"/>
             </LinearLayout>
         </LinearLayout>
         <!--eof one field-->

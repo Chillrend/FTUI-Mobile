@@ -4,8 +4,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Tjokorda Raka Wisnu</string>
-    <string name="nav_header_subtitle">Mahasiswa</string>
+    <string name="nav_header_subtitle">Tamu</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -43,6 +42,12 @@
     <string name="IS_BEING_FOLLOWED_UP">Sedang ditindak lanjuti</string>
     <string name="FINISHED">Telah ditindak lanjuti</string>
     <string name="REOPENED">Dibuka kembali</string>
+
+    <!--Keluhan OptionMenu Message-->
+    <string name="AWAITING_FOLLOWUP_OM">Proses Keluhan</string>
+    <string name="IS_BEING_FOLLOWED_UP_OM">Selesaikan Keluhan</string>
+    <string name="FINISHED_OM">Buka kembali keluhan</string>
+
 
 
     <!--Complaint Type-->

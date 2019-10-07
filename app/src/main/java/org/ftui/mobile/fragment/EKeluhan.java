@@ -116,8 +116,8 @@ public class EKeluhan extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!LoginActivity.completeUserPrefExist(getActivity())){
-            getActivity().finish();
+        if(!LoginActivity.completeUserPrefExist(getActivity()) || !LoginActivity.userPrefExist(getActivity())){
+            getActivity().getSupportFragmentManager().popBackStack();
             Toasty.error(getActivity(), R.string.no_privilege_to_access_complaint, Toasty.LENGTH_LONG).show();
             return;
         }
@@ -197,6 +197,12 @@ public class EKeluhan extends Fragment{
 
         loadingLayout = view.findViewById(R.id.shimmer_container);
         loadingLayout.startShimmer();
+
+        if(user == null){
+            getActivity().getSupportFragmentManager().popBackStack();
+            Toasty.error(getActivity(), R.string.no_privilege_to_access_complaint, Toasty.LENGTH_LONG).show();
+            return;
+        }
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
