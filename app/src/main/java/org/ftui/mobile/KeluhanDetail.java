@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.ftui.mobile.fragment.ComplaintComments;
 import org.ftui.mobile.fragment.ComplaintDescription;
 import org.ftui.mobile.fragment.Home;
@@ -21,7 +22,11 @@ import org.ftui.mobile.model.CompleteUser;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.keluhan.Comment;
 import org.ftui.mobile.model.keluhan.Ticket;
+import org.ftui.mobile.model.surveyor.Details;
+import org.ftui.mobile.model.surveyor.Surveyor;
+import org.ftui.mobile.model.surveyor.SurveyorResponse;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class KeluhanDetail extends AppCompatActivity implements
@@ -121,10 +126,22 @@ public class KeluhanDetail extends AppCompatActivity implements
         if(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).contains("complete_user")){
             Gson gson = new Gson();
             CompleteUser user = gson.fromJson(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null), CompleteUser.class);
-            if(user.getTicketit_agent() == 1 || user.getTicketit_admin() == 1){
-                getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu, menu);
-                MenuItem item = menu.getItem(0);
-                item.setTitle(evalStatusToOptionMenuString(keluhan_data.getStatus().getName()));
+            if(LoginActivity.isSurveyor(this)){
+                String spSurveyor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).getString("surveyor", null);
+
+                Type listType = new TypeToken<List<Surveyor>>() {}.getType();
+                List<Surveyor> surveyors = gson.fromJson(spSurveyor, listType);
+
+                for(Surveyor surveyor : surveyors){
+                    Details det = surveyor.getDetails();
+                    if(det.getName().equals(keluhan_data.getCategory().getName())){
+                        getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu, menu);
+                        MenuItem item = menu.getItem(0);
+                        item.setTitle(evalStatusToOptionMenuString(keluhan_data.getStatus().getName()));
+                        break;
+                    }
+                }
+
             }else if(user.getId() == keluhan_data.getUser().getId()){
                 getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu_user, menu);
 

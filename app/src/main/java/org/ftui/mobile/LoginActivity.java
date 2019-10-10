@@ -78,6 +78,12 @@ public class LoginActivity extends AppCompatActivity {
         return spref.contains("complete_user");
     }
 
+    public static boolean isSurveyor(Context ctx){
+        SharedPreferences spref = ctx.getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE);
+
+        return spref.contains("surveyor");
+    }
+
     public static String getUserToken(Context ctx){
         if(ctx.getSharedPreferences(USER_SHARED_PREFERENCE, MODE_PRIVATE).contains("user")){
             String json = ctx.getSharedPreferences(USER_SHARED_PREFERENCE, MODE_PRIVATE).getString("user", null);

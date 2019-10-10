@@ -44,6 +44,7 @@ public class Home extends Fragment implements View.OnClickListener {
 
     public static final String HOME_FRAGMENT_TAG = "HOME_FRAGMENT";
     public static final String COMPLETE_USER_SHARED_PREFERENCES = "COMPLETE_USER_SHARED_PREFERENCES";
+    public static final String SURVEYOR_SHARED_PREFERENCES = "SURVEYOR_SHARED_PREFERENCES";
 
     private LinearLayout academicGuideBookBtn, eKomplainBtn, campusMapBtn, academicRegulationBtn;
     private LinearLayout userGreetingWrapper;
@@ -129,6 +130,12 @@ public class Home extends Fragment implements View.OnClickListener {
                     SharedPreferences.Editor editor = getActivity().getSharedPreferences(COMPLETE_USER_SHARED_PREFERENCES, Context.MODE_PRIVATE).edit();
                     editor.putString("complete_user", jsonData);
                     editor.apply();
+
+                    if(parsedBody.get("surveyor") != null){
+                        String surveyorString = parsedBody.get("surveyor").toString();
+                        SharedPreferences.Editor surveyorEditor = getActivity().getSharedPreferences(SURVEYOR_SHARED_PREFERENCES, Context.MODE_PRIVATE).edit();
+                        surveyorEditor.putString("surveyor", surveyorString).apply();
+                    }
 
                     user_fullname.setText(completeUser.getName());
                     user_role.setText(completeUser.getIdentitas());
