@@ -32,7 +32,7 @@
             android:orientation="horizontal"
             android:weightSum="1.0">
         <EditText
-                android:id="@+id/add_comment_text"
+                android:id="@+id/comment_form"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/medium_margin"

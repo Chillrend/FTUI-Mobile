@@ -226,7 +226,7 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
                 humanReadableStringResId = R.string.FINISHED;
                 break;
             case "REOPENED":
-                humanReadableStringResId = R.string.FINISHED;
+                humanReadableStringResId = R.string.REOPENED;
                 break;
             default:
                 humanReadableStringResId = R.string.AWAITING_FOLLOWUP;

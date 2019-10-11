@@ -3,6 +3,7 @@ package org.ftui.mobile.utils;
 import com.google.gson.JsonObject;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import org.ftui.mobile.model.keluhan.Comment;
 import org.ftui.mobile.model.keluhan.Keluhan;
 import org.ftui.mobile.model.keluhan.Ticket;
 import retrofit2.Call;
@@ -34,4 +35,10 @@ public interface ApiService {
     Call<JsonObject> submitKeluhan(@HeaderMap Map<String,String> headers, @Part("subject") RequestBody title,
                                    @Part("content") RequestBody content,@Part("location") RequestBody location,
                                    @Part("category_id") RequestBody category_id, @Part List<MultipartBody.Part> images);
+    @GET
+    Call<JsonObject> procKeluhan(@HeaderMap Map<String,String> headers, @Url String url);
+
+    @POST("/api/comments/")
+    @FormUrlEncoded
+    Call<JsonObject> submitComment(@HeaderMap Map<String,String> headers, @Field("content") String content, @Field("ticket_id") String ticket_id);
 }

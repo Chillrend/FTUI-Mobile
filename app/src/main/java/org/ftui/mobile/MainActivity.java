@@ -125,6 +125,11 @@ public class MainActivity extends AppCompatActivity
                 SharedPreferences.Editor completeEditor = getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).edit();
                 completeEditor.clear().apply();
 
+                if(LoginActivity.surveyorExist(this)){
+                    SharedPreferences.Editor surveyorEditor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).edit();
+                    surveyorEditor.clear().apply();
+                }
+
                 finish();
                 overridePendingTransition(0, 0);
                 startActivity(getIntent());

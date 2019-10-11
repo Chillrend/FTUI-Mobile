@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,14 +28,26 @@ import android.view.ViewGroup;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.esafirm.imagepicker.model.Image;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import es.dmoral.toasty.Toasty;
+import org.ftui.mobile.LoginActivity;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.CommentsAdapter;
 import org.ftui.mobile.model.Comments;
+import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.keluhan.Comment;
+import org.ftui.mobile.model.keluhan.Ticket;
+import org.ftui.mobile.utils.ApiCall;
+import org.ftui.mobile.utils.ApiService;
 import org.ftui.mobile.utils.PicassoImageLoader;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -60,11 +73,15 @@ public class ComplaintComments extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ImageButton sendCommentBtn, addImageBtn;
+    private EditText comment_form;
     private Image capturedImage;
     private Drawable imageBtnBg;
 
     private ListView commentListView;
     private ArrayList<Comment> commentArrayList;
+    private Ticket keluhan_data;
+    private CommentsAdapter commentsAdapter;
+    private User tokenUser;
 
     public ComplaintComments() {
         // Required empty public constructor
@@ -78,10 +95,11 @@ public class ComplaintComments extends Fragment {
      * @return A new instance of fragment ComplaintComments.
      */
     // TODO: Rename and change types and number of parameters
-    public static ComplaintComments newInstance(ArrayList<Comment> comments) {
+    public static ComplaintComments newInstance(ArrayList<Comment> comments, Ticket ticket) {
         ComplaintComments fragment = new ComplaintComments();
         Bundle args = new Bundle();
         args.putParcelableArrayList(ARG_PARAM1, comments);
+        args.putSerializable(ARG_PARAM2, ticket);
         fragment.setArguments(args);
         return fragment;
     }
@@ -91,6 +109,7 @@ public class ComplaintComments extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             commentArrayList = getArguments().getParcelableArrayList(ARG_PARAM1);
+            keluhan_data = (Ticket) getArguments().getSerializable(ARG_PARAM2);
         }
     }
 
@@ -103,17 +122,59 @@ public class ComplaintComments extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
+
+        Gson gson = new Gson();
+        tokenUser = gson.fromJson(getActivity().getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString("user", null), User.class);
+
         addImageBtn = view.findViewById(R.id.add_image_comment_button);
+        comment_form = view.findViewById(R.id.comment_form);
+        sendCommentBtn = view.findViewById(R.id.send_button);
         commentListView = view.findViewById(R.id.comment_list_view);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         imageBtnBg = addImageBtn.getBackground();
 
-        List<Comments> mockApiCommentList = Comments.mockCommentsData();
+        sendCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(comment_form.getText().toString().trim().equals("")){
+                    Toasty.error(getContext(), R.string.all_field_is_required).show();
+                    return;
+                }
+                HashMap<String,String> headerMap = new HashMap<>();
+                headerMap.put("accept", "application/json");
+                headerMap.put("Authorization", "Bearer " + tokenUser.getToken());
 
-        CommentsAdapter adapter = new CommentsAdapter(commentArrayList, getActivity());
-        commentListView.setAdapter(adapter);
+                ApiService service = ApiCall.getClient().create(ApiService.class);
+                Call<JsonObject> call = service.submitComment(headerMap, comment_form.getText().toString().trim(), keluhan_data.getId().toString());
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if(response.errorBody() != null){
+                            Toasty.error(getContext(), "Can't submit comment (err: errorBody not empty)", Toasty.LENGTH_LONG).show();
+                            Log.e("OnResponse", "error Body not null -> " + response.errorBody().toString());
+                            return;
+                        }
+                        Toasty.success(getContext(), R.string.comment_successfully_added, Toasty.LENGTH_SHORT).show();
+                        JsonObject json = response.body();
+                        Gson gson = new Gson();
+                        Comment comment = gson.fromJson(json.get("comment").toString(), Comment.class);
+                        commentArrayList.add(comment);
+                        commentsAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Toasty.error(getContext(), "Please check your internet connection", Toasty.LENGTH_LONG).show();
+                        t.printStackTrace();
+                    }
+                });
+            }
+        });
+
+        commentsAdapter = new CommentsAdapter(commentArrayList, getActivity());
+        commentListView.setAdapter(commentsAdapter);
         ImagePicker imagePicker = ImagePicker
                 .create(this)
                 .enableLog(true)

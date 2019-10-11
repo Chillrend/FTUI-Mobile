@@ -1,6 +1,7 @@
 package org.ftui.mobile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.util.Log;
@@ -14,7 +15,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.fragment.ComplaintComments;
 import org.ftui.mobile.fragment.ComplaintDescription;
 import org.ftui.mobile.fragment.Home;
@@ -25,6 +28,11 @@ import org.ftui.mobile.model.keluhan.Ticket;
 import org.ftui.mobile.model.surveyor.Details;
 import org.ftui.mobile.model.surveyor.Surveyor;
 import org.ftui.mobile.model.surveyor.SurveyorResponse;
+import org.ftui.mobile.utils.ApiCall;
+import org.ftui.mobile.utils.ApiService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -103,7 +111,7 @@ public class KeluhanDetail extends AppCompatActivity implements
                             commentTransDrawable.startTransition(300);
                             switcherStateAtComplaintDetail = false;
 
-                            Fragment fr = ComplaintComments.newInstance(keluhan_comment);
+                            Fragment fr = ComplaintComments.newInstance(keluhan_comment, keluhan_data);
 
                             getSupportFragmentManager()
                                     .beginTransaction()
@@ -120,15 +128,19 @@ public class KeluhanDetail extends AppCompatActivity implements
         commentSwitcher.setOnClickListener(mHandler);
     }
 
+    protected void reDrawActivityBasedOnComplaintId(String id){
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         if(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).contains("complete_user")){
             Gson gson = new Gson();
             CompleteUser user = gson.fromJson(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null), CompleteUser.class);
-            if(LoginActivity.isSurveyor(this)){
-                String spSurveyor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).getString("surveyor", null);
-
+            String spSurveyor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).getString("surveyor", null);
+            if(spSurveyor != null && !spSurveyor.equals("[]")){
+                Log.d("AWE ", spSurveyor);
                 Type listType = new TypeToken<List<Surveyor>>() {}.getType();
                 List<Surveyor> surveyors = gson.fromJson(spSurveyor, listType);
 
@@ -142,13 +154,13 @@ public class KeluhanDetail extends AppCompatActivity implements
                     }
                 }
 
-            }else if(user.getId() == keluhan_data.getUser().getId()){
-                getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu_user, menu);
-
-            }else if(keluhan_data.getStatus().getName().equals("FINISHED")){
+            }else if(keluhan_data.getStatus().getName().equals("FINISHED") && user.getId() == keluhan_data.getUser().getId()){
                 getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu, menu);
                 MenuItem item = menu.getItem(0);
                 item.setTitle(R.string.FINISHED_OM);
+            }else if(user.getId() == keluhan_data.getUser().getId()){
+                getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu_user, menu);
+
             }
         }
         return true;
@@ -201,7 +213,31 @@ public class KeluhanDetail extends AppCompatActivity implements
                 headerMap.put("Authorization", "Bearer " + tokenUser.getToken());
 
                 String url = buildProcessUrl(evalStatusToAPIMethod(keluhan_data.getStatus().getName()), keluhan_data.getId());
-                Log.d("TAG", "buildedURL: " + url);
+                ApiService service = ApiCall.getClient().create(ApiService.class);
+                Call<JsonObject> call = service.procKeluhan(headerMap, url);
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if(response.errorBody() != null){
+                            Toasty.error(KeluhanDetail.this, "Can't elevate Complaint (err: errorBody not empty)", Toasty.LENGTH_LONG).show();
+                            Log.e("OnResponse", "error Body not null -> " + response.errorBody().toString());
+                            return;
+                        }
+                        JsonObject jsonResponse = response.body();
+                        String success_message = jsonResponse.get("message").toString();
+                        Toasty.success(KeluhanDetail.this, success_message, Toasty.LENGTH_LONG).show();
+                        finish();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        t.printStackTrace();
+                        Toasty.error(KeluhanDetail.this, "Please check your internet connection", Toasty.LENGTH_LONG).show();
+                        Log.e("OnFailure", t.getMessage());
+
+                    }
+                });
 
                 break;
             case R.id.delete_complaint:

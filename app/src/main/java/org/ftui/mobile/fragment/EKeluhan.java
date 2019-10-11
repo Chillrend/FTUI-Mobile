@@ -345,6 +345,20 @@ public class EKeluhan extends Fragment{
         setMultipleParam(returnedData);
     }
 
+    @Override
+    public void onResume() {
+        loadingLayout.startShimmer();
+
+        String url = buildGetKeluhanUrl(null, includeParam, otherParam);
+
+        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
+
+        Map<String, Object> returnedData = gk.getKeluhanToRv(url,true, null);
+        setMultipleParam(returnedData);
+
+        super.onResume();
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

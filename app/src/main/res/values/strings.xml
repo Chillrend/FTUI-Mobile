@@ -98,7 +98,9 @@
     <string name="complaint_description">Deskripsi Keluhan</string>
     <string name="comments">Komentar</string>
     <string name="complaint_status">Status Keluhan</string>
-    <string name="complaint_daycount_since_submitted">%1$d %2$s sejak keluhan diajukan</string>
+    <string name="complaint_daycount_since_submitted">%1$d %2$s sejak keluhan %3$s</string>
+    <string name="submitted">diajukan</string>
+    <string name="reopen">dibuka kembali</string>
     <string name="object_take_picture_info">Ambil gambar yang menjelaskan tentang keluhan</string>
     <string name="next">Selanjutnya</string>
     <string name="maximum_picture_reached_notification">Anda telah mencapai jumlah gambar maksimum, silahkan hapus gambar untuk mengganti gambar tersebut</string>
@@ -128,4 +130,5 @@
     <string name="add">Tambahkan</string>
     <string name="no_privilege_to_access_complaint">Anda tidak memiliki hak untuk mengakses daftar keluhan</string>
     <string name="all_field_is_required">Harap isi semua kolom</string>
+    <string name="comment_successfully_added">Komentar berhasil ditambahkan</string>
 </resources>

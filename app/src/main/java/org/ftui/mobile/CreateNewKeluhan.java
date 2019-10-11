@@ -218,7 +218,7 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
 
         RequestBody subjectStr = RequestBody.create(MultipartBody.FORM, subject.getText().toString().trim());
         RequestBody contentStr = RequestBody.create(MultipartBody.FORM, content.getText().toString().trim());
-        RequestBody locationStr = RequestBody.create(MultipartBody.FORM, content.getText().toString().trim());
+        RequestBody locationStr = RequestBody.create(MultipartBody.FORM, location.getText().toString().trim());
         RequestBody categoryStr = RequestBody.create(MultipartBody.FORM, complaint_type_constraint);
 
         List<File> compressedImage = new ArrayList<>();
@@ -295,6 +295,7 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
         JsonObject ticket = parsedRes.getAsJsonObject("ticket");
         String id = ticket.get("id").getAsString();
         Toasty.success(this, "Successfully submitted ticket, ID -> " + id, Toasty.LENGTH_LONG).show();
+        finish();
     }
 
     @Override

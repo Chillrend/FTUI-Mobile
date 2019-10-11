@@ -141,14 +141,16 @@ public class ComplaintDescription extends Fragment {
 
         complaintDescription.setText(keluhan_data.getContent());
 
+
+        Status status = keluhan_data.getStatus();
+
         Map<Integer, Long> dateDiffs = TimeUtils.getDateDiffFromNow(new Date(keluhan_data.getCreatedunix()*1000));
         String daySinceSubmit = "";
         for(Map.Entry<Integer,Long> entry : dateDiffs.entrySet()){
             String unit = getContext().getString(entry.getKey());
-            daySinceSubmit = getString(R.string.complaint_daycount_since_submitted, entry.getValue(), unit);
+            daySinceSubmit = getString(R.string.complaint_daycount_since_submitted, entry.getValue(), unit, getString(R.string.submitted));
         }
 
-        Status status = keluhan_data.getStatus();
         if(status.getName().equals("FINISHED")){
             complaintDaySinceSubmmit.setVisibility(View.GONE);
         }else{
