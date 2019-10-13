@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@drawable/notification_item_background"
+              android:layout_marginBottom="@dimen/small_margin"
+            >
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/medium_padding">
+        <ImageView
+                android:id="@+id/notification_type_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_check_circle_success_24dp"/>
+        <TextView
+                android:id="@+id/notification_type_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/medium_margin"
+                android:layout_toRightOf="@id/notification_type_icon"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="Keluhan telah ditangani"/>
+        <TextView
+                android:id="@+id/notification_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/medium_margin"
+                android:layout_toRightOf="@id/notification_type_icon"
+                android:justificationMode="inter_word"
+                android:layout_below="@id/notification_type_text"
+                android:fontFamily="sans-serif-light"
+                android:text="Keluhan Anda tentang &quot;Broken Glaz&quot; telah ditangani. Anda dapat membuka keluhan kembali jika anda tidak puas dengan hasil penanganan."
+                />
+    </RelativeLayout>
+
+</LinearLayout>

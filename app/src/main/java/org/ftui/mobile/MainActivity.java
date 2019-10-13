@@ -23,10 +23,11 @@ import android.view.MenuItem;
 import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.fragment.EKeluhan;
 import org.ftui.mobile.fragment.Home;
+import org.ftui.mobile.fragment.NotificationFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Home.OnFragmentInteractionListener,
-        EKeluhan.OnFragmentInteractionListener{
+        EKeluhan.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener{
 
     private boolean userPrefExist;
 
@@ -96,18 +97,23 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if (id == R.id.notification_button){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_frame, new NotificationFragment(), NotificationFragment.NOTIFICATION_FRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fr = new Fragment();
-        String fr_tag = "";
+        String fr_tag;
 
         if(id == R.id.nav_home){
             fr = new Home();

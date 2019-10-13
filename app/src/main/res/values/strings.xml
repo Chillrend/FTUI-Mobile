@@ -49,7 +49,6 @@
     <string name="FINISHED_OM">Buka kembali keluhan</string>
 
 
-
     <!--Complaint Type-->
     <string name="FACILITIES_AND_INFRASTRUCTURE">Sarana dan Prasarana</string>
     <string name="BUILDINGS">Gedung</string>
@@ -131,4 +130,5 @@
     <string name="no_privilege_to_access_complaint">Anda tidak memiliki hak untuk mengakses daftar keluhan</string>
     <string name="all_field_is_required">Harap isi semua kolom</string>
     <string name="comment_successfully_added">Komentar berhasil ditambahkan</string>
+    <string name="notification">Notifikasi</string>
 </resources>
