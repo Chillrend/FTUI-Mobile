@@ -131,4 +131,6 @@
     <string name="all_field_is_required">Harap isi semua kolom</string>
     <string name="comment_successfully_added">Komentar berhasil ditambahkan</string>
     <string name="notification">Notifikasi</string>
+    <string name="complaint_deleted_successfully">Sukses menghapus keluhan</string>
+    <string name="delete_complaint_confirmation">Apakah anda yakin untuk menghapus entri keluhan ?</string>
 </resources>

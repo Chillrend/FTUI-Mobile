@@ -1,5 +1,6 @@
 package org.ftui.mobile;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.TransitionDrawable;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -207,6 +209,9 @@ public class KeluhanDetail extends AppCompatActivity implements
 
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                return true;
             case R.id.elevate_complaint_status:
                 HashMap<String,String> headerMap = new HashMap<>();
                 headerMap.put("accept", "application/json");
@@ -241,11 +246,49 @@ public class KeluhanDetail extends AppCompatActivity implements
 
                 break;
             case R.id.delete_complaint:
-                break;
             case R.id.delete_complaint_user:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.delete_complaint)
+                        .setMessage(R.string.delete_complaint_confirmation)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                delete_complaint(keluhan_data.getId(), tokenUser.getToken());
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
                 break;
         }
         return true;
+    }
+
+    public void delete_complaint(int id, String token){
+        HashMap<String,String> headerMap = new HashMap<>();
+        headerMap.put("accept", "application/json");
+        headerMap.put("Authorization", "Bearer " + token);
+
+        ApiService service = ApiCall.getClient().create(ApiService.class);
+        Call<JsonObject> call = service.deleteKeluhan(id, headerMap);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.errorBody() != null){
+                    Toasty.error(KeluhanDetail.this, "Can't delete Complaint (err: errorBody not empty)", Toasty.LENGTH_LONG).show();
+                    Log.e("Delete : OnResponse", "error Body not null -> " + response.errorBody().toString());
+                    return;
+                }
+
+                Toasty.success(KeluhanDetail.this, R.string.complaint_deleted_successfully, Toasty.LENGTH_LONG).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                t.printStackTrace();
+                Toasty.error(KeluhanDetail.this, "Please check your internet connection", Toasty.LENGTH_LONG).show();
+                Log.e("Delete : OnFailure", t.getMessage());
+            }
+        });
     }
 
     public static String buildProcessUrl(String method, Integer id){

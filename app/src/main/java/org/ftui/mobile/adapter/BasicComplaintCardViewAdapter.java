@@ -160,43 +160,8 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch(item.getItemId()){
-                            case R.id.delete_item:
-                                Snackbar sb = Snackbar.make(cardViewViewHolder.cv,"Keluhan Akan Dihapus", Snackbar.LENGTH_LONG);
-
-                                View sbView = sb.getView();
-                                sbView.setBackgroundColor(ContextCompat.getColor(appContext, R.color.colorPrimaryDark));
-
-                                TextView sbTextView = sbView.findViewById(com.google.android.material.R.id.snackbar_text);
-                                sbTextView.setTextColor(ContextCompat.getColor(appContext, R.color.white));
-
-                                sb.setActionTextColor(ContextCompat.getColor(appContext, R.color.white));
-                                sb.setAction(appContext.getString(R.string.undo), new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Toasty.info(appContext, "Task Failed Successfully", Toasty.LENGTH_LONG).show();
-                                    }
-                                });
-                                sb.addCallback(new Snackbar.Callback(){
-                                   @Override
-                                   public void onDismissed(Snackbar snackbar, int event){
-                                        if(event == Snackbar.Callback.DISMISS_EVENT_SWIPE || event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE || event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT){
-                                            Toasty.info(appContext, "Keluhan Deleted Successfully", Toasty.LENGTH_LONG).show();
-                                        }
-                                   }
-
-                                   @Override
-                                    public void onShown(Snackbar snackbar){
-
-                                   }
-                                });
-                                sb.show();
-                                return true;
-                            case R.id.edit_item:
-                                Toast.makeText(appContext, "Clicked Edit", Toast.LENGTH_SHORT).show();
-                                return true;
                             case R.id.see_detailed_complaint:
-                                Intent i = new Intent(appContext, KeluhanDetail.class);
-                                appContext.startActivity(i);
+                                onKeluhanClicklistener.onKeluhanClick(i);
                             default:
                                 return false;
                         }

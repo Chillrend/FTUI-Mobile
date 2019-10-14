@@ -1,5 +1,6 @@
 package org.ftui.mobile.utils;
 
+import androidx.room.Delete;
 import com.google.gson.JsonObject;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -41,4 +42,7 @@ public interface ApiService {
     @POST("/api/comments/")
     @FormUrlEncoded
     Call<JsonObject> submitComment(@HeaderMap Map<String,String> headers, @Field("content") String content, @Field("ticket_id") String ticket_id);
+
+    @DELETE("/api/keluhan/{id}")
+    Call<JsonObject> deleteKeluhan(@Path("id") int id ,@HeaderMap  Map<String,String> headers);
 }
