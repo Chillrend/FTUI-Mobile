@@ -57,6 +57,8 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
     private Button addImageButton, clearImageButton;
     private Button submitKeluhanButton;
 
+    private ImagePicker imagePicker;
+
     private TextInputEditText subject, content, location;
 
     public static void setImageList(List<Image> imageList) {
@@ -119,17 +121,20 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
         addImageButton = findViewById(R.id.add_image_button);
         clearImageButton = findViewById(R.id.clear_image_button);
 
-        ImagePicker imagePicker =  ImagePicker
-                .create(this)
-                .enableLog(true)
-                .limit(4)
-                .returnMode(ReturnMode.NONE)
-                .imageLoader(new PicassoImageLoader());
-
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imagePicker.start();
+                if(imageList.size() < 4){
+                    imagePicker = ImagePicker.create(CreateNewKeluhan.this)
+                            .enableLog(true)
+                            .limit(4 - imageList.size())
+                            .returnMode(ReturnMode.NONE)
+                            .imageLoader(new PicassoImageLoader());
+                    imagePicker.start();
+                }else{
+                    Toasty.info(CreateNewKeluhan.this, R.string.max_image_limit_reached, Toasty.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -162,12 +167,6 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
 
             messageWrapper.setVisibility(View.GONE);
             clearImageButton.setClickable(true);
-
-            if(imageList.size() == 4){
-                addImageButton.setClickable(false);
-            }else{
-                addImageButton.setClickable(true);
-            }
 
             Log.d("TAG", "imageList size : " + imageList.size());
         }
@@ -300,6 +299,8 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onFailure(Call<JsonObject> call, Throwable t) {
-
+        t.printStackTrace();
+        Toasty.error(this,"Error submiting complaint (Err : errorBody not null)").show();
+        Log.e("onResponse", "Error : " + t.getMessage());
     }
 }

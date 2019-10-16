@@ -133,4 +133,5 @@
     <string name="notification">Notifikasi</string>
     <string name="complaint_deleted_successfully">Sukses menghapus keluhan</string>
     <string name="delete_complaint_confirmation">Apakah anda yakin untuk menghapus entri keluhan ?</string>
+    <string name="max_image_limit_reached">Anda telah mencapai jumlah maksimal gambar yang diizinkan</string>
 </resources>

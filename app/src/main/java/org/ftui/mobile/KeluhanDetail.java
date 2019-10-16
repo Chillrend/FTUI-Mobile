@@ -130,9 +130,6 @@ public class KeluhanDetail extends AppCompatActivity implements
         commentSwitcher.setOnClickListener(mHandler);
     }
 
-    protected void reDrawActivityBasedOnComplaintId(String id){
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
