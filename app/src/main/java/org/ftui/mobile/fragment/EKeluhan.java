@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.gson.Gson;
 import es.dmoral.toasty.Toasty;
 import okhttp3.HttpUrl;
@@ -60,7 +62,7 @@ public class EKeluhan extends Fragment{
     private CompleteUser user;
     private User userTokenMdl;
 
-    private RadioGroup keluhanTypeFilterFirstGroup, statusFilterFirstGroup;
+    private ChipGroup typeGroup, statusGroup;
 
     private String typeFilter, statusFilter;
     private String baseImgurl;
@@ -181,10 +183,7 @@ public class EKeluhan extends Fragment{
         return inflater.inflate(R.layout.fragment_ekeluhan, container, false);
     }
 
-    public void logMe(int checkedId){
-        Log.d("onLogMe", getResources().getResourceEntryName(checkedId));
 
-    }
 
     private void setMultipleParam(Map<String,Object> returnedData){
         responseMeta = (Metum) returnedData.get("meta");
@@ -217,19 +216,21 @@ public class EKeluhan extends Fragment{
             public void onClick(View v) {
                 View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_filter_dialog, (ViewGroup) getView(), false);
 
-                keluhanTypeFilterFirstGroup = dialogView.findViewById(R.id.keluhan_type_radio_button_group_1);
+                typeGroup = dialogView.findViewById(R.id.keluhan_type_radio_button_group_1);
+                typeGroup.setSingleSelection(true);
 
-                statusFilterFirstGroup = dialogView.findViewById(R.id.keluhan_status_radio_button_group_1);
+                statusGroup = dialogView.findViewById(R.id.keluhan_status_radio_button_group_1);
+                statusGroup.setSingleSelection(true);
 
-                RadioButton typeChecked = dialogView.findViewById(typeCheckedId);
+                Chip typeChecked = dialogView.findViewById(typeCheckedId);
                 typeChecked.setChecked(true);
 
-                RadioButton statusChecked = dialogView.findViewById(statusCheckedId);
+                Chip statusChecked = dialogView.findViewById(statusCheckedId);
                 statusChecked.setChecked(true);
 
-                keluhanTypeFilterFirstGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                typeGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
                     @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    public void onCheckedChanged(ChipGroup chipGroup, int checkedId) {
                         typeId = 1;
                         switch (checkedId){
                             case R.id.facilities_and_infrastructure_filter_radio_button:
@@ -252,14 +253,13 @@ public class EKeluhan extends Fragment{
                                 break;
                         }
                         typeCheckedId = checkedId;
-                        logMe(typeCheckedId);
                     }
                 });
 
 
-                statusFilterFirstGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                statusGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
                     @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    public void onCheckedChanged(ChipGroup group, int checkedId) {
                         statusId = 1;
                         switch (checkedId){
                             case R.id.awaiting_follow_up_filter_radio_button:
@@ -276,7 +276,6 @@ public class EKeluhan extends Fragment{
                                 break;
                         }
                         statusCheckedId = checkedId;
-                        logMe(checkedId);
                     }
                 });
 

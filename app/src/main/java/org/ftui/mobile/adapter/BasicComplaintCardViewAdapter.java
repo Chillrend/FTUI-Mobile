@@ -130,7 +130,7 @@ public class BasicComplaintCardViewAdapter extends RecyclerView.Adapter<BasicCom
                 .oval(false)
                 .build();
         List<Gambar> gambar = itemList.get(i).getGambar();
-        if(gambar.size() > 1){
+        if(gambar.size() > 0){
             Picasso.get().load(imageBaseUrl + gambar.get(0).getImage()).transform(coverImageTransformation).fit().into(cardViewViewHolder.coverImage);
         }else{
             Picasso.get().load(R.drawable.placeholder_no_image_wide).transform(coverImageTransformation).fit().into(cardViewViewHolder.coverImage);

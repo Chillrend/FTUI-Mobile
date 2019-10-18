@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#2A2E43</color>
     <color name="colorPrimaryDark">#212435</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#665EFF</color>
 
     <!--drawablecolor-->
     <color name="drawer_blue">#1592E6</color>

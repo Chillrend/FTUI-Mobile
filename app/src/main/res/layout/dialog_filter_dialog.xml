@@ -7,87 +7,104 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/small_margin"
             android:layout_marginBottom="@dimen/small_margin"
             android:text="@string/filter_based_on_complaint_type"/>
-    <RadioGroup
+    <com.google.android.material.chip.ChipGroup
             android:id="@+id/keluhan_type_radio_button_group_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <RadioButton
+        <com.google.android.material.chip.Chip
                 android:id="@+id/facilities_and_infrastructure_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/FACILITIES_AND_INFRASTRUCTURE"
-                android:theme="@style/RadioBtn"/>
-        <RadioButton
+                style="@style/Widget.MaterialComponents.Chip.Filter"/>
+        <com.google.android.material.chip.Chip
                 android:id="@+id/buildings_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/BUILDINGS"
-                android:theme="@style/RadioBtn"/>
-        <RadioButton
+                style="@style/Widget.MaterialComponents.Chip.Filter"/>
+        <com.google.android.material.chip.Chip
                 android:id="@+id/human_resource_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/HUMAN_RESOURCE"
-                android:theme="@style/RadioBtn"/>
-        <RadioButton
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                />
+        <com.google.android.material.chip.Chip
                 android:id="@+id/cleaning_and_gardening_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/CLEANING_AND_GARDENING"
-                android:theme="@style/RadioBtn"/>
-        <RadioButton
+                style="@style/Widget.MaterialComponents.Chip.Filter"/>
+        <com.google.android.material.chip.Chip
                 android:id="@+id/incidents_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/INCIDENT_AND_RULE_VIOLATION"
-                android:theme="@style/RadioBtn"/>
-        <RadioButton
+                style="@style/Widget.MaterialComponents.Chip.Filter"/>
+        <com.google.android.material.chip.Chip
                 android:id="@+id/other_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/OTHERS"
-                android:theme="@style/RadioBtn"/>
-    </RadioGroup>
+                style="@style/Widget.MaterialComponents.Chip.Filter"/>
+    </com.google.android.material.chip.ChipGroup>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
             android:layout_marginBottom="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/small_margin"
+
             android:text="@string/filter_based_on_complaint_status"/>
-    <RadioGroup
+    <com.google.android.material.chip.ChipGroup
             android:id="@+id/keluhan_status_radio_button_group_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <RadioButton
+        <com.google.android.material.chip.Chip
                 android:id="@+id/awaiting_follow_up_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/AWAITING_FOLLOWUP"
-                android:theme="@style/RadioBtn"/>
-        <RadioButton
+                style="@style/Widget.MaterialComponents.Chip.Filter"/>
+        <com.google.android.material.chip.Chip
                 android:id="@+id/is_being_followed_up_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/IS_BEING_FOLLOWED_UP"
-                android:theme="@style/RadioBtn"/>
-        <RadioButton
+                style="@style/Widget.MaterialComponents.Chip.Filter"/>
+        <com.google.android.material.chip.Chip
                 android:id="@+id/done_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/FINISHED"
-                android:theme="@style/RadioBtn"
-                />
-        <RadioButton
+                style="@style/Widget.MaterialComponents.Chip.Filter"/>
+        <com.google.android.material.chip.Chip
                 android:id="@+id/reopened_filter_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/REOPENED"
-                android:theme="@style/RadioBtn"/>
-    </RadioGroup>
+                style="@style/Widget.MaterialComponents.Chip.Filter"/>
+    </com.google.android.material.chip.ChipGroup>
 
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:text="@string/only_show_my_complaint"/>
+
+    <com.google.android.material.chip.Chip
+            android:id="@+id/my_complaint_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_complaint"
+            style="@style/Widget.MaterialComponents.Chip.Filter"/>
 </LinearLayout>

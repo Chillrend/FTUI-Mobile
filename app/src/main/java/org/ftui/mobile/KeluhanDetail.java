@@ -61,6 +61,7 @@ public class KeluhanDetail extends AppCompatActivity implements
         setContentView(R.layout.activity_keluhan_detail);
         Intent i = getIntent();
 
+
         keluhan_data = (Ticket) i.getSerializableExtra("keluhan_data");
         List<Comment> comment = keluhan_data.getComments();
         keluhan_comment = new ArrayList<>(comment.size());
@@ -71,6 +72,7 @@ public class KeluhanDetail extends AppCompatActivity implements
         tokenUser = gson.fromJson(getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).getString("user", null), User.class);
         user = gson.fromJson(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null), CompleteUser.class);
 
+        Log.d("DEBUG", "onCreate: " + gson.toJson(keluhan_data));
 
         Fragment fr = ComplaintDescription.newInstance(keluhan_data, baseImgUrl);
 
