@@ -102,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).edit();
 
-                            User userStoreCache = new User(username, token);
+                            User userStoreCache = new User(username, token, "unknownfbid");
 
                             Gson jsonUtil = new Gson();
                             String stringifiedUserCache = jsonUtil.toJson(userStoreCache);

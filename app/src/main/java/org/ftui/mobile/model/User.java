@@ -3,11 +3,23 @@ package org.ftui.mobile.model;
 public class User {
     private String email;
     private String token;
+    private String fbtoken;
 
-    public User(String email, String token) {
+    public String getFbtoken() {
+        return fbtoken;
+    }
+
+    public void setFbtoken(String fbtoken) {
+        this.fbtoken = fbtoken;
+    }
+
+
+    public User(String email, String token, String fbtoken) {
         this.email = email;
 
         this.token = token;
+
+        this.fbtoken = fbtoken;
     }
 
     public String getEmail() {

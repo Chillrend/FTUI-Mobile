@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,13 +14,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
 import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.model.User;
+import org.ftui.mobile.model.surveyor.Details;
+import org.ftui.mobile.model.surveyor.Surveyor;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
+import org.ftui.mobile.service.FirebaseInstance;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -132,9 +145,48 @@ public class LoginActivity extends AppCompatActivity {
                 JsonObject succes_obj = parsed_res.get("success").getAsJsonObject();
                 String token = succes_obj.get("token").getAsString();
 
+                String fbtoken = getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
+                User userStoreCache = new User(email.getText().toString().trim(), token, fbtoken);
+                Gson gson = new Gson();
+                String spSurveyor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).getString("surveyor", null);
+                if(spSurveyor != null && !spSurveyor.equals("[]")) {
+                    Log.d("AWE ", spSurveyor);
+                    Type listType = new TypeToken<List<Surveyor>>() {
+                    }.getType();
+                    List<Surveyor> surveyors = gson.fromJson(spSurveyor, listType);
+
+                    for (Surveyor surveyor : surveyors) {
+                        Details det = surveyor.getDetails();
+                        String name = det.getName();
+                        FirebaseMessaging.getInstance().subscribeToTopic(name);
+                    }
+                }
+//                JsonArray myrole = (JsonArray) succes_obj.get("surveyor");
+                    HashMap<String,String> headerMap = new HashMap<>();
+                    headerMap.put("accept", "application/json");
+                    headerMap.put("Authorization", "Bearer " + token);
+                    Call<JsonObject> called = service.updatetoken(headerMap, fbtoken);
+                    called.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if(response.errorBody() == null){
+                            Toasty.info(getApplicationContext(), "initialized").show();
+                        }else{
+                            Toasty.info(getApplicationContext(), "notinitialized").show();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Toasty.info(getApplicationContext(), "Failed to Register").show();
+                        t.printStackTrace();
+                    }
+                });
                 SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).edit();
 
-                User userStoreCache = new User(email.getText().toString().trim(), token);
+
 
                 Gson jsonUtil = new Gson();
                 String stringifiedUserCache = jsonUtil.toJson(userStoreCache);
