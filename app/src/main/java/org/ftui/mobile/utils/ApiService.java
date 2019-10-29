@@ -21,9 +21,15 @@ public interface ApiService {
                               @Field("c_password") String confirm_password, @Field("orgcode") String org_code,
                               @Field("faculty") String faculty, @Field("studyprog") String study_prog,
                               @Field("identitas") String identitas, @Field("noidentitas") String no_identitas);
+
+    @FormUrlEncoded
+    @POST("/api/updateToken/")
+    Call<JsonObject> updatetoken(@HeaderMap Map<String,String> headers,@Field("token") String token);
+
     @FormUrlEncoded
     @POST("/api/plogin/")
     Call<JsonObject> login(@Field("email") String username, @Field("password") String password);
+
 
     @GET("/api/myaccount")
     Call<JsonObject> amialive(@Header("Accept") String accept, @Header("Authorization") String bearer);
