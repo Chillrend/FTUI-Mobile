@@ -27,10 +27,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import org.ftui.mobile.adapter.PhotosAdapter;
-import org.ftui.mobile.utils.ApiCall;
-import org.ftui.mobile.utils.ApiService;
-import org.ftui.mobile.utils.ItemDecorator;
-import org.ftui.mobile.utils.PicassoImageLoader;
+import org.ftui.mobile.utils.*;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,6 +57,7 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
     private ImagePicker imagePicker;
 
     private TextInputEditText subject, content, location;
+    private PDialog pDialog;
 
     public static void setImageList(List<Image> imageList) {
         imageList = imageList;
@@ -76,6 +74,9 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_keluhan);
+
+        pDialog = new PDialog(this);
+        pDialog.buildDialog();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.fill_complaint_detail));
@@ -203,7 +204,7 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
 
     private void submitKeluhan(){
         if(!LoginActivity.completeUserPrefExist(this)) return;
-
+        pDialog.showDialog();
         String token = LoginActivity.getUserToken(this);
 
         Map<String, String> headerMap = new HashMap<>();
@@ -212,6 +213,7 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
 
         if(subject.getText().toString().trim().equals("") || content.getText().toString().trim().equals("") || location.getText().toString().trim().equals("")){
             Toasty.error(this, getString(R.string.all_field_is_required)).show();
+            pDialog.dismissDialog();
             return;
         }
 
@@ -231,6 +233,7 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
             }catch (IOException e){
                 e.printStackTrace();
                 Log.d("onCompressingImage", "IOException -> " + e.getMessage());
+                pDialog.dismissDialog();
             }
         }
         List<MultipartBody.Part> uploadFile = new ArrayList<>();
@@ -287,12 +290,14 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
         if(response.errorBody() != null || response.body().get("success") == null){
             Toasty.error(this,"Error submiting complaint (Err : errorBody not null)").show();
             Log.e("onResponse", "errorBody not null ->" + response.errorBody());
+            pDialog.dismissDialog();
             return;
         }
 
         JsonObject parsedRes = response.body();
         JsonObject ticket = parsedRes.getAsJsonObject("ticket");
         String id = ticket.get("id").getAsString();
+        pDialog.dismissDialog();
         Toasty.success(this, "Successfully submitted ticket, ID -> " + id, Toasty.LENGTH_LONG).show();
         finish();
     }
@@ -300,6 +305,7 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
     @Override
     public void onFailure(Call<JsonObject> call, Throwable t) {
         t.printStackTrace();
+        pDialog.dismissDialog();
         Toasty.error(this,"Error submiting complaint (Err : errorBody not null)").show();
         Log.e("onResponse", "Error : " + t.getMessage());
     }
