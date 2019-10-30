@@ -85,6 +85,7 @@ public class EKeluhan extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    String baseUrl = "http://pengaduan.ccit-solution.com/api/keluhan?";
     private GetKeluhanIntoRecyclerView gk;
     private List<String> includeParam = new ArrayList<>();
     HashMap<String, String> otherParam = new HashMap<String, String>();
@@ -150,8 +151,8 @@ public class EKeluhan extends Fragment{
         }
     }
 
-    public static String buildGetKeluhanUrl(HashMap<String, Integer>filterParam, List<String> includeParam, HashMap<String, String> parameter){
-        StringBuilder urlBuilder = new StringBuilder("http://pengaduan.ccit-solution.com/api/keluhan?");
+    public static String buildGetKeluhanUrl(String baseUrl, HashMap<String, Integer>filterParam, List<String> includeParam, HashMap<String, String> parameter){
+        StringBuilder urlBuilder = new StringBuilder(baseUrl);
         if(filterParam != null){
             Iterator filterIterator = filterParam.entrySet().iterator();
             int i = 0;
@@ -224,13 +225,27 @@ public class EKeluhan extends Fragment{
 
                 Chip typeChecked = dialogView.findViewById(typeCheckedId);
                 typeChecked.setChecked(true);
+                typeChecked.setClickable(false);
 
                 Chip statusChecked = dialogView.findViewById(statusCheckedId);
                 statusChecked.setChecked(true);
+                statusChecked.setClickable(false);
+
+                Chip myComplaint = dialogView.findViewById(R.id.my_complaint_chip);
 
                 typeGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(ChipGroup chipGroup, int checkedId) {
+
+                        //Make selected chip unclickable
+                        Chip chip = dialogView.findViewById(typeGroup.getCheckedChipId());
+                        if (chip != null) {
+                            for (int i = 0; i < typeGroup.getChildCount(); ++i) {
+                                typeGroup.getChildAt(i).setClickable(true);
+                            }
+                            chip.setClickable(false);
+                        }
+
                         typeId = 1;
                         switch (checkedId){
                             case R.id.facilities_and_infrastructure_filter_radio_button:
@@ -260,6 +275,17 @@ public class EKeluhan extends Fragment{
                 statusGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(ChipGroup group, int checkedId) {
+
+                        //Make selected chip unclickable
+                        Chip chip = dialogView.findViewById(statusGroup.getCheckedChipId());
+                        if (chip != null) {
+                            for (int i = 0; i < statusGroup.getChildCount(); ++i) {
+                                statusGroup.getChildAt(i).setClickable(true);
+                            }
+                            chip.setClickable(false);
+                        }
+
+
                         statusId = 1;
                         switch (checkedId){
                             case R.id.awaiting_follow_up_filter_radio_button:
@@ -284,22 +310,26 @@ public class EKeluhan extends Fragment{
                 builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(statusId != null && typeId != null){
+                        if(myComplaint.isChecked()){
+                            String base = "http://pengaduan.ccit-solution.com/api/mykeluhan?";
+                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(base, null, includeParam, otherParam), false, true);
+                            setMultipleParam(returnedData);
+                        }else if(statusId != null && typeId != null){
                             HashMap<String, Integer> filterParam = new HashMap<>();
                             filterParam.put("status_id", statusId);
                             filterParam.put("category_id", typeId);
 
-                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(filterParam, includeParam, otherParam), false, true);
+                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(baseUrl, filterParam, includeParam, otherParam), false, true);
                             setMultipleParam(returnedData);
                         }else if(statusId != null){
                             HashMap<String, Integer> filterParam = new HashMap<>();
                             filterParam.put("status_id", statusId);
-                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(filterParam, includeParam, otherParam), false, true);
+                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(baseUrl, filterParam, includeParam, otherParam), false, true);
                             setMultipleParam(returnedData);
                         }else if(typeId != null){
                             HashMap<String, Integer> filterParam = new HashMap<>();
                             filterParam.put("category_id", typeId);
-                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(filterParam, includeParam, otherParam), false, true);
+                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(baseUrl, filterParam, includeParam, otherParam), false, true);
                             setMultipleParam(returnedData);
                         }
                     }
@@ -309,8 +339,7 @@ public class EKeluhan extends Fragment{
                     public void onClick(DialogInterface dialog, int which) {
                         typeId = null;
                         statusId = null;
-
-                        String url = buildGetKeluhanUrl(null, includeParam, otherParam);
+                        String url = buildGetKeluhanUrl(baseUrl, null, includeParam, otherParam);
                         Map<String, Object> returnedData = gk.getKeluhanToRv(url,false, true);
                         setMultipleParam(returnedData);
                     }
@@ -336,9 +365,9 @@ public class EKeluhan extends Fragment{
             addKeluhanBtn.setOnClickListener(addKeluhanListener);
         }
 
-        String url = buildGetKeluhanUrl(null, includeParam, otherParam);
+        String url = buildGetKeluhanUrl(baseUrl,null, includeParam, otherParam);
 
-        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
+        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
 
         Map<String, Object> returnedData = gk.getKeluhanToRv(url,true, null);
         setMultipleParam(returnedData);
@@ -348,9 +377,9 @@ public class EKeluhan extends Fragment{
     public void onResume() {
         loadingLayout.startShimmer();
 
-        String url = buildGetKeluhanUrl(null, includeParam, otherParam);
+        String url = buildGetKeluhanUrl(baseUrl, null, includeParam, otherParam);
 
-        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
+        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
 
         Map<String, Object> returnedData = gk.getKeluhanToRv(url,true, null);
         setMultipleParam(returnedData);
