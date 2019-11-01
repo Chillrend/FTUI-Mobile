@@ -17,6 +17,7 @@ import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
+import org.ftui.mobile.utils.PDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit2.Call;
@@ -30,11 +31,15 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText password, c_password;
     private ApiService service;
     private String name, username;
+    private PDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        pDialog = new PDialog(this);
+        pDialog.buildDialog();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, this.getTheme()));
@@ -87,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                             .show();
                     return;
                 }
-
+                pDialog.showDialog();
                 //Gave null to other optional fields for now, change later.
                 //Also given no_identitas asal asalan
                 Call<JsonObject> call = service.register(name, username, password.getText().toString(), c_password.getText().toString(), null, null, null, null, "1231234123");
@@ -110,11 +115,12 @@ public class RegisterActivity extends AppCompatActivity {
                             editor.putString("user", stringifiedUserCache);
                             editor.apply();
 
-                            Log.d("OnSuccess :", parsed_res.toString());
+                            pDialog.dismissDialog();
 
                             finish();
                         }else{
                             Toasty.info(getApplicationContext(), "Failed to Register").show();
+                            pDialog.dismissDialog();
                             Log.d("OnSuccess :", response.errorBody().toString());
                         }
 
@@ -123,6 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
                         Toasty.info(getApplicationContext(), "Failed to Register").show();
+                        pDialog.dismissDialog();
                         t.printStackTrace();
                     }
                 });

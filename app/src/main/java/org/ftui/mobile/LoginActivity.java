@@ -33,6 +33,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 
+import org.ftui.mobile.utils.PDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout password_input_layout;
     private Button goLoginButton;
     private ApiService service;
+    private PDialog pDialog;
 
     public static String USER_SHARED_PREFERENCE = "USER_SHARED_PREFERENCE";
 
@@ -54,6 +56,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         if(userPrefExist(this)) finish();
+
+        pDialog = new PDialog(this);
+        pDialog.buildDialog();
 
         registerLinkBtn = findViewById(R.id.goRegisterBtn);
         password = findViewById(R.id.pwd_signin);
@@ -120,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toasty.info(this, "Incoming Features").show();
                 break;
             case R.id.goLoginButton:
+                pDialog.showDialog();
                 goLogin();
                 break;
         }
@@ -128,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
     private void goLogin(){
         if(password.getText().toString().trim().length() < 1 || email.getText().toString().trim().length() < 1){
             password_input_layout.setError("Email dan Password tidak dapat kosong");
+            pDialog.dismissDialog();
             return;
         }
 
@@ -138,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.errorBody() != null){
                     password_input_layout.setError("Email atau password salah");
-                    Log.d("OnSuccess :", response.errorBody().toString());
+                    pDialog.dismissDialog();
                     return;
                 }
                 JsonObject parsed_res = response.body();
@@ -150,7 +157,6 @@ public class LoginActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String spSurveyor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).getString("surveyor", null);
                 if(spSurveyor != null && !spSurveyor.equals("[]")) {
-                    Log.d("AWE ", spSurveyor);
                     Type listType = new TypeToken<List<Surveyor>>() {
                     }.getType();
                     List<Surveyor> surveyors = gson.fromJson(spSurveyor, listType);
@@ -186,16 +192,13 @@ public class LoginActivity extends AppCompatActivity {
                 });
                 SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).edit();
 
-
-
                 Gson jsonUtil = new Gson();
                 String stringifiedUserCache = jsonUtil.toJson(userStoreCache);
 
                 editor.putString("user", stringifiedUserCache);
                 editor.apply();
 
-                Log.d("OnSuccess :", parsed_res.toString());
-                Log.d("OnSuccess, user token :", token);
+                pDialog.dismissDialog();
 
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(i);

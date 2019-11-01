@@ -103,6 +103,28 @@ public class Home extends Fragment implements View.OnClickListener {
         user_fullname = view.findViewById(R.id.user_name);
         user_role = view.findViewById(R.id.user_role);
 
+        checkIfCompleteUserPrefExist();
+
+        academicRegulationBtn.setOnClickListener(this);
+        eKomplainBtn.setOnClickListener(this);
+        campusMapBtn.setOnClickListener(this);
+        academicGuideBookBtn.setOnClickListener(this);
+
+        userGreetingWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(userPrefExist){
+                    Intent i = new Intent(getActivity(), UserProfileActivity.class);
+                    startActivity(i);
+                }else{
+                    Intent i = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
+    }
+
+    public void checkIfCompleteUserPrefExist(){
         if(userPrefExist){
             SharedPreferences spf = getActivity().getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, Context.MODE_PRIVATE);
             Gson jsonUtil  = new Gson();
@@ -154,24 +176,6 @@ public class Home extends Fragment implements View.OnClickListener {
                 }
             });
         }
-
-        academicRegulationBtn.setOnClickListener(this);
-        eKomplainBtn.setOnClickListener(this);
-        campusMapBtn.setOnClickListener(this);
-        academicGuideBookBtn.setOnClickListener(this);
-
-        userGreetingWrapper.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(userPrefExist){
-                    Intent i = new Intent(getActivity(), UserProfileActivity.class);
-                    startActivity(i);
-                }else{
-                    Intent i = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(i);
-                }
-            }
-        });
     }
 
     @Override
@@ -224,6 +228,15 @@ public class Home extends Fragment implements View.OnClickListener {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if(!LoginActivity.completeUserPrefExist(getContext())){
+            checkIfCompleteUserPrefExist();
+        }
     }
 
     /**
