@@ -162,6 +162,7 @@ public class ComplaintComments extends Fragment {
                         Comment comment = gson.fromJson(json.get("comment").toString(), Comment.class);
                         commentArrayList.add(comment);
                         commentsAdapter.notifyDataSetChanged();
+                        comment_form.getText().clear();
                     }
 
                     @Override
