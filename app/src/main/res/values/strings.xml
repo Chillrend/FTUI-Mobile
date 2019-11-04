@@ -137,4 +137,5 @@
     <string name="only_show_my_complaint">Hanya perlihatkan keluhan saya</string>
     <string name="my_complaint">Keluhan saya</string>
     <string name="loading">Loading...</string>
+    <string name="general_cant_get_complaint_error_msg">Tidak dapat mengambil keluhan, silahkan coba lagi</string>
 </resources>

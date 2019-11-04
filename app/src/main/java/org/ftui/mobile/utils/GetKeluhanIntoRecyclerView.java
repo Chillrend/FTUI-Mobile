@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.KeluhanDetail;
+import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.BasicComplaintCardViewAdapter;
 import org.ftui.mobile.fragment.EKeluhan;
 import org.ftui.mobile.model.keluhan.Keluhan;
@@ -74,8 +75,12 @@ public class GetKeluhanIntoRecyclerView implements BasicComplaintCardViewAdapter
         call.enqueue(new Callback<Keluhan>() {
             @Override
             public void onResponse(Call<Keluhan> call, Response<Keluhan> response) {
-                if(response.errorBody() != null){
-                    Toasty.error(ctx, "Tidak dapat mengambil keluhan, silahkan coba lagi").show();
+                if(response.code() == 401){
+                    Toasty.error(ctx, R.string.no_privilege_to_access_complaint).show();
+                    Log.d("ERROR", "onResponse: " + response.errorBody().toString());
+                    return;
+                }else if(response.errorBody() != null){
+                    Toasty.error(ctx, R.string.general_cant_get_complaint_error_msg).show();
                     Log.d("ERROR", "onResponse: " + response.errorBody().toString());
                     return;
                 }
@@ -127,7 +132,7 @@ public class GetKeluhanIntoRecyclerView implements BasicComplaintCardViewAdapter
 
             @Override
             public void onFailure(Call<Keluhan> call, Throwable t) {
-                Toasty.error(ctx, "Tidak dapat mengambil data keluhan, silahkan coba lagi").show();
+                Toasty.error(ctx, R.string.general_cant_get_complaint_error_msg).show();
                 t.printStackTrace();
             }
         });
