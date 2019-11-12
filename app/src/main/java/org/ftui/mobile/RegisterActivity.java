@@ -18,6 +18,7 @@ import org.ftui.mobile.model.User;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
 import org.ftui.mobile.utils.PDialog;
+import org.ftui.mobile.utils.SPService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit2.Call;
@@ -32,11 +33,15 @@ public class RegisterActivity extends AppCompatActivity {
     private ApiService service;
     private String name, username;
     private PDialog pDialog;
+    private SPService sharedPreferenceService;
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        sharedPreferenceService = new SPService(this);
 
         pDialog = new PDialog(this);
         pDialog.buildDialog();
@@ -100,20 +105,14 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         if(response.errorBody() == null){
-                            Toasty.info(getApplicationContext(), "Succesfully registered").show();
+                            Toasty.info(getApplicationContext(), R.string.successfully_registered).show();
                             JsonObject parsed_res = response.body();
                             JsonObject succes_obj = parsed_res.get("success").getAsJsonObject();
                             String token = succes_obj.get("token").getAsString();
 
-                            SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).edit();
+                            User userStoreCache = new User(username, token, null);
 
-                            User userStoreCache = new User(username, token, "unknownfbid");
-
-                            Gson jsonUtil = new Gson();
-                            String stringifiedUserCache = jsonUtil.toJson(userStoreCache);
-
-                            editor.putString("user", stringifiedUserCache);
-                            editor.apply();
+                            sharedPreferenceService.setUserToSp(gson.toJson(userStoreCache));
 
                             pDialog.dismissDialog();
 

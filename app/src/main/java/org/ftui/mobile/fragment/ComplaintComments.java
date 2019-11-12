@@ -42,6 +42,7 @@ import org.ftui.mobile.model.keluhan.Ticket;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
 import org.ftui.mobile.utils.PicassoImageLoader;
+import org.ftui.mobile.utils.SPService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,6 +83,7 @@ public class ComplaintComments extends Fragment {
     private Ticket keluhan_data;
     private CommentsAdapter commentsAdapter;
     private User tokenUser;
+    private SPService sharedPreferenceService;
 
     public ComplaintComments() {
         // Required empty public constructor
@@ -123,9 +125,8 @@ public class ComplaintComments extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
 
-        Gson gson = new Gson();
-        tokenUser = gson.fromJson(getActivity().getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString("user", null), User.class);
-
+        sharedPreferenceService = new SPService(getActivity());
+        tokenUser = sharedPreferenceService.getUserFromSp();
         addImageBtn = view.findViewById(R.id.add_image_comment_button);
         comment_form = view.findViewById(R.id.comment_form);
         sendCommentBtn = view.findViewById(R.id.send_button);

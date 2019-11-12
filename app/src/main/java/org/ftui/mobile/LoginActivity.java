@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.ftui.mobile.utils.PDialog;
+import org.ftui.mobile.utils.SPService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button goLoginButton;
     private ApiService service;
     private PDialog pDialog;
+    private SPService sharedPreferenceService;
+    private Gson jsonUtil = new Gson();
 
     public static String USER_SHARED_PREFERENCE = "USER_SHARED_PREFERENCE";
 
@@ -55,7 +58,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(userPrefExist(this)) finish();
+        sharedPreferenceService = new SPService(this);
+
+        if(sharedPreferenceService.isUserSpExist()) finish();
 
         pDialog = new PDialog(this);
         pDialog.buildDialog();
@@ -81,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
-        if(userPrefExist(getApplicationContext())) finish();
+        if(sharedPreferenceService.isUserSpExist()) finish();
     }
 
     public static boolean userPrefExist(Context ctx){
@@ -108,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
             Gson jsonUtil = new Gson();
             User user = jsonUtil.fromJson(json, User.class);
 
-
             return user.getToken();
         }else{
             return null;
@@ -133,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void goLogin(){
         if(password.getText().toString().trim().length() < 1 || email.getText().toString().trim().length() < 1){
-            password_input_layout.setError("Email dan Password tidak dapat kosong");
+            password_input_layout.setError(this.getText(R.string.email_password_cant_be_empty));
             pDialog.dismissDialog();
             return;
         }
@@ -152,13 +156,16 @@ public class LoginActivity extends AppCompatActivity {
                 JsonObject succes_obj = parsed_res.get("success").getAsJsonObject();
                 String token = succes_obj.get("token").getAsString();
 
-                String fbtoken = getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
+                String fbtoken = getSharedPreferences("FIREBASE_TOKEN_SP", MODE_PRIVATE).getString("fb", null);
                 User userStoreCache = new User(email.getText().toString().trim(), token, fbtoken);
+
+
+                //this below code is actually wtf
                 Gson gson = new Gson();
                 String spSurveyor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).getString("surveyor", null);
+
                 if(spSurveyor != null && !spSurveyor.equals("[]")) {
-                    Type listType = new TypeToken<List<Surveyor>>() {
-                    }.getType();
+                    Type listType = new TypeToken<List<Surveyor>>() {}.getType();
                     List<Surveyor> surveyors = gson.fromJson(spSurveyor, listType);
 
                     for (Surveyor surveyor : surveyors) {
@@ -167,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseMessaging.getInstance().subscribeToTopic(name);
                     }
                 }
-//                JsonArray myrole = (JsonArray) succes_obj.get("surveyor");
+
                     HashMap<String,String> headerMap = new HashMap<>();
                     headerMap.put("accept", "application/json");
                     headerMap.put("Authorization", "Bearer " + token);
@@ -190,13 +197,8 @@ public class LoginActivity extends AppCompatActivity {
                         t.printStackTrace();
                     }
                 });
-                SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).edit();
 
-                Gson jsonUtil = new Gson();
-                String stringifiedUserCache = jsonUtil.toJson(userStoreCache);
-
-                editor.putString("user", stringifiedUserCache);
-                editor.apply();
+                sharedPreferenceService.setUserToSp(jsonUtil.toJson(userStoreCache));
 
                 pDialog.dismissDialog();
 

@@ -24,19 +24,21 @@ import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.fragment.EKeluhan;
 import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.fragment.NotificationFragment;
+import org.ftui.mobile.utils.SPService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Home.OnFragmentInteractionListener,
         EKeluhan.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener{
 
-    private boolean userPrefExist;
+    private SPService sharedPreferenceService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userPrefExist = LoginActivity.userPrefExist(getApplicationContext());
+        sharedPreferenceService = new SPService(this);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,7 +55,8 @@ public class MainActivity extends AppCompatActivity
 
         Menu menu = navigationView.getMenu();
         MenuItem loginout_menu = menu.findItem(R.id.nav_logout);
-        if(!userPrefExist) loginout_menu.setTitle(R.string.login);
+
+        if(!sharedPreferenceService.isUserSpExist()) loginout_menu.setTitle(R.string.login);
 
         Fragment fragment = new Home();
 
@@ -124,18 +127,8 @@ public class MainActivity extends AppCompatActivity
             fr_tag = EKeluhan.EKELUHAN_FRAGMENT_TAG;
             replaceFragment(fr, fr_tag);
         }else if(id == R.id.nav_logout){
-            if(userPrefExist){
-                SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).edit();
-                editor.clear().apply();
-
-                SharedPreferences.Editor completeEditor = getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).edit();
-                completeEditor.clear().apply();
-
-                if(LoginActivity.surveyorExist(this)){
-                    SharedPreferences.Editor surveyorEditor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).edit();
-                    surveyorEditor.clear().apply();
-                }
-
+            if(sharedPreferenceService.isUserSpExist()){
+                sharedPreferenceService.deleteAllSp();
                 finish();
                 overridePendingTransition(0, 0);
                 startActivity(getIntent());
