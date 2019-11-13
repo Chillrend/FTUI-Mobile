@@ -22,6 +22,7 @@ import org.ftui.mobile.model.CompleteUser;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
+import org.ftui.mobile.utils.SPService;
 import org.w3c.dom.Text;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +50,7 @@ public class Home extends Fragment implements View.OnClickListener {
     private LinearLayout academicGuideBookBtn, eKomplainBtn, campusMapBtn, academicRegulationBtn;
     private LinearLayout userGreetingWrapper;
     private TextView user_fullname, user_role;
+    private SPService sharedPreferenceService;
 
     private boolean userPrefExist;
 
@@ -88,8 +90,7 @@ public class Home extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        userPrefExist = LoginActivity.userPrefExist(getActivity());
+        sharedPreferenceService = new SPService(getActivity());
     }
 
     @Override
@@ -125,11 +126,8 @@ public class Home extends Fragment implements View.OnClickListener {
     }
 
     public void checkIfCompleteUserPrefExist(){
-        if(userPrefExist){
-            SharedPreferences spf = getActivity().getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, Context.MODE_PRIVATE);
-            Gson jsonUtil  = new Gson();
-            Log.d("onCheckuserpref", spf.getString("user", null));
-            User user = jsonUtil.fromJson(spf.getString("user", null), User.class);
+        if(sharedPreferenceService.isUserSpExist()){
+            User user = sharedPreferenceService.getUserFromSp();
 
             service = ApiCall.getClient().create(ApiService.class);
 
@@ -149,18 +147,21 @@ public class Home extends Fragment implements View.OnClickListener {
                     CompleteUser completeUser = jsonUtil.fromJson(jsonData, CompleteUser.class);
                     Log.d("On Response :", completeUser.getEmail() + " - " + completeUser.getName());
 
-                    SharedPreferences.Editor editor = getActivity().getSharedPreferences(COMPLETE_USER_SHARED_PREFERENCES, Context.MODE_PRIVATE).edit();
-                    editor.putString("complete_user", jsonData);
-                    editor.apply();
-
-                    if(parsedBody.get("surveyor") != null){
-                        String surveyorString = parsedBody.get("surveyor").toString();
-                        SharedPreferences.Editor surveyorEditor = getActivity().getSharedPreferences(SURVEYOR_SHARED_PREFERENCES, Context.MODE_PRIVATE).edit();
-                        surveyorEditor.putString("surveyor", surveyorString).apply();
-                    }
+                    sharedPreferenceService.setCompleteUserToSp(jsonData);
 
                     user_fullname.setText(completeUser.getName());
-                    user_role.setText(completeUser.getIdentitas());
+
+                    if(parsedBody.get("surveyor") != null){
+                        sharedPreferenceService.setSurveyorToSp(parsedBody.get("surveyor").toString());
+                    }
+
+                    if(completeUser.getTicketit_admin() == 1){
+                        user_role.setText("Manager");
+                    }else if(completeUser.getTicketit_agent() == 1){
+                        user_role.setText("Surveyor");
+                    }else{
+                        user_role.setText(completeUser.getIdentitas());
+                    }
 
                     NavigationView nv = getActivity().findViewById(R.id.nav_view);
                     View navHeader = nv.getHeaderView(0);
@@ -234,7 +235,7 @@ public class Home extends Fragment implements View.OnClickListener {
     public void onResume(){
         super.onResume();
 
-        if(!LoginActivity.completeUserPrefExist(getContext())){
+        if(!sharedPreferenceService.isCompleteSpExist()){
             checkIfCompleteUserPrefExist();
         }
     }

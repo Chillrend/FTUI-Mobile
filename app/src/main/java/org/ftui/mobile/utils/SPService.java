@@ -11,6 +11,8 @@ import org.ftui.mobile.model.surveyor.Surveyor;
 import java.lang.reflect.Type;
 import java.util.List;
 
+//TODO: Fragment at EKeluhan, Login, Main, Register Activity Done
+
 public class SPService {
     private static final String COMPLETE_USER_SP = "COMPLETE_USER_SHARED_PREFERENCES";
     private static final String USER_SP = "USER_SHARED_PREFERENCE";

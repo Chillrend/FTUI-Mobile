@@ -1,17 +1,11 @@
 package org.ftui.mobile;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -20,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.fragment.EKeluhan;
 import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.fragment.NotificationFragment;

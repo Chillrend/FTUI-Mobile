@@ -58,6 +58,7 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
 
     private TextInputEditText subject, content, location;
     private PDialog pDialog;
+    private SPService sharedPreferenceService;
 
     public static void setImageList(List<Image> imageList) {
         imageList = imageList;
@@ -74,6 +75,8 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_keluhan);
+
+        sharedPreferenceService = new SPService(this);
 
         pDialog = new PDialog(this);
         pDialog.buildDialog();
@@ -203,9 +206,9 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
     }
 
     private void submitKeluhan(){
-        if(!LoginActivity.completeUserPrefExist(this)) return;
+        if(!sharedPreferenceService.isCompleteSpExist()) return;
         pDialog.showDialog();
-        String token = LoginActivity.getUserToken(this);
+        String token = sharedPreferenceService.getUserFromSp().getToken();
 
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Accept", "application/json");

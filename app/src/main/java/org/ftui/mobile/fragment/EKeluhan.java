@@ -32,10 +32,7 @@ import org.ftui.mobile.model.keluhan.Keluhan;
 import org.ftui.mobile.model.keluhan.Metum;
 import org.ftui.mobile.model.keluhan.Results;
 import org.ftui.mobile.model.keluhan.Ticket;
-import org.ftui.mobile.utils.ApiCall;
-import org.ftui.mobile.utils.ApiService;
-import org.ftui.mobile.utils.EndlessRecyclerViewScrollListener;
-import org.ftui.mobile.utils.GetKeluhanIntoRecyclerView;
+import org.ftui.mobile.utils.*;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -119,19 +116,16 @@ public class EKeluhan extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!LoginActivity.completeUserPrefExist(getActivity()) || !LoginActivity.userPrefExist(getActivity())){
+        SPService sharedPreferenceService = new SPService(getActivity());
+
+        if(!sharedPreferenceService.isCompleteSpExist() || !sharedPreferenceService.isUserSpExist()){
             getActivity().getSupportFragmentManager().popBackStack();
             Toasty.error(getActivity(), R.string.no_privilege_to_access_complaint, Toasty.LENGTH_LONG).show();
             return;
         }
 
-        String userTokenJsonData = getActivity().getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, Context.MODE_PRIVATE).getString("user", null);
-        String jsonData = getActivity().getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, Context.MODE_PRIVATE).getString("complete_user", null);
-
-        Gson jsonUtil = new Gson();
-
-        user = jsonUtil.fromJson(jsonData, CompleteUser.class);
-        userTokenMdl = jsonUtil.fromJson(userTokenJsonData, User.class);
+        user = sharedPreferenceService.getCompleteUserFromSp();
+        userTokenMdl = sharedPreferenceService.getUserFromSp();
 
 
         userToken = userTokenMdl.getToken();

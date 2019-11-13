@@ -32,6 +32,7 @@ import org.ftui.mobile.model.surveyor.Surveyor;
 import org.ftui.mobile.model.surveyor.SurveyorResponse;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
+import org.ftui.mobile.utils.SPService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,11 +50,12 @@ public class KeluhanDetail extends AppCompatActivity implements
     private LinearLayout commentSwitcher;
     private Ticket keluhan_data;
     private ArrayList<Comment> keluhan_comment;
+    private SPService sharedPreferenceService;
     Boolean switcherStateAtComplaintDetail = true;
     TransitionDrawable complaintDetailTransDrawable;
     TransitionDrawable commentTransDrawable;
-    CompleteUser user;
-    User tokenUser;
+    private CompleteUser user;
+    private User tokenUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class KeluhanDetail extends AppCompatActivity implements
         setContentView(R.layout.activity_keluhan_detail);
         Intent i = getIntent();
 
+        sharedPreferenceService = new SPService(this);
 
         keluhan_data = (Ticket) i.getSerializableExtra("keluhan_data");
         List<Comment> comment = keluhan_data.getComments();
@@ -69,8 +72,8 @@ public class KeluhanDetail extends AppCompatActivity implements
         String baseImgUrl = i.getStringExtra("baseImgUrl");
 
         Gson gson = new Gson();
-        tokenUser = gson.fromJson(getSharedPreferences(LoginActivity.USER_SHARED_PREFERENCE, MODE_PRIVATE).getString("user", null), User.class);
-        user = gson.fromJson(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null), CompleteUser.class);
+        tokenUser = sharedPreferenceService.getUserFromSp();
+        user = sharedPreferenceService.getCompleteUserFromSp();
 
         Log.d("DEBUG", "onCreate: " + gson.toJson(keluhan_data));
 
@@ -136,15 +139,13 @@ public class KeluhanDetail extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).contains("complete_user")){
+        if(sharedPreferenceService.isCompleteSpExist()){
             Gson gson = new Gson();
-            CompleteUser user = gson.fromJson(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null), CompleteUser.class);
+            CompleteUser user = sharedPreferenceService.getCompleteUserFromSp();
             String spSurveyor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).getString("surveyor", null);
-            if(spSurveyor != null && !spSurveyor.equals("[]")){
-                Log.d("AWE ", spSurveyor);
-                Type listType = new TypeToken<List<Surveyor>>() {}.getType();
-                List<Surveyor> surveyors = gson.fromJson(spSurveyor, listType);
 
+            List<Surveyor> surveyors = sharedPreferenceService.getSurveyorListFromSp();
+            if(surveyors.size() > 0){
                 for(Surveyor surveyor : surveyors){
                     Details det = surveyor.getDetails();
                     if(det.getName().equals(keluhan_data.getCategory().getName())){
@@ -154,7 +155,6 @@ public class KeluhanDetail extends AppCompatActivity implements
                         break;
                     }
                 }
-
             }else if(keluhan_data.getStatus().getName().equals("FINISHED") && user.getId() == keluhan_data.getUser().getId()){
                 getMenuInflater().inflate(R.menu.keluhan_detail_activity_context_menu, menu);
                 MenuItem item = menu.getItem(0);

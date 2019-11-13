@@ -89,35 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         if(sharedPreferenceService.isUserSpExist()) finish();
     }
 
-    public static boolean userPrefExist(Context ctx){
-        SharedPreferences spref = ctx.getSharedPreferences(USER_SHARED_PREFERENCE, MODE_PRIVATE);
-
-        return spref.contains("user");
-    }
-
-    public static boolean completeUserPrefExist(Context ctx){
-        SharedPreferences spref = ctx.getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE);
-
-        return spref.contains("complete_user");
-    }
-
-    public static boolean surveyorExist(Context ctx){
-        SharedPreferences spref = ctx.getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE);
-
-        return spref.contains("surveyor");
-    }
-
-    public static String getUserToken(Context ctx){
-        if(ctx.getSharedPreferences(USER_SHARED_PREFERENCE, MODE_PRIVATE).contains("user")){
-            String json = ctx.getSharedPreferences(USER_SHARED_PREFERENCE, MODE_PRIVATE).getString("user", null);
-            Gson jsonUtil = new Gson();
-            User user = jsonUtil.fromJson(json, User.class);
-
-            return user.getToken();
-        }else{
-            return null;
-        }
-    }
 
     public void onClick(View v){
         switch (v.getId()){
@@ -186,9 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toasty.info(getApplicationContext(), "initialized").show();
                         }else{
                             Toasty.info(getApplicationContext(), "notinitialized").show();
-
                         }
-
                     }
 
                     @Override
@@ -210,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toasty.info(getApplicationContext(), "Something went wrong.. (err : onFailure Reached)").show();
+                Toasty.error(LoginActivity.this, "Gagal untuk login, silahkan cek koneksi internet Anda").show();
                 t.printStackTrace();
             }
         });

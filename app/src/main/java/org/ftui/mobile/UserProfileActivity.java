@@ -7,15 +7,18 @@ import com.google.gson.Gson;
 import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.model.CompleteUser;
+import org.ftui.mobile.utils.SPService;
 
 public class UserProfileActivity extends AppCompatActivity {
 
     private TextView userFullname, userRole, userNoIdentity, userFaculty, userEmail;
+    private SPService sharedPreferenceService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+        sharedPreferenceService = new SPService(this);
 
         userFullname = findViewById(R.id.user_full_name);
         userRole = findViewById(R.id.user_role);
@@ -23,13 +26,12 @@ public class UserProfileActivity extends AppCompatActivity {
         userFaculty = findViewById(R.id.user_department);
         userEmail = findViewById(R.id.user_email);
 
-        if(!LoginActivity.completeUserPrefExist(this)){
+        if(!sharedPreferenceService.isCompleteSpExist()){
             finish();
             Toasty.error(this, "Not authorized").show();
         }
-        Gson gson = new Gson();
-        CompleteUser user = gson.fromJson(getSharedPreferences(Home.COMPLETE_USER_SHARED_PREFERENCES, MODE_PRIVATE).getString("complete_user", null), CompleteUser.class);
 
+        CompleteUser user = sharedPreferenceService.getCompleteUserFromSp();
         userFullname.setText(user.getName());
         userRole.setText(user.getIdentitas());
         userEmail.setText(user.getEmail());

@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import es.dmoral.toasty.Toasty;
+import org.ftui.mobile.utils.SPService;
 
 public class SubmitComplaintForm extends AppCompatActivity implements View.OnClickListener {
 
@@ -15,11 +16,14 @@ public class SubmitComplaintForm extends AppCompatActivity implements View.OnCli
     public static String CONSTRAINT_FACILITIES_AND_INFRASTRUCTURE = "FACILITIES_AND_INFRASTRUCTURE", CONSTRAINT_BUILDINGS = "BUILDINGS",
             CONSTRAINT_HUMAN_RESOURCE = "HUMAN_RESOURCE", CONSTRAINT_CLEANING = "CLEANING_AND_GARDENING", CONSTRAINT_INCIDENT = "INCIDENT_AND_RULE_VIOLATION",
             CONSTRAINT_OTHERS = "OTHERS";
+    private SPService sharedPreferenceService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_complaint_form);
+
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.fill_complaint_detail));

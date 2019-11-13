@@ -41,8 +41,6 @@
         <activity
                 android:name=".KeluhanDetail"
                 android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-            </intent-filter>
         </activity>
         <activity android:name=".CampusMap">
         </activity>
