@@ -140,4 +140,5 @@
     <string name="general_cant_get_complaint_error_msg">Tidak dapat mengambil keluhan, silahkan coba lagi</string>
     <string name="email_password_cant_be_empty">Email dan Password tidak dapat kosong</string>
     <string name="successfully_registered">Telah berhasil register</string>
+    <string name="wrong_email_or_password">Email atau password salah</string>
 </resources>

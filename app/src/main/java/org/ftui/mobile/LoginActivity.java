@@ -10,10 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -51,8 +56,6 @@ public class LoginActivity extends AppCompatActivity {
     private SPService sharedPreferenceService;
     private Gson jsonUtil = new Gson();
 
-    public static String USER_SHARED_PREFERENCE = "USER_SHARED_PREFERENCE";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
-
     }
 
     @Override
@@ -119,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.errorBody() != null){
-                    password_input_layout.setError("Email atau password salah");
+                    password_input_layout.setError(getString(R.string.wrong_email_or_password));
                     pDialog.dismissDialog();
                     return;
                 }
@@ -127,45 +129,17 @@ public class LoginActivity extends AppCompatActivity {
                 JsonObject succes_obj = parsed_res.get("success").getAsJsonObject();
                 String token = succes_obj.get("token").getAsString();
 
-                String fbtoken = getSharedPreferences("FIREBASE_TOKEN_SP", MODE_PRIVATE).getString("fb", null);
+                String fbtoken = sharedPreferenceService.getFbTokenFromSp();
                 User userStoreCache = new User(email.getText().toString().trim(), token, fbtoken);
 
-
-                //this below code is actually wtf
-                Gson gson = new Gson();
-                String spSurveyor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).getString("surveyor", null);
-
-                if(spSurveyor != null && !spSurveyor.equals("[]")) {
-                    Type listType = new TypeToken<List<Surveyor>>() {}.getType();
-                    List<Surveyor> surveyors = gson.fromJson(spSurveyor, listType);
-
+                List<Surveyor> surveyors = sharedPreferenceService.getSurveyorListFromSp();
+                if(surveyors.size() > 0){
                     for (Surveyor surveyor : surveyors) {
                         Details det = surveyor.getDetails();
                         String name = det.getName();
                         FirebaseMessaging.getInstance().subscribeToTopic(name);
                     }
                 }
-
-                    HashMap<String,String> headerMap = new HashMap<>();
-                    headerMap.put("accept", "application/json");
-                    headerMap.put("Authorization", "Bearer " + token);
-                    Call<JsonObject> called = service.updatetoken(headerMap, fbtoken);
-                    called.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        if(response.errorBody() == null){
-                            Toasty.info(getApplicationContext(), "initialized").show();
-                        }else{
-                            Toasty.info(getApplicationContext(), "notinitialized").show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Toasty.info(getApplicationContext(), "Failed to Register").show();
-                        t.printStackTrace();
-                    }
-                });
 
                 sharedPreferenceService.setUserToSp(jsonUtil.toJson(userStoreCache));
 

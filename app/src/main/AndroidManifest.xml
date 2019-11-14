@@ -41,6 +41,10 @@
         <activity
                 android:name=".KeluhanDetail"
                 android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="org.ftui.mobile.NOTIFICATION_TARGET" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".CampusMap">
         </activity>

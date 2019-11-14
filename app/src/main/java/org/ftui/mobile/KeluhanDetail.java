@@ -140,10 +140,7 @@ public class KeluhanDetail extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         if(sharedPreferenceService.isCompleteSpExist()){
-            Gson gson = new Gson();
             CompleteUser user = sharedPreferenceService.getCompleteUserFromSp();
-            String spSurveyor = getSharedPreferences(Home.SURVEYOR_SHARED_PREFERENCES, MODE_PRIVATE).getString("surveyor", null);
-
             List<Surveyor> surveyors = sharedPreferenceService.getSurveyorListFromSp();
             if(surveyors.size() > 0){
                 for(Surveyor surveyor : surveyors){

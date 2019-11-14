@@ -18,6 +18,7 @@ import org.ftui.mobile.model.User;
 import org.ftui.mobile.utils.ApiService;
 
 import es.dmoral.toasty.Toasty;
+import org.ftui.mobile.utils.SPService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,12 +26,12 @@ import retrofit2.Response;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class FirebaseInstance extends FirebaseMessagingService {
-    private ApiService service;
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
         Log.e("newToken", s);
-        getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", s).apply();
+        getSharedPreferences(SPService.FB_TOKEN_SP, MODE_PRIVATE).edit().putString(SPService.FB_TOKEN_STRING, s).apply();
+        getSharedPreferences(SPService.FB_TOKEN_SP, MODE_PRIVATE).edit().putBoolean(SPService.FB_TOKEN_IS_UPLOADED_STRING, false).apply();
     }
 
 
@@ -50,9 +51,9 @@ public class FirebaseInstance extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0, notificationBuilder.build());
-    }
 
-    public String getToken() {
-        return getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
+        if(message.getNotification() != null){
+            Log.d("Notification received", "Body : " + message.getNotification().getBody());
+        }
     }
-    }
+}

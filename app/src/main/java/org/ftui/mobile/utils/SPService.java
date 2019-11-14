@@ -2,6 +2,7 @@ package org.ftui.mobile.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.ftui.mobile.model.CompleteUser;
@@ -14,15 +15,16 @@ import java.util.List;
 //TODO: Fragment at EKeluhan, Login, Main, Register Activity Done
 
 public class SPService {
-    private static final String COMPLETE_USER_SP = "COMPLETE_USER_SHARED_PREFERENCES";
-    private static final String USER_SP = "USER_SHARED_PREFERENCE";
-    private static final String FB_TOKEN_SP = "FIREBASE_TOKEN_SP";
-    private static final String SURVEYOR_SP = "SURVEYOR_SHARED_PREFERENCES";
+    public static final String COMPLETE_USER_SP = "COMPLETE_USER_SHARED_PREFERENCES";
+    public static final String USER_SP = "USER_SHARED_PREFERENCE";
+    public static final String FB_TOKEN_SP = "FIREBASE_TOKEN_SP";
+    public static final String SURVEYOR_SP = "SURVEYOR_SHARED_PREFERENCES";
 
-    private static final String COMPLETE_USER_STRING = "complete_user";
-    private static final String USER_STRING = "user";
-    private static final String SURVEYOR_STRING = "surveyor";
-    private static final String FB_TOKEN_STRING = "fbtoken";
+    public static final String COMPLETE_USER_STRING = "complete_user";
+    public static final String USER_STRING = "user";
+    public static final String SURVEYOR_STRING = "surveyor";
+    public static final String FB_TOKEN_STRING = "fbtoken";
+    public static final String FB_TOKEN_IS_UPLOADED_STRING = "fbtoken_isuploaded";
 
     private Context ctx;
     private SharedPreferences completeUser, user, fbToken, surveyor;
@@ -51,6 +53,10 @@ public class SPService {
 
     public Boolean isSurveyor(){
         return surveyor.contains(SURVEYOR_STRING);
+    }
+
+    public Boolean isFbTokenUploaded() {
+        return fbToken.getBoolean(FB_TOKEN_IS_UPLOADED_STRING, false);
     }
 
     public User getUserFromSp(){
@@ -96,6 +102,10 @@ public class SPService {
 
     public void setFbTokenToSp(String obj){
         fbToken.edit().putString(FB_TOKEN_STRING, obj).apply();
+    }
+
+    public void setFbTokenUploaded(@NonNull Boolean obj){
+        fbToken.edit().putBoolean(FB_TOKEN_IS_UPLOADED_STRING, obj).apply();
     }
 
     public void setSurveyorToSp(String obj){

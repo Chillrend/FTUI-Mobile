@@ -8,12 +8,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import es.dmoral.toasty.Toasty;
@@ -27,6 +32,8 @@ import org.w3c.dom.Text;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.HashMap;
 
 
 /**
@@ -106,6 +113,8 @@ public class Home extends Fragment implements View.OnClickListener {
 
         checkIfCompleteUserPrefExist();
 
+        checkForFirebaseToken();
+
         academicRegulationBtn.setOnClickListener(this);
         eKomplainBtn.setOnClickListener(this);
         campusMapBtn.setOnClickListener(this);
@@ -123,6 +132,47 @@ public class Home extends Fragment implements View.OnClickListener {
                 }
             }
         });
+    }
+
+    public void uploadfbTokenToServer(){
+        HashMap<String,String> headerMap = new HashMap<>();
+        headerMap.put("accept", "application/json");
+        headerMap.put("Authorization", "Bearer " + sharedPreferenceService.getUserFromSp().getToken());
+        Call<JsonObject> called = service.updatetoken(headerMap, sharedPreferenceService.getFbTokenFromSp());
+        called.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.errorBody() == null){
+                    sharedPreferenceService.setFbTokenUploaded(true);
+                }else{
+                    sharedPreferenceService.setFbTokenUploaded(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                sharedPreferenceService.setFbTokenUploaded(false);
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void checkForFirebaseToken(){
+        if(sharedPreferenceService.isUserSpExist() && !sharedPreferenceService.isFbTokenUploaded()){
+            uploadfbTokenToServer();
+        }else if(sharedPreferenceService.isUserSpExist() && !sharedPreferenceService.isFbTokenExist()){
+            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                @Override
+                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    if(!task.isSuccessful()) return;
+
+                    String token = task.getResult().getToken();
+                    sharedPreferenceService.setFbTokenToSp(token);
+
+                    uploadfbTokenToServer();
+                }
+            });
+        }
     }
 
     public void checkIfCompleteUserPrefExist(){
@@ -238,6 +288,8 @@ public class Home extends Fragment implements View.OnClickListener {
         if(!sharedPreferenceService.isCompleteSpExist()){
             checkIfCompleteUserPrefExist();
         }
+
+        checkForFirebaseToken();
     }
 
     /**
