@@ -7,6 +7,7 @@ import okhttp3.RequestBody;
 import org.ftui.mobile.model.keluhan.Comment;
 import org.ftui.mobile.model.keluhan.Keluhan;
 import org.ftui.mobile.model.keluhan.Ticket;
+import org.ftui.mobile.model.singlekeluhan.SingleKeluhan;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -36,6 +37,9 @@ public interface ApiService {
 
     @GET
     Call<Keluhan> getAllKeluhan(@Url String url, @Header("Accept") String accept, @Header("Authorization") String bearer);
+
+    @GET
+    Call<SingleKeluhan> getKeluhanById(@Url String url, @HeaderMap Map<String, String> headerMap);
 
     @POST("/api/keluhan/")
     @Multipart

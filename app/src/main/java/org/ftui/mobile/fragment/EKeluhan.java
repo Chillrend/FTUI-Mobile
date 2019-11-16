@@ -163,11 +163,14 @@ public class EKeluhan extends Fragment{
             urlBuilder.append("includes[]=").append(s).append("&");
         }
 
-        Iterator iterator = parameter.entrySet().iterator();
-        while (iterator.hasNext()){
-            Map.Entry mapElement = (Map.Entry)iterator.next();
-            urlBuilder.append(mapElement.getKey()).append("=").append(mapElement.getValue()).append("&");
+        if(parameter != null && parameter.size() > 0){
+            Iterator iterator = parameter.entrySet().iterator();
+            while (iterator.hasNext()){
+                Map.Entry mapElement = (Map.Entry)iterator.next();
+                urlBuilder.append(mapElement.getKey()).append("=").append(mapElement.getValue()).append("&");
+            }
         }
+
         return urlBuilder.toString();
     }
 
@@ -348,7 +351,11 @@ public class EKeluhan extends Fragment{
         View.OnClickListener addKeluhanListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), CreateNewKeluhan   .class);
+//                Intent i = new Intent(getActivity(), CreateNewKeluhan   .class);
+//                startActivity(i);
+
+                Intent i = new Intent(getActivity(), KeluhanDetail.class);
+                i.putExtra("id", "25");
                 startActivity(i);
             }
         };

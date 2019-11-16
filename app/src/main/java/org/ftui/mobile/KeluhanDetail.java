@@ -22,11 +22,14 @@ import com.google.gson.reflect.TypeToken;
 import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.fragment.ComplaintComments;
 import org.ftui.mobile.fragment.ComplaintDescription;
+import org.ftui.mobile.fragment.EKeluhan;
 import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.model.CompleteUser;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.keluhan.Comment;
+import org.ftui.mobile.model.keluhan.Keluhan;
 import org.ftui.mobile.model.keluhan.Ticket;
+import org.ftui.mobile.model.singlekeluhan.SingleKeluhan;
 import org.ftui.mobile.model.surveyor.Details;
 import org.ftui.mobile.model.surveyor.Surveyor;
 import org.ftui.mobile.model.surveyor.SurveyorResponse;
@@ -56,33 +59,36 @@ public class KeluhanDetail extends AppCompatActivity implements
     TransitionDrawable commentTransDrawable;
     private CompleteUser user;
     private User tokenUser;
+    private Menu optMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keluhan_detail);
-        Intent i = getIntent();
 
         sharedPreferenceService = new SPService(this);
-
-        keluhan_data = (Ticket) i.getSerializableExtra("keluhan_data");
-        List<Comment> comment = keluhan_data.getComments();
-        keluhan_comment = new ArrayList<>(comment.size());
-        keluhan_comment.addAll(comment);
-        String baseImgUrl = i.getStringExtra("baseImgUrl");
-
-        Gson gson = new Gson();
         tokenUser = sharedPreferenceService.getUserFromSp();
         user = sharedPreferenceService.getCompleteUserFromSp();
 
-        Log.d("DEBUG", "onCreate: " + gson.toJson(keluhan_data));
+        Intent i = getIntent();
 
-        Fragment fr = ComplaintDescription.newInstance(keluhan_data, baseImgUrl);
+        if(i.getSerializableExtra("keluhan_data") != null){
+            keluhan_data = (Ticket) i.getSerializableExtra("keluhan_data");
+            List<Comment> comment = keluhan_data.getComments();
+            keluhan_comment = new ArrayList<>(comment.size());
+            keluhan_comment.addAll(comment);
+            String baseImgUrl = i.getStringExtra("baseImgUrl");
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.complaint_detail_main_fragment, fr, ComplaintDescription.COMPLAINT_DESCRIPTION_FRAGMENT_TAG)
-                .commit();
+            Fragment fr = ComplaintDescription.newInstance(keluhan_data, baseImgUrl);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.complaint_detail_main_fragment, fr, ComplaintDescription.COMPLAINT_DESCRIPTION_FRAGMENT_TAG)
+                    .commit();
+        }else if(i.getStringExtra("id") != null){
+            String k_id = i.getStringExtra("id");
+            getKeluhanDataFromId(k_id);
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.komplaint);
@@ -112,7 +118,7 @@ public class KeluhanDetail extends AppCompatActivity implements
                         }
                         break;
                     case R.id.comments_switcher :
-                        if(switcherStateAtComplaintDetail){
+                        if(switcherStateAtComplaintDetail && keluhan_comment != null){
                             complaintDetailTransDrawable.startTransition(0);
                             complaintDetailTransDrawable.reverseTransition(300);
                             commentTransDrawable.startTransition(300);
@@ -135,14 +141,63 @@ public class KeluhanDetail extends AppCompatActivity implements
         commentSwitcher.setOnClickListener(mHandler);
     }
 
+    public void getKeluhanDataFromId(String id){
+        HashMap<String,String> headerMap = new HashMap<>();
+        headerMap.put("accept", "application/json");
+        headerMap.put("Authorization", "Bearer " + tokenUser.getToken());
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        List<String> includeParams = new ArrayList<>();
+        includeParams.add("user");
+        includeParams.add("gambar");
+        includeParams.add("status");
+        includeParams.add("category");
+        includeParams.add("comments");
+
+        String url = EKeluhan.buildGetKeluhanUrl("http://pengaduan.ccit-solution.com/api/keluhan/" + id + "?", null, includeParams, null);
+
+        ApiService service = ApiCall.getClient().create(ApiService.class);
+        Call<SingleKeluhan> call = service.getKeluhanById(url, headerMap);
+        call.enqueue(new Callback<SingleKeluhan>() {
+            @Override
+            public void onResponse(Call<SingleKeluhan> call, Response<SingleKeluhan> response) {
+                if(!response.isSuccessful()){
+                    Toasty.error(KeluhanDetail.this, R.string.general_cant_get_complaint_error_msg).show();
+                    Log.d("Unsuccesful Resp", response.errorBody().toString());
+                }
+
+                keluhan_data = response.body().getResults().getTicket();
+                keluhan_comment = new ArrayList<>(keluhan_data.getComments());
+
+                Fragment fr = ComplaintDescription.newInstance(keluhan_data, response.body().getUrlimg());
+
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.complaint_detail_main_fragment, fr, ComplaintDescription.COMPLAINT_DESCRIPTION_FRAGMENT_TAG)
+                        .commit();
+
+                createOptMenu(KeluhanDetail.this.optMenu);
+            }
+
+            @Override
+            public void onFailure(Call<SingleKeluhan> call, Throwable t) {
+                Toasty.error(KeluhanDetail.this, R.string.general_cant_get_complaint_error_msg).show();
+                t.printStackTrace();
+                Log.d("TAG", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void createOptMenu(Menu menu){
+
+        if(keluhan_data == null || keluhan_comment == null){
+            Log.d("From createOptMenu", "keluhan_data or keluhan_comment is null");
+            return;
+        }
+
         if(sharedPreferenceService.isCompleteSpExist()){
             CompleteUser user = sharedPreferenceService.getCompleteUserFromSp();
             List<Surveyor> surveyors = sharedPreferenceService.getSurveyorListFromSp();
-            if(surveyors.size() > 0){
+            if(surveyors != null && surveyors.size() > 0){
                 for(Surveyor surveyor : surveyors){
                     Details det = surveyor.getDetails();
                     if(det.getName().equals(keluhan_data.getCategory().getName())){
@@ -161,6 +216,12 @@ public class KeluhanDetail extends AppCompatActivity implements
 
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        this.optMenu = menu;
         return true;
     }
 

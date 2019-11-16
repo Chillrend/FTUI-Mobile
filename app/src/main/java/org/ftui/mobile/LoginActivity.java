@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                 User userStoreCache = new User(email.getText().toString().trim(), token, fbtoken);
 
                 List<Surveyor> surveyors = sharedPreferenceService.getSurveyorListFromSp();
-                if(surveyors.size() > 0){
+                if(surveyors != null && surveyors.size() > 0){
                     for (Surveyor surveyor : surveyors) {
                         Details det = surveyor.getDetails();
                         String name = det.getName();

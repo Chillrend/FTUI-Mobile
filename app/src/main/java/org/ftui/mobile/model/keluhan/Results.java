@@ -12,6 +12,7 @@ public class Results implements Serializable
     @SerializedName("ticket")
     @Expose
     private List<Ticket> ticket = null;
+
     private final static long serialVersionUID = 1538989712742374163L;
 
     public List<Ticket> getTicket() {
@@ -21,5 +22,4 @@ public class Results implements Serializable
     public void setTicket(List<Ticket> ticket) {
         this.ticket = ticket;
     }
-
 }
