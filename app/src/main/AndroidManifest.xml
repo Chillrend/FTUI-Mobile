@@ -18,6 +18,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".InformationActivity">
+        </activity>
         <activity android:name=".CreateNewKeluhan">
         </activity>
         <activity android:name=".UserProfileActivity">
@@ -42,8 +44,9 @@
                 android:name=".KeluhanDetail"
                 android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="org.ftui.mobile.NOTIFICATION_TARGET" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="org.ftui.mobile.NOTIFICATION_TARGET"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity android:name=".CampusMap">
@@ -65,7 +68,7 @@
 
         <service android:name=".service.FirebaseInstance">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
     </application>
