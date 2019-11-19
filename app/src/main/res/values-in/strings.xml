@@ -1,0 +1,145 @@
+<resources>
+    <string name="app_name">FTUI Mobile</string>
+    <string name="app_name_uppercase">FTUI MOBILE</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_subtitle">Tamu</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!--menu-->
+    <string name="home">Beranda</string>
+    <string name="e_complaint">eKomplain</string>
+    <string name="academic_guide_book">Buku Panduan Akademik</string>
+    <string name="university_map">Peta Kampus</string>
+    <string name="academic_regulation">Regulasi Akademik</string>
+    <string name="settings">Pengaturan</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="elevate_complaint_status">Naikkan status keluhan</string>
+
+    <!--Home Greeting Card-->
+    <string name="user">Pengguna</string>
+    <string name="tap_to_login">Tap untuk login</string>
+
+    <!--Login screen-->
+    <string name="welcome">Selamat Datang</string>
+    <string name="sign_in_to_continue">Sign in untuk melanjutkan</string>
+    <string name="forgot_password">Lupa Password?</string>
+    <string name="user_identifier">E-Mail</string>
+    <string name="password">Password</string>
+    <string name="password_register">Password (min. 8 karakter)</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="komplaint">Keluhan</string>
+    <string name="submit_complaint">Masukkan Keluhan</string>
+    <string name="filter">Filter</string>
+
+    <!--Complaint Status-->
+    <string name="AWAITING_FOLLOWUP">Menunggu tindak lanjut</string>
+    <string name="IS_BEING_FOLLOWED_UP">Sedang ditindak lanjuti</string>
+    <string name="FINISHED">Telah ditindak lanjuti</string>
+    <string name="REOPENED">Dibuka kembali</string>
+
+    <!--Keluhan OptionMenu Message-->
+    <string name="AWAITING_FOLLOWUP_OM">Proses Keluhan</string>
+    <string name="IS_BEING_FOLLOWED_UP_OM">Selesaikan Keluhan</string>
+    <string name="FINISHED_OM">Buka kembali keluhan</string>
+
+
+    <!--Complaint Type-->
+    <string name="FACILITIES_AND_INFRASTRUCTURE">Sarana dan Prasarana</string>
+    <string name="BUILDINGS">Gedung</string>
+    <string name="HUMAN_RESOURCE">Tenaga Kependidikan</string>
+    <string name="CLEANING_AND_GARDENING">Kebersihan</string>
+    <string name="INCIDENT_AND_RULE_VIOLATION">Pelanggaran Tata Tertib</string>
+    <string name="OTHERS">Lainnya</string>
+
+
+    <string name="COMBINED_STATUS_AND_TYPE">%1$s | %2$s</string>
+    <string name="delete_complaint">Hapus Keluhan</string>
+    <string name="edit_complaint">Edit Keluhan</string>
+
+    <!--FINE LOCATION PERMISSION DIALOG-->
+    <string name="fine_location_permission_title">Izinkan akses lokasi</string>
+    <string name="fine_location_permission_description">Aplikasi ini membutuhkan akses lokasi untuk menemukan posisi anda di lingkungan FTUI. Tidak ada data lokasi yang akan dikirim dan disimpan</string>
+
+    <!--CAMERA LOCATION PERMISSION DIALOG-->
+    <string name="camera_permission_title">Izinkan akses kamera</string>
+    <string name="camera_permission_description">Aplikasi ini membutuhkan akses kamera untuk mengambil gambar tentang objek yang Anda laporkan. Gambar yang Anda ambil akan dikirim dan disimpan guna memverifikasi laporan dan menemukan objek yang dilaporkan</string>
+
+    <!--TOAST TEXT-->
+    <string name="cant_access_location">Tidak dapat mengakses lokasi</string>
+
+    <!--SIGN UP DIALOG BOX-->
+    <string name="dialog_title_not_strong_password">Password tidak kuat</string>
+    <string name="dialog_message_not_strong_password">Untuk keamanan akun Anda, silahkan masukkan password lebih dari 8 karakter</string>
+    <string name="dialog_title_not_matching_password">Konfirmasi password tidak sama</string>
+    <string name="dialog_message_not_matching_password">Silahkan ketik ulang password anda di kolom konfirmasi password</string>
+
+    <!--IMAGE DIALOG-->
+    <string name="dialog_title_image_chosen">Gambar yang telah dipilih</string>
+    <string name="dialog_negative_button_remove_image">Hapus</string>
+    <string name="dialog_neutral_button_change_image">Ganti</string>
+
+    <!-- DATE UTIL -->
+    <string name="days">Hari</string>
+    <string name="hours">Jam</string>
+    <string name="minutes">Menit</string>
+    <string name="seconds">Detik</string>
+
+    <string name="image_has_been_added_click_again_to_preview">Gambar telah ditambahkan, tap lagi untuk melihat preview</string>
+
+    <string name="undo">UNDO</string>
+    <string name="clear">Clear</string>
+    <string name="complaint_description">Deskripsi Keluhan</string>
+    <string name="comments">Komentar</string>
+    <string name="complaint_status">Status Keluhan</string>
+    <string name="complaint_daycount_since_submitted">%1$d %2$s sejak keluhan %3$s</string>
+    <string name="submitted">diajukan</string>
+    <string name="reopen">dibuka kembali</string>
+    <string name="object_take_picture_info">Ambil gambar yang menjelaskan tentang keluhan</string>
+    <string name="next">Selanjutnya</string>
+    <string name="maximum_picture_reached_notification">Anda telah mencapai jumlah gambar maksimum, silahkan hapus gambar untuk mengganti gambar tersebut</string>
+    <string name="complaint_title">Judul Keluhan</string>
+    <string name="report_complaint">Laporkan Keluhan</string>
+    <string name="complaint_type">Tipe Keluhan</string>
+    <string name="fill_complaint_detail">Isi detail keluhan</string>
+    <string name="object_location">Lokasi Objek</string>
+    <string name="info_user_eligibility">Guna memverifikasi eligibilitas Anda untuk menggunakan aplikasi ini, Kami harus memastikan Anda adalah bagian dari civitas Fakultas Teknik Universitas Indonesia. Anda dapat memverifikasikan diri Anda dengan Login menggunakan Akun SSO-UI yang Anda miliki</string>
+    <string name="register_here">Registrasi Akun</string>
+    <string name="see_detail_complaint">Lihat Detail Keluhan</string>
+    <string name="register">Register</string>
+    <string name="hello_text">Halo, %1$s. Anda telah sukses memverifikasikan diri Anda lewat akun SSO-UI, satu langkah lagi dan Anda dapat menggunakan FTUI-Mobile secara penuh!</string>
+    <string name="password_confirm">Konfirmasi Password</string>
+    <string name="personal_information">Informasi Personal</string>
+    <string name="identity_number">Nomor Identitas</string>
+    <string name="department">Jurusan</string>
+    <string name="email">Email</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="filter_based_on_complaint_type">Filter berdasarkan Tipe keluhan</string>
+    <string name="filter_based_on_complaint_status">Filter berdasarkan status keluhan</string>
+    <string name="type_comment">Ketik komentar…</string>
+    <string name="no_location">No Location</string>
+    <string name="add_image">Tambahkan gambar yang menjelaskan keluhan (maks. 4 gambar)</string>
+    <string name="change">Ganti</string>
+    <string name="delete">Hapus</string>
+    <string name="add">Tambahkan</string>
+    <string name="no_privilege_to_access_complaint">Anda tidak memiliki hak untuk mengakses daftar keluhan</string>
+    <string name="all_field_is_required">Harap isi semua kolom</string>
+    <string name="comment_successfully_added">Komentar berhasil ditambahkan</string>
+    <string name="notification">Notifikasi</string>
+    <string name="complaint_deleted_successfully">Sukses menghapus keluhan</string>
+    <string name="delete_complaint_confirmation">Apakah anda yakin untuk menghapus entri keluhan ?</string>
+    <string name="max_image_limit_reached">Anda telah mencapai jumlah maksimal gambar yang diizinkan</string>
+    <string name="only_show_my_complaint">Hanya perlihatkan keluhan saya</string>
+    <string name="my_complaint">Keluhan saya</string>
+    <string name="loading">Loading…</string>
+    <string name="general_cant_get_complaint_error_msg">Tidak dapat mengambil keluhan, silahkan coba lagi</string>
+    <string name="email_password_cant_be_empty">Email dan Password tidak dapat kosong</string>
+    <string name="successfully_registered">Telah berhasil register</string>
+    <string name="wrong_email_or_password">Email atau password salah</string>
+    <string name="complaint_desc_text">Deskripsi Keluhan</string>
+</resources>
