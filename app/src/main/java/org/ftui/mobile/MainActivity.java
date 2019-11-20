@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            new LibsBuilder().withActivityStyle(Libs.ActivityStyle.DARK).withAboutAppName("FTUI Mobile").withAboutDescription("&#169; 2019 Fakultas Teknik UI").start(this);
+            new LibsBuilder().withAboutAppName("FTUI Mobile").withAboutDescription("&#169; 2019 Fakultas Teknik UI").start(this);
             return true;
         }else if (id == R.id.notification_button){
             getSupportFragmentManager()
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(this, CampusMap.class);
             startActivity(i);
         }else if(id == R.id.nav_info){
-            new LibsBuilder().withActivityStyle(Libs.ActivityStyle.DARK).withAboutAppName("FTUI Mobile").withAboutDescription("&#169; 2019 Fakultas Teknik UI").start(this);
+            new LibsBuilder().withAboutAppName("FTUI Mobile").withAboutDescription("&#169; 2019 Fakultas Teknik UI").start(this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

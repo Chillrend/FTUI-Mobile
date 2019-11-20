@@ -44,7 +44,7 @@
             android:layout_below="@id/success_verif_text"
             android:textSize="@dimen/heading_4"
             android:textColor="@color/white"
-            android:text="Beri akun Anda sebuah password"/>
+            android:text="@string/give_account_password"/>
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/form_register_wrapper"

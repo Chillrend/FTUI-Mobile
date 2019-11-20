@@ -142,4 +142,6 @@
     <string name="successfully_registered">You have been successfully registered</string>
     <string name="wrong_email_or_password">Wrong email or password</string>
     <string name="complaint_desc_text">Complaint Description</string>
+    <string name="give_account_password">Give your account a password</string>
+    <string name="login_with_sso_ui">Login with SSO-UI</string>
 </resources>

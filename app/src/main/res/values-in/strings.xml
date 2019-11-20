@@ -142,4 +142,6 @@
     <string name="successfully_registered">Telah berhasil register</string>
     <string name="wrong_email_or_password">Email atau password salah</string>
     <string name="complaint_desc_text">Deskripsi Keluhan</string>
+    <string name="give_account_password">Beri akun Anda sebuah password</string>
+    <string name="login_with_sso_ui">Login dengan SSO-UI</string>
 </resources>

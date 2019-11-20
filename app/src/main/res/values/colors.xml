@@ -22,4 +22,17 @@
     <color name="shimmer_background">#DDDDDD</color>
 
     <color name="tab_shit">#3ACCE1</color>
+
+    <!-- AboutLibraries DEFAULT colors -->
+    <color name="about_libraries_window_background">#2A2E43</color>
+    <color name="about_libraries_card">#FFF</color>
+    <color name="about_libraries_title_openSource">#000</color>
+    <color name="about_libraries_text_openSource">#000</color>
+    <color name="about_libraries_special_button_openSource">#212121</color>
+    <color name="about_libraries_dividerDark_openSource">#FFF</color>
+    <color name="about_libraries_dividerLight_openSource">#FFF</color>
+
+    <color name="about_libraries_title_description">#FFF</color>
+    <color name="about_libraries_text_description">#FFF</color>
+    <color name="about_libraries_divider_description">#FFF</color>
 </resources>

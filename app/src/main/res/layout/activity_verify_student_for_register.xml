@@ -40,5 +40,5 @@
             android:padding="@dimen/large_padding"
             android:background="@drawable/button_background"
             android:textColor="@color/white"
-            android:text="Login dengan SSO-UI"/>
+            android:text="@string/login_with_sso_ui"/>
 </LinearLayout>
