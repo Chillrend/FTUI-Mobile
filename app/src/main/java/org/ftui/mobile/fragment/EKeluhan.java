@@ -351,11 +351,7 @@ public class EKeluhan extends Fragment{
         View.OnClickListener addKeluhanListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(getActivity(), CreateNewKeluhan   .class);
-//                startActivity(i);
-
-                Intent i = new Intent(getActivity(), KeluhanDetail.class);
-                i.putExtra("id", "25");
+                Intent i = new Intent(getActivity(), CreateNewKeluhan   .class);
                 startActivity(i);
             }
         };

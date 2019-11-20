@@ -136,6 +136,8 @@ public class MainActivity extends AppCompatActivity
         }else if(id == R.id.nav_map){
             Intent i = new Intent(this, CampusMap.class);
             startActivity(i);
+        }else if(id == R.id.nav_info){
+            new LibsBuilder().withActivityStyle(Libs.ActivityStyle.DARK).withAboutAppName("FTUI Mobile").withAboutDescription("&#169; 2019 Fakultas Teknik UI").start(this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

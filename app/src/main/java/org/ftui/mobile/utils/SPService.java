@@ -4,12 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import org.ftui.mobile.model.CompleteUser;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.surveyor.Surveyor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 
 //TODO: Fragment at EKeluhan, Login, Main, Register Activity Done
@@ -24,7 +29,9 @@ public class SPService {
     public static final String USER_STRING = "user";
     public static final String SURVEYOR_STRING = "surveyor";
     public static final String FB_TOKEN_STRING = "fbtoken";
-    public static final String FB_TOKEN_IS_UPLOADED_STRING = "fbtoken_isuploaded";
+    public static final String FB_TOKEN_IS_UPLOADED_STRING = "fbtoken_is_uploaded";
+    public static final String FB_TOKEN_IS_DELETED_STRING = "fbtoken_is_deleted";
+    public static final String FB_TOKEN_TEMPORARY_USER_TOKEN = "fbtoken_temp_user_token";
 
     private Context ctx;
     private SharedPreferences completeUser, user, fbToken, surveyor;
@@ -113,11 +120,46 @@ public class SPService {
     }
 
     public void deleteAllSp(){
+        fbToken.edit().putString(FB_TOKEN_TEMPORARY_USER_TOKEN, getUserToken(ctx)).apply();
+
         user.edit().clear().apply();
         completeUser.edit().clear().apply();
-        fbToken.edit().clear().apply();
+
+        deleteFbTokenFromServer();
+
         if(isSurveyor()){
             surveyor.edit().clear().apply();
         }
+    }
+
+    public boolean isFbTokenDeletedFromServer(){
+        return fbToken.getBoolean(FB_TOKEN_IS_DELETED_STRING, false);
+    }
+
+    public void deleteFbTokenFromServer(){
+        String token = fbToken.getString(FB_TOKEN_TEMPORARY_USER_TOKEN, null);
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json");
+        headers.put("Authorization", "Bearer " + token);
+
+        ApiService service = ApiCall.getClient().create(ApiService.class);
+        Call<JsonObject> call = service.resetToken(headers);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(!response.isSuccessful()){
+                    return;
+                }
+
+                fbToken.edit().putBoolean(FB_TOKEN_IS_UPLOADED_STRING, false).putBoolean(FB_TOKEN_IS_DELETED_STRING, true).apply();
+                fbToken.edit().remove(FB_TOKEN_TEMPORARY_USER_TOKEN).apply();
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
 }

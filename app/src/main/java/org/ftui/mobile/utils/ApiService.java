@@ -55,4 +55,7 @@ public interface ApiService {
 
     @DELETE("/api/keluhan/{id}")
     Call<JsonObject> deleteKeluhan(@Path("id") int id ,@HeaderMap  Map<String,String> headers);
+
+    @POST("/api/resetToken")
+    Call<JsonObject> resetToken(@HeaderMap Map<String, String> headers);
 }

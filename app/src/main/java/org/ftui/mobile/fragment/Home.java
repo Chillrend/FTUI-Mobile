@@ -287,6 +287,8 @@ public class Home extends Fragment implements View.OnClickListener {
 
         if(!sharedPreferenceService.isCompleteSpExist()){
             checkIfCompleteUserPrefExist();
+        }else if(!sharedPreferenceService.isUserSpExist() && !sharedPreferenceService.isFbTokenDeletedFromServer()){
+            sharedPreferenceService.deleteFbTokenFromServer();
         }
 
         checkForFirebaseToken();
