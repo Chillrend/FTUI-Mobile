@@ -135,7 +135,7 @@ public class KeluhanDetail extends AppCompatActivity implements
 
     public void getKeluhanDataFromId(String id){
         HashMap<String,String> headerMap = new HashMap<>();
-        headerMap.put("acc192.168.43.200:800ept", "application/json");
+        headerMap.put("accept", "application/json");
         headerMap.put("Authorization", "Bearer " + tokenUser.getToken());
 
         List<String> includeParams = new ArrayList<>();
