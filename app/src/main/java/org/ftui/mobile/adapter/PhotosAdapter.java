@@ -9,14 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.esafirm.imagepicker.model.Image;
 import es.dmoral.toasty.Toasty;
-import org.ftui.mobile.AddComplaintCamera;
 import org.ftui.mobile.CreateNewKeluhan;
 import org.ftui.mobile.R;
-import org.ftui.mobile.model.Photos;
 
 import java.util.List;
 

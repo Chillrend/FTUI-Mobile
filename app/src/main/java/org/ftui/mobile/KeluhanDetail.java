@@ -2,7 +2,6 @@ package org.ftui.mobile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.util.Log;
@@ -13,26 +12,20 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.fragment.ComplaintComments;
 import org.ftui.mobile.fragment.ComplaintDescription;
 import org.ftui.mobile.fragment.EKeluhan;
-import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.model.CompleteUser;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.keluhan.Comment;
-import org.ftui.mobile.model.keluhan.Keluhan;
 import org.ftui.mobile.model.keluhan.Ticket;
 import org.ftui.mobile.model.singlekeluhan.SingleKeluhan;
 import org.ftui.mobile.model.surveyor.Details;
 import org.ftui.mobile.model.surveyor.Surveyor;
-import org.ftui.mobile.model.surveyor.SurveyorResponse;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
 import org.ftui.mobile.utils.SPService;
@@ -40,7 +33,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class KeluhanDetail extends AppCompatActivity implements
@@ -222,6 +214,7 @@ public class KeluhanDetail extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         this.optMenu = menu;
+        createOptMenu(menu);
         return true;
     }
 
@@ -378,7 +371,8 @@ public class KeluhanDetail extends AppCompatActivity implements
     }
 
     private FragmentManager.OnBackStackChangedListener getListener(){
-        FragmentManager.OnBackStackChangedListener result = new FragmentManager.OnBackStackChangedListener(){
+
+        return new FragmentManager.OnBackStackChangedListener(){
             public void onBackStackChanged(){
                 FragmentManager manager = getSupportFragmentManager();
 
@@ -389,8 +383,6 @@ public class KeluhanDetail extends AppCompatActivity implements
                 }
             }
         };
-
-        return result;
     }
 
     @Override

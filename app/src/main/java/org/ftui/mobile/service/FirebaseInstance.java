@@ -3,7 +3,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.util.Log;
 
@@ -11,23 +10,12 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
-import org.ftui.mobile.LoginActivity;
 import org.ftui.mobile.R;
-import org.ftui.mobile.model.User;
-import org.ftui.mobile.utils.ApiService;
 
-import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.utils.SPService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.Map;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class FirebaseInstance extends FirebaseMessagingService {
     @Override

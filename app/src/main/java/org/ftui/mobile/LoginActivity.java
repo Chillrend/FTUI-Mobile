@@ -1,41 +1,26 @@
 package org.ftui.mobile;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import es.dmoral.toasty.Toasty;
-import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.surveyor.Details;
 import org.ftui.mobile.model.surveyor.Surveyor;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
-import org.ftui.mobile.service.FirebaseInstance;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 
 import org.ftui.mobile.utils.PDialog;

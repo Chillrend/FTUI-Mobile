@@ -3,10 +3,8 @@ package org.ftui.mobile;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import es.dmoral.toasty.Toasty;
 import org.ftui.mobile.utils.SPService;
 
 public class SubmitComplaintForm extends AppCompatActivity implements View.OnClickListener {

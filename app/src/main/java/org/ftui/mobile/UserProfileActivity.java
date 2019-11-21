@@ -3,9 +3,7 @@ package org.ftui.mobile;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.google.gson.Gson;
 import es.dmoral.toasty.Toasty;
-import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.model.CompleteUser;
 import org.ftui.mobile.utils.SPService;
 

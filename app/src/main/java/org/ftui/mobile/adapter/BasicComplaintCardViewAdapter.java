@@ -1,11 +1,7 @@
 package org.ftui.mobile.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,15 +12,10 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.snackbar.Snackbar;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-import es.dmoral.toasty.Toasty;
-import org.ftui.mobile.KeluhanDetail;
 import org.ftui.mobile.R;
-import org.ftui.mobile.model.BasicComplaint;
 import org.ftui.mobile.model.keluhan.*;
 import org.ftui.mobile.utils.TimeUtils;
 

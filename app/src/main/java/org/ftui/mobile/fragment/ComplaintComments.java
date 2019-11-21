@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -28,14 +26,11 @@ import android.view.ViewGroup;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.esafirm.imagepicker.model.Image;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import es.dmoral.toasty.Toasty;
-import org.ftui.mobile.LoginActivity;
 import org.ftui.mobile.R;
 import org.ftui.mobile.adapter.CommentsAdapter;
-import org.ftui.mobile.model.Comments;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.keluhan.Comment;
 import org.ftui.mobile.model.keluhan.Ticket;
@@ -49,7 +44,6 @@ import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**

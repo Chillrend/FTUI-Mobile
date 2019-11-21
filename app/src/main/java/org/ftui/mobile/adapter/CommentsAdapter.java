@@ -8,16 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import com.squareup.picasso.Picasso;
 import org.ftui.mobile.R;
-import org.ftui.mobile.model.Comments;
 import org.ftui.mobile.model.keluhan.Comment;
 import org.ftui.mobile.model.keluhan.User;
 import org.ftui.mobile.utils.TimeUtils;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class CommentsAdapter extends ArrayAdapter<Comment> {
     private List<Comment> items;

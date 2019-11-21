@@ -1,12 +1,9 @@
 package org.ftui.mobile.utils;
 
-import androidx.room.Delete;
 import com.google.gson.JsonObject;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import org.ftui.mobile.model.keluhan.Comment;
 import org.ftui.mobile.model.keluhan.Keluhan;
-import org.ftui.mobile.model.keluhan.Ticket;
 import org.ftui.mobile.model.singlekeluhan.SingleKeluhan;
 import retrofit2.Call;
 import retrofit2.http.*;

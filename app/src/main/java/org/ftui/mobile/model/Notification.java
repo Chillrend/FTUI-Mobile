@@ -1,7 +1,6 @@
 package org.ftui.mobile.model;
 
 import org.ftui.mobile.R;
-import org.ftui.mobile.model.keluhan.Keluhan;
 
 import java.util.ArrayList;
 
