@@ -135,7 +135,7 @@ public class KeluhanDetail extends AppCompatActivity implements
 
     public void getKeluhanDataFromId(String id){
         HashMap<String,String> headerMap = new HashMap<>();
-        headerMap.put("accept", "application/json");
+        headerMap.put("acc192.168.43.200:800ept", "application/json");
         headerMap.put("Authorization", "Bearer " + tokenUser.getToken());
 
         List<String> includeParams = new ArrayList<>();
@@ -145,7 +145,7 @@ public class KeluhanDetail extends AppCompatActivity implements
         includeParams.add("category");
         includeParams.add("comments");
 
-        String url = EKeluhan.buildGetKeluhanUrl("http://pengaduan.ccit-solution.com/api/keluhan/" + id + "?", null, includeParams, null);
+        String url = EKeluhan.buildGetKeluhanUrl("http://192.168.43.200:8000/api/keluhan/" + id + "?", null, includeParams, null);
 
         ApiService service = ApiCall.getClient().create(ApiService.class);
         Call<SingleKeluhan> call = service.getKeluhanById(url, headerMap);
@@ -343,7 +343,7 @@ public class KeluhanDetail extends AppCompatActivity implements
 
     public static String buildProcessUrl(String method, Integer id){
 
-        return "http://pengaduan.ccit-solution.com/api/keluhan/" + method + "/" + id;
+        return "http://192.168.43.200:8000/api/keluhan/" + method + "/" + id;
     }
 
     @Override

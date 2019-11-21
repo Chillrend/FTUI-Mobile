@@ -15,7 +15,7 @@ public class ApiCall {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://pengaduan.ccit-solution.com")
+                .baseUrl("http://192.168.43.200:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

@@ -69,7 +69,7 @@ public class EKeluhan extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    String baseUrl = "http://pengaduan.ccit-solution.com/api/keluhan?";
+    String baseUrl = "http://192.168.43.200:8000/api/keluhan?";
     private GetKeluhanIntoRecyclerView gk;
     private List<String> includeParam = new ArrayList<>();
     HashMap<String, String> otherParam = new HashMap<String, String>();
@@ -295,7 +295,7 @@ public class EKeluhan extends Fragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(myComplaint.isChecked()){
-                            String base = "http://pengaduan.ccit-solution.com/api/mykeluhan?";
+                            String base = "http://192.168.43.200:8000/api/mykeluhan?";
                             Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(base, null, includeParam, otherParam), false, true);
                             setMultipleParam(returnedData);
                         }else if(statusId != null && typeId != null){
