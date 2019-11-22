@@ -134,8 +134,8 @@
     <string name="complaint_deleted_successfully">Complaint deleted successfully</string>
     <string name="delete_complaint_confirmation">Are you sure to delete this entry ?</string>
     <string name="max_image_limit_reached">Maximum amount of images reached</string>
-    <string name="only_show_my_complaint">Only show my complaint</string>
-    <string name="my_complaint">My complaint</string>
+    <string name="show_all_complaint">Shows all reports</string>
+    <string name="all_complaint">All reports</string>
     <string name="loading">Loading…</string>
     <string name="general_cant_get_complaint_error_msg">Can\'t get reports from server, please try again.</string>
     <string name="email_password_cant_be_empty">Email and password can\'t be empty</string>

@@ -69,6 +69,7 @@ public class EKeluhan extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    String baseMyUrl = "http://pengaduan.ccit-solution.com/api/mykeluhan?";
     String baseUrl = "http://pengaduan.ccit-solution.com/api/keluhan?";
     private GetKeluhanIntoRecyclerView gk;
     private List<String> includeParam = new ArrayList<>();
@@ -295,8 +296,7 @@ public class EKeluhan extends Fragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(myComplaint.isChecked()){
-                            String base = "http://pengaduan.ccit-solution.com/api/mykeluhan?";
-                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(base, null, includeParam, otherParam), false, true);
+                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(baseUrl, null, includeParam, otherParam), false, true);
                             setMultipleParam(returnedData);
                         }else if(statusId != null && typeId != null){
                             HashMap<String, Integer> filterParam = new HashMap<>();
@@ -349,9 +349,9 @@ public class EKeluhan extends Fragment{
             addKeluhanBtn.setOnClickListener(addKeluhanListener);
         }
 
-        String url = buildGetKeluhanUrl(baseUrl,null, includeParam, otherParam);
+        String url = buildGetKeluhanUrl(baseMyUrl,null, includeParam, otherParam);
 
-        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
+        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseMyUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
 
         Map<String, Object> returnedData = gk.getKeluhanToRv(url,true, null);
         setMultipleParam(returnedData);
@@ -361,9 +361,9 @@ public class EKeluhan extends Fragment{
     public void onResume() {
         loadingLayout.startShimmer();
 
-        String url = buildGetKeluhanUrl(baseUrl, null, includeParam, otherParam);
+        String url = buildGetKeluhanUrl(baseMyUrl, null, includeParam, otherParam);
 
-        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
+        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseMyUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
 
         Map<String, Object> returnedData = gk.getKeluhanToRv(url,true, null);
         setMultipleParam(returnedData);

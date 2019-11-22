@@ -99,12 +99,12 @@
             android:layout_marginTop="@dimen/small_margin"
             android:layout_marginBottom="@dimen/small_margin"
             android:layout_marginLeft="@dimen/small_margin"
-            android:text="@string/only_show_my_complaint"/>
+            android:text="@string/show_all_complaint"/>
 
     <com.google.android.material.chip.Chip
             android:id="@+id/my_complaint_chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/my_complaint"
+            android:text="@string/all_complaint"
             style="@style/Widget.MaterialComponents.Chip.Filter"/>
 </LinearLayout>
