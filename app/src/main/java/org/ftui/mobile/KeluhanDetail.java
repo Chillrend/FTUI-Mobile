@@ -16,16 +16,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.google.gson.JsonObject;
 import es.dmoral.toasty.Toasty;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import org.ftui.mobile.fragment.ComplaintComments;
 import org.ftui.mobile.fragment.ComplaintDescription;
 import org.ftui.mobile.fragment.EKeluhan;
 import org.ftui.mobile.model.CompleteUser;
+import org.ftui.mobile.model.Notification;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.keluhan.Comment;
+import org.ftui.mobile.model.keluhan.Keluhan;
 import org.ftui.mobile.model.keluhan.Ticket;
 import org.ftui.mobile.model.singlekeluhan.SingleKeluhan;
 import org.ftui.mobile.model.surveyor.Details;
 import org.ftui.mobile.model.surveyor.Surveyor;
+import org.ftui.mobile.service.FirebaseInstance;
 import org.ftui.mobile.utils.ApiCall;
 import org.ftui.mobile.utils.ApiService;
 import org.ftui.mobile.utils.SPService;
@@ -57,10 +62,16 @@ public class KeluhanDetail extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keluhan_detail);
+        Realm.init(getApplicationContext());
 
         sharedPreferenceService = new SPService(this);
         tokenUser = sharedPreferenceService.getUserFromSp();
         user = sharedPreferenceService.getCompleteUserFromSp();
+
+        if(!sharedPreferenceService.isRealmInitialized()){
+            Realm.init(getApplicationContext());
+            sharedPreferenceService.setRealmIsInit(true);
+        }
 
         Intent i = getIntent();
 
@@ -77,9 +88,25 @@ public class KeluhanDetail extends AppCompatActivity implements
                     .beginTransaction()
                     .add(R.id.complaint_detail_main_fragment, fr, ComplaintDescription.COMPLAINT_DESCRIPTION_FRAGMENT_TAG)
                     .commit();
-        }else if(i.getStringExtra("id") != null){
-            String k_id = i.getStringExtra("id");
-            getKeluhanDataFromId(k_id);
+        }else if(i.getExtras() != null){
+            String id = i.getExtras().getString("ID");
+
+            if(!i.getExtras().getBoolean("FROM_NOTIF")){
+
+                String not_title = i.getExtras().getString("notification_title");
+                String not_desc = i.getExtras().getString("notification_body");
+
+                Notification notification = new Notification(not_title, not_desc, id);
+                if(sharedPreferenceService.isRealmInitialized()){
+                    FirebaseInstance.putNotifToRealmDb(notification);
+                }else{
+                    Realm.init(getApplicationContext());
+                    sharedPreferenceService.setRealmIsInit(true);
+                    FirebaseInstance.putNotifToRealmDb(notification);
+                }
+            }
+
+            getKeluhanDataFromId(id);
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -148,16 +175,16 @@ public class KeluhanDetail extends AppCompatActivity implements
         String url = EKeluhan.buildGetKeluhanUrl("http://pengaduan.ccit-solution.com/api/keluhan/" + id + "?", null, includeParams, null);
 
         ApiService service = ApiCall.getClient().create(ApiService.class);
-        Call<SingleKeluhan> call = service.getKeluhanById(url, headerMap);
-        call.enqueue(new Callback<SingleKeluhan>() {
+        Call<Keluhan> call = service.getKeluhanById(url, headerMap);
+        call.enqueue(new Callback<Keluhan>() {
             @Override
-            public void onResponse(Call<SingleKeluhan> call, Response<SingleKeluhan> response) {
+            public void onResponse(Call<Keluhan> call, Response<Keluhan> response) {
                 if(!response.isSuccessful()){
                     Toasty.error(KeluhanDetail.this, R.string.general_cant_get_complaint_error_msg).show();
                     Log.d("Unsuccesful Resp", response.errorBody().toString());
                 }
 
-                keluhan_data = response.body().getResults().getTicket();
+                keluhan_data = response.body().getResults().getTicket().get(0);
                 keluhan_comment = new ArrayList<>(keluhan_data.getComments());
 
                 Fragment fr = ComplaintDescription.newInstance(keluhan_data, response.body().getUrlimg());
@@ -171,7 +198,7 @@ public class KeluhanDetail extends AppCompatActivity implements
             }
 
             @Override
-            public void onFailure(Call<SingleKeluhan> call, Throwable t) {
+            public void onFailure(Call<Keluhan> call, Throwable t) {
                 Toasty.error(KeluhanDetail.this, R.string.general_cant_get_complaint_error_msg).show();
                 t.printStackTrace();
                 Log.d("TAG", "onFailure: " + t.getMessage());

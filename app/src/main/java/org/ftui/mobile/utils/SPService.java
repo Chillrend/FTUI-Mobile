@@ -24,6 +24,7 @@ public class SPService {
     public static final String USER_SP = "USER_SHARED_PREFERENCE";
     public static final String FB_TOKEN_SP = "FIREBASE_TOKEN_SP";
     public static final String SURVEYOR_SP = "SURVEYOR_SHARED_PREFERENCES";
+    public static final String REALM_INIT = "REALM_INIT_SHARED_PREFERENCES";
 
     public static final String COMPLETE_USER_STRING = "complete_user";
     public static final String USER_STRING = "user";
@@ -32,10 +33,10 @@ public class SPService {
     public static final String FB_TOKEN_IS_UPLOADED_STRING = "fbtoken_is_uploaded";
     public static final String FB_TOKEN_IS_DELETED_STRING = "fbtoken_is_deleted";
     public static final String FB_TOKEN_TEMPORARY_USER_TOKEN = "fbtoken_temp_user_token";
+    public static final String IS_REALM_INIT_SP = "is_realm_init";
 
     private Context ctx;
-    private SharedPreferences completeUser, user, fbToken, surveyor;
-    private SharedPreferences.Editor completeUserEditor, userEditor, fbTokenEditor;
+    private SharedPreferences completeUser, user, fbToken, surveyor, realm;
     private Gson gson = new Gson();
 
     public SPService(Context ctx){
@@ -44,6 +45,7 @@ public class SPService {
         user = ctx.getSharedPreferences(USER_SP, Context.MODE_PRIVATE);
         fbToken = ctx.getSharedPreferences(FB_TOKEN_SP, Context.MODE_PRIVATE);
         surveyor = ctx.getSharedPreferences(SURVEYOR_SP, Context.MODE_PRIVATE);
+        realm = ctx.getSharedPreferences(REALM_INIT, Context.MODE_PRIVATE);
     }
 
     public Boolean isUserSpExist(){
@@ -64,6 +66,10 @@ public class SPService {
 
     public Boolean isFbTokenUploaded() {
         return fbToken.getBoolean(FB_TOKEN_IS_UPLOADED_STRING, false);
+    }
+
+    public Boolean isRealmInitialized(){
+        return realm.getBoolean(IS_REALM_INIT_SP, false);
     }
 
     public User getUserFromSp(){
@@ -117,6 +123,10 @@ public class SPService {
 
     public void setSurveyorToSp(String obj){
         surveyor.edit().putString(SURVEYOR_STRING, obj).apply();
+    }
+
+    public void setRealmIsInit(Boolean obj){
+        realm.edit().putBoolean(IS_REALM_INIT_SP, obj).apply();
     }
 
     public void deleteAllSp(){

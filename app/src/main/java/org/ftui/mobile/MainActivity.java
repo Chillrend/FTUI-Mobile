@@ -1,9 +1,14 @@
 package org.ftui.mobile;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.google.android.material.navigation.NavigationView;
@@ -14,7 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.google.android.material.snackbar.Snackbar;
 import com.mikepenz.aboutlibraries.LibsBuilder;
+import es.dmoral.toasty.Toasty;
+import io.realm.Realm;
 import org.ftui.mobile.fragment.EKeluhan;
 import org.ftui.mobile.fragment.Home;
 import org.ftui.mobile.fragment.NotificationFragment;
@@ -25,6 +33,7 @@ public class MainActivity extends AppCompatActivity
         EKeluhan.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener{
 
     private SPService sharedPreferenceService;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         sharedPreferenceService = new SPService(this);
+        Realm.init(getApplicationContext());
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -58,6 +68,29 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .add(R.id.main_frame, fragment, Home.HOME_FRAGMENT_TAG)
                 .commit();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        IntentFilter ifil = new IntentFilter("ACTION_SEND_SNACKBAR");
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Toasty.info(MainActivity.this, R.string.got_new_notification, Toasty.LENGTH_LONG).show();
+            }
+        };
+
+        this.registerReceiver(broadcastReceiver, ifil);
+
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        sharedPreferenceService.setRealmIsInit(false);
+        this.unregisterReceiver(broadcastReceiver);
     }
 
     @Override

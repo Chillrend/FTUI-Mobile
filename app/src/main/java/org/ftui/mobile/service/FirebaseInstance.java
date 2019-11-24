@@ -11,11 +11,15 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import es.dmoral.toasty.Toasty;
+import io.realm.Realm;
 import org.ftui.mobile.R;
 
+import org.ftui.mobile.model.Notification;
 import org.ftui.mobile.utils.SPService;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class FirebaseInstance extends FirebaseMessagingService {
     @Override
@@ -27,35 +31,42 @@ public class FirebaseInstance extends FirebaseMessagingService {
     }
 
 
+    public static void putNotifToRealmDb(Notification notification){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        notification.setId(UUID.randomUUID().toString());
+        notification.setUpdated_at(System.currentTimeMillis() / 1000L);
+        realm.insertOrUpdate(notification);
+        realm.commitTransaction();
+        realm.close();
+    }
+
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
 
-        if(message.getNotification() != null){
-            Log.d("Notification received", "Body : " + message.getNotification().getBody());
+        SPService spService = new SPService(getApplicationContext());
 
-            Map<String, String> notificationData = message.getData();
-            String INTENT_ID = message.getNotification().getClickAction();
+        if(message.getData().size() > 0){
+            Log.d("From FCM", "Data: " + message.getData());
+            String keluhan_id = message.getData().get("ID");
+            String not_title = message.getData().get("notification_title");
+            String not_desc = message.getData().get("notification_body");
 
-            Intent i = new Intent(INTENT_ID);
-            i.putExtra("keluhan_id", notificationData.get("id"));
+            Notification notification = new Notification(not_title, not_desc, keluhan_id);
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0, i, PendingIntent.FLAG_ONE_SHOT);
+            if(spService.isRealmInitialized()){
+                putNotifToRealmDb(notification);
+            }else{
+                Realm.init(getApplicationContext());
+                spService.setRealmIsInit(true);
+                putNotifToRealmDb(notification);
+            }
 
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "channel_id")
-                    .setContentTitle(message.getNotification().getTitle())
-                    .setContentText(message.getNotification().getBody())
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setStyle(new NotificationCompat.BigTextStyle())
-                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true);
-
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-            notificationManager.notify(0, notificationBuilder.build());
+            Intent i = new Intent();
+            i.setAction("ACTION_SEND_SNACKBAR");
+            i.putExtra("data", keluhan_id);
+            sendBroadcast(i);
         }
     }
 }

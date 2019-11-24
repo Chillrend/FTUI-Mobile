@@ -1,18 +1,29 @@
 package org.ftui.mobile.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import org.ftui.mobile.R;
 
 import java.util.ArrayList;
 
-public class Notification {
+public class Notification extends RealmObject {
 
-    private String title, content;
-    private Integer drawable;
+    @PrimaryKey
+    private String id;
+    private String title;
+    private String content;
+    private String keluhan_id;
+    private long updated_at;
 
-    public Notification(String title, String content, Integer drawable) {
+    public Notification(String title, String content, String keluhan_id) {
         this.title = title;
         this.content = content;
-        this.drawable = drawable;
+        this.keluhan_id = keluhan_id;
+    }
+
+    //Required empty constructor
+    public Notification(){
+
     }
 
     public String getTitle() {
@@ -31,19 +42,35 @@ public class Notification {
         this.content = content;
     }
 
-    public Integer getDrawable() {
-        return drawable;
+    public String getId() {
+        return id;
     }
 
-    public void setDrawable(Integer drawable) {
-        this.drawable = drawable;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getKeluhan_id() {
+        return keluhan_id;
+    }
+
+    public void setKeluhan_id(String keluhan_id) {
+        this.keluhan_id = keluhan_id;
+    }
+
+    public long getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(long updated_at) {
+        this.updated_at = updated_at;
     }
 
     public static ArrayList<Notification> mockApiData (){
         ArrayList<Notification> notifications = new ArrayList<>();
-        notifications.add(new Notification("Keluhan telah ditangani", "Keluhan Anda tentang \"Broken Glaz\" telah ditangani. Anda dapat membuka keluhan kembali jika anda tidak puas dengan hasil penanganan.", R.drawable.ic_check_circle_success_24dp));
-        notifications.add(new Notification("Keluhan telah ditangani", "Keluhan Anda tentang \"Broken Glaz\" telah ditangani. Anda dapat membuka keluhan kembali jika anda tidak puas dengan hasil penanganan.", R.drawable.ic_check_circle_success_24dp));
-        notifications.add(new Notification("Keluhan telah ditangani", "Keluhan Anda tentang \"Broken Glaz\" telah ditangani. Anda dapat membuka keluhan kembali jika anda tidak puas dengan hasil penanganan.", R.drawable.ic_check_circle_success_24dp));
+        notifications.add(new Notification("Keluhan telah ditangani", "Keluhan Anda tentang \"Broken Glaz\" telah ditangani. Anda dapat membuka keluhan kembali jika anda tidak puas dengan hasil penanganan.", "1"));
+        notifications.add(new Notification("Keluhan telah ditangani", "Keluhan Anda tentang \"Broken Glaz\" telah ditangani. Anda dapat membuka keluhan kembali jika anda tidak puas dengan hasil penanganan.", "1"));
+        notifications.add(new Notification("Keluhan telah ditangani", "Keluhan Anda tentang \"Broken Glaz\" telah ditangani. Anda dapat membuka keluhan kembali jika anda tidak puas dengan hasil penanganan.", "1"));
 
         return notifications;
     }

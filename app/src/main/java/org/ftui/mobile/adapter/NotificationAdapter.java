@@ -17,22 +17,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private ArrayList<Notification> data;
     private Notification model;
     private Context context;
+    private OnNotificationClickListener onNotificationClickListener;
 
-    public NotificationAdapter(ArrayList<Notification> data, Context context) {
+    public NotificationAdapter(ArrayList<Notification> data, Context context, OnNotificationClickListener onNotificationClickListener) {
         this.data = data;
         this.context = context;
+        this.onNotificationClickListener = onNotificationClickListener;
     }
 
-    public static class Viewholder extends RecyclerView.ViewHolder {
+    public static class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         // 1. Declare your Views here
 
         public ImageView notification_type_icon;
         public TextView notification_type_text;
         public TextView notification_description;
+        public OnNotificationClickListener onNotificationClickListener;
 
 
-        public Viewholder(View itemView) {
+        public Viewholder(View itemView, OnNotificationClickListener onNotificationClickListener) {
             super(itemView);
 
             // 2. Define your Views here
@@ -40,7 +43,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             notification_type_icon = (ImageView)itemView.findViewById(R.id.notification_type_icon);
             notification_type_text = (TextView)itemView.findViewById(R.id.notification_type_text);
             notification_description = (TextView)itemView.findViewById(R.id.notification_description);
+            this.onNotificationClickListener = onNotificationClickListener;
 
+            itemView.setOnClickListener(this);
+
+        }
+
+        public void onClick(View v) {
+            onNotificationClickListener.onNotificationClick(getAdapterPosition());
         }
     }
 
@@ -49,7 +59,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.notification_item_lists, parent, false);
 
-        return new Viewholder(itemView);
+        return new Viewholder(itemView, onNotificationClickListener);
     }
 
     @Override
@@ -57,7 +67,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         model = data.get(position);
 
-        holder.notification_type_icon.setImageResource(model.getDrawable());
+
         holder.notification_type_text.setText(model.getTitle());
         holder.notification_description.setText(model.getContent());
 
@@ -66,6 +76,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public interface OnNotificationClickListener{
+        void onNotificationClick(int pos);
     }
 
 }

@@ -36,7 +36,7 @@ public interface ApiService {
     Call<Keluhan> getAllKeluhan(@Url String url, @Header("Accept") String accept, @Header("Authorization") String bearer);
 
     @GET
-    Call<SingleKeluhan> getKeluhanById(@Url String url, @HeaderMap Map<String, String> headerMap);
+    Call<Keluhan> getKeluhanById(@Url String url, @HeaderMap Map<String, String> headerMap);
 
     @POST("/api/keluhan/")
     @Multipart
