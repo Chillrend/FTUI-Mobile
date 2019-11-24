@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import io.realm.Realm;
 import org.ftui.mobile.model.CompleteUser;
 import org.ftui.mobile.model.User;
 import org.ftui.mobile.model.surveyor.Surveyor;
@@ -136,6 +137,13 @@ public class SPService {
         completeUser.edit().clear().apply();
 
         deleteFbTokenFromServer();
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        realm.deleteAll();
+
+        realm.commitTransaction();
 
         if(isSurveyor()){
             surveyor.edit().clear().apply();

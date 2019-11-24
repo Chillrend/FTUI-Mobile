@@ -114,7 +114,13 @@ public class EKeluhan extends Fragment{
 
         user = sharedPreferenceService.getCompleteUserFromSp();
         userTokenMdl = sharedPreferenceService.getUserFromSp();
-
+        if(user.getTicketit_admin() == 1 || user.getTicketit_agent() == 1){
+            baseUrl = "http://pengaduan.ccit-solution.com/api/keluhan?";
+            baseMyUrl = "http://pengaduan.ccit-solution.com/api/mykeluhan?";
+        }else{
+            baseMyUrl = "http://pengaduan.ccit-solution.com/api/keluhan?";
+            baseUrl = "http://pengaduan.ccit-solution.com/api/mykeluhan?";
+        }
 
         userToken = userTokenMdl.getToken();
 
@@ -218,6 +224,12 @@ public class EKeluhan extends Fragment{
 
                 Chip myComplaint = dialogView.findViewById(R.id.my_complaint_chip);
 
+                if(user.getTicketit_agent() == 1 || user.getTicketit_admin() == 1){
+                    myComplaint.setClickable(false);
+                }else{
+                    myComplaint.setClickable(true);
+                }
+
                 typeGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(ChipGroup chipGroup, int checkedId) {
@@ -296,7 +308,7 @@ public class EKeluhan extends Fragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(myComplaint.isChecked()){
-                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(baseUrl, null, includeParam, otherParam), false, true);
+                            Map<String,Object> returnedData = gk.getKeluhanToRv(buildGetKeluhanUrl(baseMyUrl, null, includeParam, otherParam), false, true);
                             setMultipleParam(returnedData);
                         }else if(statusId != null && typeId != null){
                             HashMap<String, Integer> filterParam = new HashMap<>();
@@ -349,9 +361,9 @@ public class EKeluhan extends Fragment{
             addKeluhanBtn.setOnClickListener(addKeluhanListener);
         }
 
-        String url = buildGetKeluhanUrl(baseMyUrl,null, includeParam, otherParam);
+        String url = buildGetKeluhanUrl(baseUrl,null, includeParam, otherParam);
 
-        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseMyUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
+        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
 
         Map<String, Object> returnedData = gk.getKeluhanToRv(url,true, null);
         setMultipleParam(returnedData);
@@ -361,9 +373,9 @@ public class EKeluhan extends Fragment{
     public void onResume() {
         loadingLayout.startShimmer();
 
-        String url = buildGetKeluhanUrl(baseMyUrl, null, includeParam, otherParam);
+        String url = buildGetKeluhanUrl(baseUrl, null, includeParam, otherParam);
 
-        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseMyUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
+        gk = new GetKeluhanIntoRecyclerView(buildGetKeluhanUrl(baseUrl, null, includeParam,otherParam), userToken, rv, loadingLayout, getActivity());
 
         Map<String, Object> returnedData = gk.getKeluhanToRv(url,true, null);
         setMultipleParam(returnedData);
