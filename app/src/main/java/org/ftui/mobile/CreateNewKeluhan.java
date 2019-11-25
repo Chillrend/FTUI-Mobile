@@ -217,7 +217,7 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
             pDialog.dismissDialog();
             return;
         }else if(subject.getText().toString().trim().length() < 7 && content.getText().toString().trim().length() < 7){
-            Toasty.error(this, R.string.all_field_is_required, Toasty.LENGTH_SHORT).show();
+            Toasty.error(this, R.string.min_6_chars, Toasty.LENGTH_SHORT).show();
             pDialog.dismissDialog();
             return;
         }
