@@ -129,6 +129,8 @@
     <string name="add">Add</string>
     <string name="no_privilege_to_access_complaint">You don\'t have access to the complaint list</string>
     <string name="all_field_is_required">Please fill all the details</string>
+    <string name="image_is_required">Please insert atleast 1 image</string>
+    <string name="min_6_chars">Title and reports description must contain more than 6 characters.</string>
     <string name="comment_successfully_added">Comment has been successfully added</string>
     <string name="notification">Notification</string>
     <string name="complaint_deleted_successfully">Complaint deleted successfully</string>

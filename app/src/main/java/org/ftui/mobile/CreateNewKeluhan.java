@@ -209,7 +209,15 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
         headerMap.put("Authorization", "Bearer " + token);
 
         if(subject.getText().toString().trim().equals("") || content.getText().toString().trim().equals("") || location.getText().toString().trim().equals("")){
-            Toasty.error(this, getString(R.string.all_field_is_required)).show();
+            Toasty.error(this, R.string.all_field_is_required, Toasty.LENGTH_SHORT).show();
+            pDialog.dismissDialog();
+            return;
+        }else if(imageList.size()<1){
+            Toasty.error(this, R.string.image_is_required, Toasty.LENGTH_SHORT).show();
+            pDialog.dismissDialog();
+            return;
+        }else if(subject.getText().toString().trim().length() < 7 && content.getText().toString().trim().length() < 7){
+            Toasty.error(this, R.string.all_field_is_required, Toasty.LENGTH_SHORT).show();
             pDialog.dismissDialog();
             return;
         }
@@ -287,14 +295,18 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
         if(response.errorBody() != null || response.body().get("success") == null){
             Toasty.error(this,"Error submiting complaint (Err : errorBody not null)").show();
             Log.e("onResponse", "errorBody not null ->" + response.errorBody());
+            imageList.clear();
             pDialog.dismissDialog();
+            finish();
             return;
         }
 
         JsonObject parsedRes = response.body();
         JsonObject ticket = parsedRes.getAsJsonObject("ticket");
         String id = ticket.get("id").getAsString();
+        imageList.clear();
         pDialog.dismissDialog();
+
         Toasty.success(this, "Successfully submitted ticket, ID -> " + id, Toasty.LENGTH_LONG).show();
         finish();
     }
@@ -303,7 +315,9 @@ public class CreateNewKeluhan extends AppCompatActivity implements View.OnClickL
     public void onFailure(Call<JsonObject> call, Throwable t) {
         t.printStackTrace();
         pDialog.dismissDialog();
-        Toasty.error(this,"Error submiting complaint (Err : errorBody not null)").show();
+        Toasty.error(this, R.string.general_cant_get_complaint_error_msg).show();
+        imageList.clear();
+        finish();
         Log.e("onResponse", "Error : " + t.getMessage());
     }
 }

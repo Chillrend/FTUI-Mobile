@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity
         }else if(id == R.id.nav_logout){
             if(sharedPreferenceService.isUserSpExist()){
                 sharedPreferenceService.deleteAllSp();
+                this.unregisterReceiver(broadcastReceiver);
                 finish();
                 overridePendingTransition(0, 0);
                 startActivity(getIntent());
