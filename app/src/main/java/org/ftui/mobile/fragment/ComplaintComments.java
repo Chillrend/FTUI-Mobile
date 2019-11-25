@@ -133,7 +133,7 @@ public class ComplaintComments extends Fragment {
         sendCommentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(comment_form.getText().toString().trim().equals("")){
+                if(comment_form.getText().toString().trim().equals("") && comment_form.getText().toString().trim().length() < 7){
                     Toasty.error(getContext(), R.string.all_field_is_required).show();
                     return;
                 }
