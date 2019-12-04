@@ -30,6 +30,43 @@ public class TimeUtils {
         }
     }
 
+    public static Map<Integer, Long> getDateDiffBetweenTwoDates(Date dateBefore, Date dateAfter){
+        long diffInMillies = dateAfter.getTime() - dateBefore.getTime();
+
+        //create the list
+        List<TimeUnit> units = new ArrayList<TimeUnit>(EnumSet.allOf(TimeUnit.class));
+        Collections.reverse(units);
+
+        //create the result map of TimeUnit and difference
+        Map<TimeUnit,Long> result = new LinkedHashMap<TimeUnit,Long>();
+        long milliesRest = diffInMillies;
+
+        for ( TimeUnit unit : units ) {
+
+            //calculate difference in millisecond
+            long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
+            long diffInMilliesForUnit = unit.toMillis(diff);
+            milliesRest = milliesRest - diffInMilliesForUnit;
+
+            //put the result in the map
+            result.put(unit,diff);
+        }
+
+        Map<Integer, Long> diffs = new LinkedHashMap<>();
+
+        if(result.get(TimeUnit.DAYS) > 0){
+            diffs.put(R.string.days, result.get(TimeUnit.DAYS));
+        }else if(result.get(TimeUnit.HOURS) > 0){
+            diffs.put(R.string.hours, result.get(TimeUnit.HOURS));
+        }else if(result.get(TimeUnit.MINUTES) > 0){
+            diffs.put(R.string.minutes, result.get(TimeUnit.MINUTES));
+        }else{
+            diffs.put(R.string.seconds, result.get(TimeUnit.SECONDS));
+        }
+
+        return diffs;
+    }
+
     public static Map<Integer, Long> getDateDiffFromNow(Date date) {
 
         Date date2 = new Date();

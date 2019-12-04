@@ -185,7 +185,7 @@ public class Home extends Fragment implements View.OnClickListener {
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    if(response.errorBody() != null && !response.body().get("message").getAsString().equals("Authenticated")){
+                    if(response.errorBody() != null || response.body().get("message") == null || !response.body().get("message").getAsString().equals("Authenticated")){
                         return;
                     }
                     JsonObject parsedBody = response.body();
@@ -230,7 +230,10 @@ public class Home extends Fragment implements View.OnClickListener {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.academicRegulationLinearButton:
-                Toasty.info(getActivity().getApplicationContext(), "Incoming Features").show();
+                Uri uri = Uri.parse("http://eng.ui.ac.id/peraturan-akademik");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+                startActivity(intent);
                 break;
             case R.id.eComplaintLinearButton:
                 Fragment fr = new EKeluhan();
