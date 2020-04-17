@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:id="@+id/actionBar">
+        <ImageView
+            android:id="@+id/activity_notification_ivBack"
+            android:layout_width="40dp"
+            android:layout_height="27dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/back"/>
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/activity_notification_ivBack"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/activity_notification_tvNama"
+            android:textColor="@color/lightBlue300"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/shadow"
+        android:layout_below="@+id/actionBar"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_notification_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/actionBar"></android.support.v7.widget.RecyclerView>
+
+    <com.rsypj.ftuimobile.extend.SmartSIPTextView
+        android:id="@+id/activity_notification_tvNoNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:text="@string/no_notification"
+        android:textColor="@color/black"/>
+</RelativeLayout>

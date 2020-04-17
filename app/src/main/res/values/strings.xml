@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">FT UI Mobile</string>
+    <string name="nama_aplikasi">FT UI 04</string>
+    <string name="no_message">Anda tidak memiliki pesan</string>
+    <string name="title_notHaveAccount">Tidak memiliki akun? Registrasi Disini!</string>
+    <string name="loginBtn">Sign In</string>
+    <string name="nimornip">NIM/NIP/NUK/Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="type_chat_here">Tulis pesan..</string>
+    <string name="no_notification">Anda tidak memiliki notifikasi</string>
+    <string name="tulisketerangan">Tulis keterangan..</string>
+    <string name="copyright">Copyright © 2018\nFakultas Teknik Universitas Indonesia</string>
+    <string name="title_activity_test_map">Map</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_revisi_pdf_reader">RevisiPdfReaderActivity</string>
+    <string name="action_settings">Settings</string>
+</resources>

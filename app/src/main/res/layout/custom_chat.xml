@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/leftWrapper"
+        android:layout_marginEnd="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:id="@+id/leftUsernameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:id="@+id/chatBubbleLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/chat_left_background" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rightWrapper"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp">
+
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:id="@+id/rightUsernameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:id="@+id/chatBubbleRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/chat_right_background" />
+
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:id="@+id/actionBar">
+        <ImageView
+            android:id="@+id/activity_newchat_ivBack"
+            android:layout_width="40dp"
+            android:layout_height="27dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/back"/>
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/activity_newchat_ivBack"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/activity_newchat_tvNama"
+            android:textColor="@color/lightBlue300"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:id="@+id/newchat_cardCari"
+        android:layout_below="@+id/actionBar">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.rsypj.ftuimobile.extend.SmartSIPEditText
+                android:id="@+id/newchat_etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:background="@color/white"
+                android:hint="Cari Pengguna"
+                android:layout_toRightOf="@+id/search_icon"
+                android:layout_centerVertical="true"
+                android:textColorHint="#78909C"/>
+
+            <ImageView
+                android:padding="3dp"
+                android:id="@+id/search_icon"
+                android:src="@drawable/search"
+                android:background="@color/white"
+                android:layout_width="35dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/userList"
+        android:layout_above="@+id/linearLoadmore"
+        android:layout_below="@+id/newchat_cardCari"></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/linearLoadmore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+        <!--<ProgressBar-->
+        <!--android:id="@+id/progressBarLoadmoreHome"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="25dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"/>-->
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:id="@+id/textviewLoadmoreHome"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load More"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:id="@+id/actionBar">
+        <ImageView
+            android:id="@+id/activity_chat_ivBack"
+            android:layout_width="40dp"
+            android:layout_height="27dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/back"/>
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/activity_chat_ivBack"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/activity_chat_tvNama"
+            android:textColor="@color/lightBlue300"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/shadow"
+        android:layout_below="@+id/actionBar"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contentChat"
+        android:layout_below="@id/actionBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/footerWrapper"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"/>
+
+    <RelativeLayout
+        android:id="@+id/footerWrapper"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <com.rsypj.ftuimobile.extend.SmartSIPEditText
+            android:id="@+id/editTextChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:layout_toStartOf="@+id/sendButton"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/type_chat_here"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_send"
+            android:layout_alignParentEnd="true"
+            app:backgroundTint="@color/lightBlue300"/>
+
+    </RelativeLayout>
+</RelativeLayout>

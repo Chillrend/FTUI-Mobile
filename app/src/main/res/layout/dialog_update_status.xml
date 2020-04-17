@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:layout_margin="10dp">
+        <!--<Button-->
+            <!--android:layout_width="75dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:text="Postpone"-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:background="@color/blueA400"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:id="@+id/buttonPosting"/>-->
+        <com.rsypj.ftuimobile.extend.SmartSIPButton
+            android:layout_width="75dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@color/colorAccent"
+            android:text="Postpone"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:id="@+id/buttonPostpone"/>
+        <com.rsypj.ftuimobile.extend.SmartSIPButton
+            android:layout_width="75dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:id="@+id/buttonComplete"
+            android:background="@color/lightBlue300"
+            android:text="Complete"
+            android:textAllCaps="false"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:title="Home"
+        android:icon="@drawable/home"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/message"
+        android:enabled="true"
+        android:title="Message"
+        android:icon="@drawable/message"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/account"
+        android:enabled="true"
+        android:title="Account"
+        android:icon="@drawable/avatar"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/admin"
+        android:enabled="true"
+        android:title="Manager"
+        android:icon="@drawable/boss"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/surveyor"
+        android:enabled="true"
+        android:title="Surveyor"
+        android:icon="@drawable/boss"
+        app:showAsAction="ifRoom"/>
+</menu>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/birudongker">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+                <ImageView
+                    android:layout_width="130dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/logouifix"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/image_ui_logo"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rl"
+                    android:layout_centerInParent="true">
+                    <com.rsypj.ftuimobile.extend.SmartSIPEditText
+                        android:id="@+id/login_activity_username_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:singleLine="true"
+                        android:inputType="textEmailAddress"
+                        android:background="@color/lightBlue300"
+                        android:drawableLeft="@drawable/ic_user_24dp"
+                        android:drawablePadding="16dp"
+                        android:drawableTint="@color/blueA200"
+                        android:hint="@string/nimornip"
+                        android:padding="10dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"/>
+
+                    <com.rsypj.ftuimobile.extend.SmartSIPEditText
+                        android:id="@+id/login_activity_password_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/login_activity_username_edittext"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:singleLine="true"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/lightBlue300"
+                        android:drawableLeft="@drawable/ic_lock_outline_24dp"
+                        android:drawablePadding="16dp"
+                        android:drawableTint="@color/blueA200"
+                        android:hint="@string/password"
+                        android:padding="10dp"
+                        android:inputType="textPassword"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"/>
+
+                    <com.rsypj.ftuimobile.extend.SmartSIPButton
+                        android:id="@+id/login_activity_signin_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/login_activity_password_edittext"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@color/lightBlue500"
+                        android:text="@string/loginBtn"
+                        android:textColor="@android:color/white" />
+
+                </RelativeLayout>
+
+                <com.rsypj.ftuimobile.extend.SmartSIPTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/registtv"
+                    android:layout_below="@+id/rl"
+                    android:layout_marginTop="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/white"
+                    android:text="@string/title_notHaveAccount"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

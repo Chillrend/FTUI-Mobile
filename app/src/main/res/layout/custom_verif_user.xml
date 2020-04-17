@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.rsypj.ftuimobile.extend.SmartSIPButton
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:background="@color/blueA200"
+                android:text="Verifikasi"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:id="@+id/verif_user_btnVerif"/>
+            <com.rsypj.ftuimobile.extend.SmartSIPTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/verif_user_btnVerif"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/verif_user_nim"/>
+            <com.rsypj.ftuimobile.extend.SmartSIPTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/verif_user_btnVerif"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/verif_user_nim"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/verif_user_nama"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

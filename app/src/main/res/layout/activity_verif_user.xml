@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/activity_verif_user_ivBack"
+            android:layout_width="40dp"
+            android:layout_height="27dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/back"/>
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/activity_verif_user_ivBack"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/activity_verif_user_tvNama"
+            android:textColor="@color/lightBlue300"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/linearLoadmore"
+            android:id="@+id/verif_user_refresh">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/list_unverif_user"
+                android:padding="5dp"></android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <com.rsypj.ftuimobile.extend.SmartSIPTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Tidak ada data"
+            android:visibility="gone"
+            android:id="@+id/tidakAdaData"/>
+
+        <LinearLayout
+            android:id="@+id/linearLoadmore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
+            <com.rsypj.ftuimobile.extend.SmartSIPTextView
+                android:id="@+id/textviewLoadmoreHome"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Load More"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

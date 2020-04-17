@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:id="@+id/rlCategory"
+                android:layout_alignParentTop="true">
+                <ImageView
+                    android:id="@+id/home_category_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@color/black"/>
+                <com.rsypj.ftuimobile.extend.SmartSIPTextView
+                    android:textSize="10dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/home_category_tv"
+                    android:layout_below="@+id/home_category_image"/>
+            </RelativeLayout>
+
+            <com.rsypj.ftuimobile.extend.SmartSIPTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:textSize="20dp"
+                android:id="@+id/custom_home_name"/>
+
+            <com.rsypj.ftuimobile.extend.SmartSIPTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_below="@+id/custom_home_name"
+                android:textSize="10dp"
+                android:id="@+id/custom_home_time"/>
+
+            <com.rsypj.ftuimobile.extend.SmartSIPTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/custom_home_status"
+                android:layout_below="@+id/custom_home_time"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp" />
+
+            <RelativeLayout
+                android:id="@+id/rlImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/custom_home_status">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/home_pBar_status"/>
+                <ImageView
+                    android:id="@+id/custom_home_ivGambar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"/>
+            </RelativeLayout>
+
+            <com.rsypj.ftuimobile.extend.SmartSIPTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlImage"
+                android:layout_marginLeft="5dp"
+                android:textSize="10dp"
+                android:id="@+id/custom_home_location"/>
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="45dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:id="@+id/rlComment"-->
+                <!--android:layout_below="@+id/custom_home_location">-->
+                <!--<TextView-->
+                    <!--android:textSize="10dp"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/custom_home_jmlhcomment"-->
+                    <!--android:layout_toRightOf="@+id/custom_home_comment"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_centerVertical="true"/>-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/custom_home_comment"-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+
+                    <!--android:src="@color/black"/>-->
+            <!--</RelativeLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="45dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:layout_below="@+id/custom_home_location"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:layout_toLeftOf="@+id/rlComment"-->
+                <!--android:id="@+id/rlLove">-->
+                <!--<TextView-->
+                    <!--android:textSize="10dp"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/custom_home_jmlhlove"-->
+                    <!--android:layout_toRightOf="@+id/custom_home_love"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_centerVertical="true"/>-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/custom_home_love"-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+
+                    <!--android:src="@android:color/holo_purple"/>-->
+            <!--</RelativeLayout>-->
+
+            <com.rsypj.ftuimobile.extend.SmartSIPButton
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_button"
+                android:id="@+id/custom_home_btnStatusPost"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="9dp"
+                android:gravity="center"
+                android:layout_below="@+id/custom_home_location"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
